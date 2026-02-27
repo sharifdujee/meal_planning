@@ -73,7 +73,7 @@ class OnboardingScreen extends StatelessWidget {
 
                 /// Subtitle
                 Text(
-                  "Real progress, without\npunishment.",
+                  "Progreso real, sin castigo.",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
                     fontSize: 15.sp,
@@ -90,7 +90,8 @@ class OnboardingScreen extends StatelessWidget {
                 CustomButton(
                   text: "Comenzar",
                   onPressed: () {
-                    context.push('/login');
+                    context.push('/profileSetUp');
+
                   },
                   suffixIcon: Icons.arrow_forward,
                   backgroundGradient: const LinearGradient(
@@ -106,7 +107,10 @@ class OnboardingScreen extends StatelessWidget {
                 /// Login Button
                 CustomButton(
                   text: "Ya tengo una cuenta",
-                  onPressed: () {},
+                  onPressed: () {
+                    ///context.push('/profileSetUp');
+                    context.push('/login');
+                  },
 
                   prefixIcon: Icons.person_outline, // ✅ example usage
                   textColor: AppColor.textBody,

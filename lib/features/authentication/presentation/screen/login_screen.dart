@@ -51,7 +51,7 @@ class LoginScreen extends ConsumerWidget {
                     fit: BoxFit.contain,
                   ),
 
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 20.h),
 
                   /// Title
                   Text(
@@ -63,7 +63,7 @@ class LoginScreen extends ConsumerWidget {
                     ),
                   ),
 
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
 
                   /// Subtitle
                   Text(
@@ -77,7 +77,7 @@ class LoginScreen extends ConsumerWidget {
                     ),
                   ),
 
-                  SizedBox(height: 40.h),
+                  SizedBox(height: 20.h),
 
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +111,7 @@ class LoginScreen extends ConsumerWidget {
                         ),
                       ),
 
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
 
                       /// Password Label
                       CustomText(
@@ -121,7 +121,7 @@ class LoginScreen extends ConsumerWidget {
                         color: AppColor.white,
                       ),
 
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 6.h),
 
                       /// Password Field
                       CustomTextFormField(
@@ -172,7 +172,7 @@ class LoginScreen extends ConsumerWidget {
                         ),
                       ),
 
-                      SizedBox(height: 32.h),
+                      SizedBox(height: 22.h),
 
                       /// Divider with text — FIXED
                       Row(
@@ -200,7 +200,7 @@ class LoginScreen extends ConsumerWidget {
                         ],
                       ),
 
-                      SizedBox(height: 24.h),
+                      SizedBox(height: 14.h),
 
                       /// Social Buttons
                       Row(
@@ -242,7 +242,7 @@ class LoginScreen extends ConsumerWidget {
                         ],
                       ),
 
-                      SizedBox(height: 42.h),
+                      SizedBox(height: 32.h),
                     ],
                   ),
 
@@ -261,7 +261,7 @@ class LoginScreen extends ConsumerWidget {
                     ),
                   ),
 
-                  SizedBox(height: 14.h),
+                  SizedBox(height: 10.h),
 
                   /// Sign up row
                   Row(
@@ -287,7 +287,7 @@ class LoginScreen extends ConsumerWidget {
                     ],
                   ),
 
-                  SizedBox(height: 28.h),
+                  SizedBox(height: 38.h),
                 ],
               ),
             ),

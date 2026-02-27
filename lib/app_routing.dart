@@ -6,8 +6,11 @@ import 'package:meal_planning/features/authentication/presentation/screen/create
 import 'package:meal_planning/features/authentication/presentation/screen/forgot_otp_screen.dart';
 import 'package:meal_planning/features/authentication/presentation/screen/forgot_password_screen.dart';
 import 'package:meal_planning/features/authentication/presentation/screen/login_screen.dart';
+import 'package:meal_planning/features/authentication/presentation/screen/profile_set_up.dart';
 import 'package:meal_planning/features/authentication/presentation/screen/reset_password_screen.dart';
+import 'package:meal_planning/features/authentication/presentation/screen/sign_up_otp_verification.dart';
 import 'package:meal_planning/features/authentication/presentation/screen/verify_login_otp.dart';
+import 'package:meal_planning/features/navigation/presentation/nav_bar_screen.dart';
 import 'package:meal_planning/features/onboarding/onboarding_screen.dart';
 
 import 'features/splash/presentation/screen/splash_screen.dart';
@@ -47,6 +50,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: "/forgotOtpVerification", builder: (context, state)=>const ForgotOtpVerificationCodeScreen()),
       GoRoute(path: "/resetPassword", builder: (context, state)=>const ResetPasswordScreen()),
       GoRoute(path: "/createAccount", builder: (context, state)=>const CreateAccountScreen()),
+      GoRoute(path: "/signUpOtpVerification", builder: (context, state)=>const SignupOtpVerificationCodeScreen()),
+      GoRoute(path: "/profileSetUp", builder: (context, state)=>const ProfileSetUp()),
+      GoRoute(path: "/navBar", builder: (context, state)=>const CustomBottomNavBar()),
 
 
     ],

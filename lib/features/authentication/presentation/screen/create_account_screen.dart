@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meal_planning/core/utils/app_color.dart';
 
 import '../../../../core/global/custom_button.dart';
 import '../../../../core/global/custom_text.dart';
@@ -42,7 +43,7 @@ class CreateAccountScreen extends ConsumerWidget {
             padding: EdgeInsets.symmetric(horizontal: 24.w),
             child: Column(
               children: [
-                /// TOP BAR
+                /// TOP BACK BUTTON
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
@@ -51,59 +52,101 @@ class CreateAccountScreen extends ConsumerWidget {
                   ),
                 ),
 
-                SizedBox(height: 30.h),
+                SizedBox(height: 10.h),
 
-                /// ICON
-                Image.asset(IconPath.appLogo, height: 42.h, width: 57.w),
+                /// LOGO
+                Image.asset(
+                  IconPath.appLogo,
+                  height: 44.h,
+                ),
 
                 SizedBox(height: 24.h),
 
                 /// TITLE
                 CustomText(
                   text: "Crea tu cuenta",
-                  textAlign: TextAlign.center,
-
-                  fontSize: 22.sp,
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
+                  textAlign: TextAlign.center,
                 ),
 
-                SizedBox(height: 8.h),
+                SizedBox(height: 6.h),
 
                 /// SUBTITLE
                 CustomText(
-                  text:
-                  "Crea tu cuenta",
-                  textAlign: TextAlign.center,
-
+                  text: "Crea tu cuenta",
                   fontSize: 14.sp,
-                  color: Colors.white70,
+                  color: Colors.white.withValues(alpha: .6),
+                  textAlign: TextAlign.center,
                 ),
 
                 SizedBox(height: 40.h),
+
+                /// EMAIL
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: CustomText(
+                    text: "Correo electrónico",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15.sp,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+
+                CustomTextFormField(
+                  controller: notifier.emailController,
+                  hintText: "abc@gmail.com",
+                ),
+
+                SizedBox(height: 20.h),
+
+                /// PASSWORD
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: CustomText(
+                    text: "Contraseña",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15.sp,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+
                 CustomTextFormField(
                   controller: notifier.passwordController,
-                  hintText: "*****",
-                  obscureText: !state.isConfirmPasswordVisible,
+                  hintText: "••••••••",
+                  obscureText: !state.isPasswordVisible,
                   suffixIcon: GestureDetector(
-                    onTap: notifier.toggleConfirmPasswordVisibility,
+                    onTap: notifier.togglePasswordVisibility,
                     child: Icon(
                       state.isPasswordVisible
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                       size: 20.sp,
+                      color: Colors.white54,
                     ),
                   ),
                 ),
 
-                /// NEW PASSWORD
                 SizedBox(height: 20.h),
-                CustomText(text: "Confirmar  Contraseña ", fontWeight: FontWeight.w500,fontSize: 16.sp,color: Colors.white,),
 
                 /// CONFIRM PASSWORD
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: CustomText(
+                    text: "Confirmar contraseña",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15.sp,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+
                 CustomTextFormField(
                   controller: notifier.confirmPasswordController,
-                  hintText: "*****",
+                  hintText: "••••••••",
                   obscureText: !state.isConfirmPasswordVisible,
                   suffixIcon: GestureDetector(
                     onTap: notifier.toggleConfirmPasswordVisibility,
@@ -112,39 +155,64 @@ class CreateAccountScreen extends ConsumerWidget {
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                       size: 20.sp,
+                      color: Colors.white54,
                     ),
                   ),
                 ),
 
                 const Spacer(),
 
-                /// SUBMIT BUTTON
+                /// CREATE ACCOUNT BUTTON
                 SizedBox(
-                    width: double.infinity,
-                    height: 56.h,
-                    child:CustomButton(text: "Entregar", onPressed: () {
-                      showCustomDialog(
-                        context,
-                        imagePath: IconPath.success,
-                        title: 'Contraseña cambiada',
-                        buttonText: "Iniciar sesión",
-                        message:
-                        "Contraseña cambiada con éxito, puedes iniciar sesión nuevamente con la nueva contraseña",
-                        onPressed: () {
-                          context.push("/login");
-                        },
-                      );
-                    },)),
+                  width: double.infinity,
+                  height: 56.h,
+                  child: CustomButton(
+                    text: "Crear cuenta",
+                    borderRadius: 14.r,
+                    onPressed: () {
+                      context.push(("/signUpOtpVerification"));
+                    },
+                  ),
+                ),
 
+                SizedBox(height: 16.h),
 
-                SizedBox(height: 20.h),
+                /// BOTTOM LOGIN TEXT
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomText(
+                      text: "¿Ya tienes una cuenta?",
+                      fontSize: 14.sp,
+                      color: Colors.white.withValues(alpha: 0.6),
+                    ),
+                    SizedBox(width: 6.w),
+                    GestureDetector(
+                      onTap: (){
+                        context.push("/login");
+                      },
+                      child: CustomText(
+                        text: "Iniciar sesión",
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.primary,
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 24.h),
               ],
             ),
           ),
         ),
+
       ),
     );
   }
 
 
 }
+
+
+///
