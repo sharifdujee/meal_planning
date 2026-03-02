@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -159,7 +161,8 @@ class OnboardingScaffold extends ConsumerWidget {
                       }
                       final currentStep =
                           ref.read(onboardingProvider).step;
-                      if (currentStep >= 6) {
+                      if (currentStep == 6) {
+                        log("Text is Pressed");
                         // ✅ GoRouter — matches your '/navBar' route
                         context.go('/createAccount');
                       } else {

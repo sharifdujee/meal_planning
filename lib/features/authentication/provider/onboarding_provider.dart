@@ -78,7 +78,7 @@ class OnboardingNotifier extends StateNotifier<OnboardingState> {
   OnboardingNotifier() : super(const OnboardingState());
 
   void nextStep() {
-    if (state.step < 8) state = state.copyWith(step: state.step + 1);
+    if (state.step < 7) state = state.copyWith(step: state.step + 1);
   }
 
   void prevStep() {

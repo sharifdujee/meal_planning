@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -196,13 +196,28 @@ class _SplashScreenState extends State<SplashScreen>
                         position: _textSlide,
                         child: FadeTransition(
                           opacity: _textFade,
-                          child: Text(
-                            'IMPERFECTO',
-                            style: GoogleFonts.dmSans(
-                              color: Colors.white,
-                              fontSize: 36.sp,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: -0.5,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "IMPER",
+                                  style: GoogleFonts.italiana(
+                                    fontSize: 36.sp,
+                                    fontWeight: FontWeight.w800,
+                                    color: const Color(0xFF49B37D),
+                                    letterSpacing: -0.5,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "FECTO",
+                                  style: GoogleFonts.italiana(
+                                    fontSize: 36.sp,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white,
+                                    letterSpacing: -0.5,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -320,19 +335,19 @@ class _SplashScreenState extends State<SplashScreen>
                       // ✅ flutter_svg only — no vector_graphics needed
                       child: Padding(
                         padding: const EdgeInsets.all(20),
-                        child: SvgPicture.asset(
-                          IconPath.appLogoSvg,
+                        child: Image.asset(
+                          IconPath.appLogo,
                           fit: BoxFit.contain,
-                          colorFilter: ColorFilter.mode(
+                          /*colorFilter: ColorFilter.mode(
                             AppColor.accent,
                             BlendMode.srcIn,
-                          ),
+                          ),*/
                           // Fallback if SVG fails to load
-                          placeholderBuilder: (_) => Icon(
+                          /*placeholderBuilder: (_) => Icon(
                             Icons.restaurant_menu_rounded,
                             color: AppColor.accent,
                             size: 32,
-                          ),
+                          ),*/
                         ),
                       ),
                     ),

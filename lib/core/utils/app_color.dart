@@ -51,4 +51,14 @@ class AppColor {
   /// Radial gradient — top-left bright zone fading to background
   static const Color gradientStart     = Color(0xFF1A4D35);   // bright teal-green glow
   static const Color gradientMid       = Color(0xFF0C1C16);   // mid dark-green
+  static const Color welcomeQuoteColor       = Color(0xFF8E95A2);
+
+
+  static const Color cardBackground = Color(0xFF1F2228);
+
+  static const Color danger = Color(0xFFE05252);
+  static const Color warning = Color(0xFFE08C52);
+
+
+  // mid dark-green
 }

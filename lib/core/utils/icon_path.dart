@@ -20,4 +20,21 @@ class IconPath {
   static const String weight = "$_basePath/weight-scale-01.png";
   static const String home = "$_basePath/home.svg";
   static const String dashBoard = "$_basePath/dashboard.svg";
+  static const String registration = "$_basePath/registration.svg";
+  static const String ranking = "$_basePath/ranking.svg";
+  static const String progress = "$_basePath/progress.svg";
+  static const String profile = "$_basePath/profile.svg";
+  static const String badge = "$_basePath/badge.png";
+  static const String dumbbell = "$_basePath/dumbbell.png";
+  static const String redTarget = "$_basePath/red_target.png";
+  static const String meal = "$_basePath/calories.png";
+  static const String equal = "$_basePath/equal.png";
+  static const String steak = "$_basePath/steak.png";
+  static const String leaf = "$_basePath/leaf.png";
+  static const String droplet = "$_basePath/droplet.png";
+  static const String clock = "$_basePath/clock.png";
+  static const String person = "$_basePath/user-multiple.png";
+  static const String subscription = "$_basePath/subscription.png";
+  static const String confirmation = "$_basePath/confirmation.png";
+  static const String editImage = "$_basePath/edit_image.png";
 }

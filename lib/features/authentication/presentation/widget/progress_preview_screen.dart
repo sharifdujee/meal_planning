@@ -14,11 +14,11 @@ class ProgressPreviewStep extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(onboardingProvider);
+
 
     // Extract the first number from trainingDays e.g. "2–3 días" → "2"
-    final rawDays = state.trainingDays ?? '4 días';
-    final dayNumber = rawDays.split(RegExp(r'[–\-\s]'))[0];
+
+
 
     return OnboardingScaffold(
       stepIndex: 5,
@@ -41,7 +41,7 @@ class ProgressPreviewStep extends ConsumerWidget {
                 border: Border.all(color: AppColor.cardBorder),
               ),
               child: Text(
-                'No necesitas ser el mejor. Solo necesitas hacer lo que el 75% no hace durante 30 días',
+                'No necesitas ser el mejor. Solo necesitas hacer lo que el 75% no hace durante 30 días.',
                 style: GoogleFonts.dmSans(
                   color: AppColor.textPrimary,
                   fontSize: 22,

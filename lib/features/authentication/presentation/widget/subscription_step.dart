@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meal_planning/features/authentication/presentation/widget/trial_timeline_card.dart';
 
 
@@ -33,14 +34,14 @@ class SubscriptionStep extends StatelessWidget {
                   children: const [
                     SizedBox(height: 16),
 
-                    Text(
+                   /* Text(
                       "Suscripción",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
-                    ),
+                    ),*/
 
                     SizedBox(height: 10),
 
@@ -96,6 +97,7 @@ class SubscriptionStep extends StatelessWidget {
                       elevation: 0,
                     ),
                     onPressed: () {
+                      context.push("/createAccount");
                       // Handle subscription
                     },
                     child: const Text(
