@@ -37,4 +37,20 @@ class IconPath {
   static const String subscription = "$_basePath/subscription.png";
   static const String confirmation = "$_basePath/confirmation.png";
   static const String editImage = "$_basePath/edit_image.png";
+
+  /// profile page
+  static const String alert = "$_basePath/alert.png";
+  static const String calenderThree = "$_basePath/calendar.png";
+  static const String delete = "$_basePath/delete.png";
+  static const String faq = "$_basePath/faq.png";
+  static const String favourite = "$_basePath/favourite.png";
+  static const String language = "$_basePath/language.png";
+  static const String logOut = "$_basePath/logout.png";
+  static const String policy = "$_basePath/policy.png";
+  static const String profileEdit = "$_basePath/profile_edit-02.png";
+  static const String repeat = "$_basePath/repeat.png";
+  static const String sleeping = "$_basePath/sleeping.png";
+  static const String terms = "$_basePath/terms.png";
+  static const String timer = "$_basePath/timer.png";
+  static const String vegetable = "$_basePath/vegetarian-food.png";
 }

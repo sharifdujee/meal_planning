@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 // ── Color tokens ───────────────────────────────────────────
 const _kBg        = Color(0xFF1C2421);
@@ -259,7 +260,9 @@ class ProteinSupplementCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                context.push("/myProduct");
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 15.h),
                 decoration: BoxDecoration(

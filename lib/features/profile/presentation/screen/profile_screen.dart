@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meal_planning/core/global/show_custom_dialog.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
 import 'package:meal_planning/core/utils/image_path.dart';
@@ -156,7 +157,7 @@ StateNotifierProvider<ProfileNotifier, ProfileState>((ref) {
 // ─── Profile Menu Items ────────────────────────────────────────────────────
 
 class _MenuItem {
-  final IconData icon;
+  final String icon;
   final String label;
   final Color? textColor;
   final VoidCallback? onTap;
@@ -180,20 +181,38 @@ class ProfileScreen extends ConsumerWidget {
     final notifier = ref.read(profileProvider.notifier);
 
     final menuItems = [
-      _MenuItem(icon: Icons.edit_outlined, label: 'Editar perfil'),
-      _MenuItem(icon: Icons.favorite_border, label: 'Alimentos que me gustan'),
-      _MenuItem(icon: Icons.warning_amber_outlined, label: 'Intolerancias'),
-      _MenuItem(icon: Icons.language, label: 'Idioma'),
-      _MenuItem(icon: Icons.bedtime_outlined, label: 'Tiempo de descanso'),
-      _MenuItem(icon: Icons.timer_outlined, label: 'Duración del entrenamiento'),
-      _MenuItem(icon: Icons.calendar_today_outlined, label: 'Días de entrenamiento'),
-      _MenuItem(icon: Icons.fitness_center_outlined, label: 'Mi ejercicio favorito'),
-      _MenuItem(icon: Icons.refresh, label: 'Regenerar mi plan'),
-      _MenuItem(icon: Icons.description_outlined, label: 'Términos y condiciones'),
-      _MenuItem(icon: Icons.lock_outline, label: 'Política de privacidad'),
-      _MenuItem(icon: Icons.help_outline, label: 'Preguntas frecuentes',  ),
+      _MenuItem(icon: IconPath.profileEdit, label: 'Editar perfil', onTap: (){
+        context.push("/editProfile");
+      }),
+      _MenuItem(icon: IconPath.favourite, label: 'Alimentos que me gustan', onTap: (){
+        context.push("/foodDontLike");
+      }),
+      _MenuItem(icon: IconPath.alert, label: 'Intolerancias', onTap: (){
+        context.push('/IntoleranciasScreen');
+      }),
+      _MenuItem(icon: IconPath.language, label: 'Idioma'),
+      _MenuItem(icon: IconPath.sleeping, label: 'Tiempo de descanso', onTap: (){
+        context.push("/breakTime");
+      }),
+      _MenuItem(icon: IconPath.timer, label: 'Duración del entrenamiento', onTap: (){
+        context.push('/trainingDuration');
+      }),
+      _MenuItem(icon: IconPath.calenderThree, label: 'Días de entrenamiento', onTap: (){
+        context.push('/daySelection');
+      }),
+      _MenuItem(icon: IconPath.alert, label: 'Mi ejercicio favorito'),
+      _MenuItem(icon: IconPath.repeat, label: 'Regenerar mi plan'),
+      _MenuItem(icon: IconPath.terms, label: 'Términos y condiciones', onTap: (){
+        context.push("/terms");
+      }),
+      _MenuItem(icon: IconPath.policy, label: 'Política de privacidad', onTap: (){
+        context.push('/privacy');
+      }),
+      _MenuItem(icon: IconPath.faq, label: 'Preguntas frecuentes', onTap: (){
+        context.push('/faq');
+      } ),
       _MenuItem(
-        icon: Icons.delete_outline,
+        icon: IconPath.delete,
         label: 'Eliminar cuenta',
         textColor: AppColor.danger,
           onTap: (){
@@ -202,7 +221,7 @@ class ProfileScreen extends ConsumerWidget {
           }
       ),
       _MenuItem(
-        icon: Icons.logout,
+        icon: IconPath.logOut,
         label: 'Cerrar sesión',
         textColor: AppColor.warning,
           onTap: (){
@@ -535,7 +554,7 @@ class _MenuTile extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 12.h),
             child: Row(
               children: [
-                Icon(item.icon, color: color, size: 20.r),
+                Image.asset(item.icon, color: color, height: 24.h,width: 24.w,),
                 SizedBox(width: 12.w),
                 Expanded(
                   child: Text(

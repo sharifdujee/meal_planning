@@ -59,6 +59,14 @@ class AppColor {
   static const Color danger = Color(0xFFE05252);
   static const Color warning = Color(0xFFE08C52);
 
+  static const bg         = Color(0xFF0E1115);
+
+  static const border     = Color(0xFF2A2D34);
+
+  static const planCard   = Color(0xFF181B20);
+  static const planBorder = Color(0xFF2E3038);
+  static const subheading = Color(0xFFCCCCCC);
+
 
   // mid dark-green
 }
