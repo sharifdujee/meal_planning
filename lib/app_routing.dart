@@ -20,6 +20,8 @@ import 'package:meal_planning/features/profile/presentation/widget/faq.dart';
 import 'package:meal_planning/features/profile/presentation/widget/intolerancias.dart';
 
 import 'package:meal_planning/features/profile/presentation/widget/privacy_policy.dart';
+import 'package:meal_planning/features/profile/presentation/widget/profile_subscription.dart';
+import 'package:meal_planning/features/profile/presentation/widget/regenerate_screen.dart';
 import 'package:meal_planning/features/profile/presentation/widget/selection_days_screen.dart';
 import 'package:meal_planning/features/profile/presentation/widget/terms_condition.dart';
 import 'package:meal_planning/features/profile/presentation/widget/training_duration_screen.dart';
@@ -74,6 +76,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: "/breakTime", builder: (context, state)=> const BreakTimeScreen()),
       GoRoute(path: "/trainingDuration", builder: (context, state)=> const TrainingDurationScreen()),
       GoRoute(path: "/myProduct", builder: (context, state)=> const MyProductPage()),
+      GoRoute(path: "/regenerate", builder: (context, state)=> const RegenerateScreen()),
+      GoRoute(path: "/profileSubscription", builder: (context, state)=> const ProfileSubscription()),
+      GoRoute(path: '/payment', builder: (context, state) => const PaymentScreen(),
+      ),
 
 
     ],
