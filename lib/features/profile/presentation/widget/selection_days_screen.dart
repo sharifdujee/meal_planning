@@ -53,7 +53,7 @@ class DaySelectionScreen extends ConsumerWidget {
                     const SizedBox(width: 12),
                     const Expanded(
                       child: Text(
-                        "Comidas que no me gustan",
+                        "Seleccionar días de entrenamiento",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,

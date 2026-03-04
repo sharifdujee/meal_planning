@@ -184,7 +184,7 @@ class ProfileScreen extends ConsumerWidget {
       _MenuItem(icon: IconPath.profileEdit, label: 'Editar perfil', onTap: (){
         context.push("/editProfile");
       }),
-      _MenuItem(icon: IconPath.favourite, label: 'Alimentos que me gustan', onTap: (){
+      _MenuItem(icon: IconPath.vegetable, label: 'Alimentos que me gustan', onTap: (){
         context.push("/foodDontLike");
       }),
       _MenuItem(icon: IconPath.alert, label: 'Intolerancias', onTap: (){
@@ -201,7 +201,9 @@ class ProfileScreen extends ConsumerWidget {
         context.push('/daySelection');
       }),
       _MenuItem(icon: IconPath.alert, label: 'Mi ejercicio favorito'),
-      _MenuItem(icon: IconPath.repeat, label: 'Regenerar mi plan'),
+      _MenuItem(icon: IconPath.repeat, label: 'Regenerar mi plan', onTap: (){
+        context.push("/regenerate");
+      }),
       _MenuItem(icon: IconPath.terms, label: 'Términos y condiciones', onTap: (){
         context.push("/terms");
       }),
@@ -316,8 +318,13 @@ class ProfileScreen extends ConsumerWidget {
                 SizedBox(height: 24.h),
 
                 // ── Subscription card ──────────────────────────────────
-                _SectionCard(
-                  child: _SubscriptionTile(profile: profileState.profile),
+                GestureDetector(
+                  onTap: (){
+                    context.push("/profileSubscription");
+                  },
+                  child: _SectionCard(
+                    child: _SubscriptionTile(profile: profileState.profile,),
+                  ),
                 ),
                 SizedBox(height: 16.h),
 
@@ -646,8 +653,9 @@ class _ModuleTile extends StatelessWidget {
                 onChanged: (_) => onToggle(),
 
                 activeTrackColor: AppColor.primary.withValues(alpha: 0.3),
+                activeThumbColor: AppColor.white,
                 inactiveThumbColor: AppColor.textBody,
-                inactiveTrackColor: AppColor.cardBorder,
+                inactiveTrackColor: AppColor.white,
               ),
             ],
           ),
@@ -663,5 +671,5 @@ class _ModuleTile extends StatelessWidget {
   }
 }
 
-// ─── Entry Point (for standalone testing) ──────────────────────────────────
+///
 

@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,6 +38,18 @@ class BreakTimeScreen extends ConsumerWidget {
     ];
 
     final allOptions = [...presets, ...customs];
+
+    void deleteItem(Duration dur) {
+      final isPreset = presets.any((p) => p.inSeconds == dur.inSeconds);
+      if (!isPreset) {
+        ref.read(customBreakTimesProvider.notifier).update((state) {
+          return [...state]..removeWhere((d) => d.inSeconds == dur.inSeconds);
+        });
+      }
+      if (selected.inSeconds == dur.inSeconds) {
+        ref.read(selectedBreakProvider.notifier).state = presets.first;
+      }
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFF000000),
@@ -84,6 +98,34 @@ class BreakTimeScreen extends ConsumerWidget {
                           onTap: () {
                             ref.read(selectedBreakProvider.notifier).state = dur;
                           },
+                          // Long-press on ANY item to delete (custom removes, preset just deselects)
+                          onLongPress: isCustom
+                              ? () {
+                            showCupertinoDialog(
+                              context: context,
+                              builder: (_) => CupertinoAlertDialog(
+                                title: const Text('Eliminar tiempo'),
+                                content: Text(
+                                    '¿Eliminar ${formatDuration(dur)}?'),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: const Text('Cancelar'),
+                                    onPressed: () =>
+                                        Navigator.pop(context),
+                                  ),
+                                  CupertinoDialogAction(
+                                    isDestructiveAction: true,
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      deleteItem(dur);
+                                    },
+                                    child: const Text('Eliminar'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                              : null,
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 160),
                             decoration: BoxDecoration(
@@ -96,39 +138,30 @@ class BreakTimeScreen extends ConsumerWidget {
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                // Main content: label + custom X
                                 Container(
                                   margin: const EdgeInsets.symmetric(horizontal: 16),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       CustomText(
-                                      text:   formatDuration(dur),
-
-                                          color: isSelected ? AppColor.primary : Colors.white,
-                                          fontSize: 17.sp,
-                                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                                          letterSpacing: -0.3,
-
+                                        text: formatDuration(dur),
+                                        color: isSelected ? AppColor.primary : Colors.white,
+                                        fontSize: 17.sp,
+                                        fontWeight: isSelected
+                                            ? FontWeight.w600
+                                            : FontWeight.w500,
+                                        letterSpacing: -0.3,
                                       ),
                                       if (isCustom)
                                         GestureDetector(
                                           behavior: HitTestBehavior.opaque,
-                                          onTap: () {
-                                            ref.read(customBreakTimesProvider.notifier).update((state) {
-                                              final newList = [...state]..removeWhere((d) => d.inSeconds == dur.inSeconds);
-                                              return newList;
-                                            });
-                                            if (selected.inSeconds == dur.inSeconds) {
-                                              ref.read(selectedBreakProvider.notifier).state = presets.first;
-                                            }
-                                          },
-                                          child:  Container(
-                                            margin: EdgeInsets.all(4),
+                                          onTap: () => deleteItem(dur),
+                                          child: Container(
+                                            margin: const EdgeInsets.all(4),
                                             child: Icon(
                                               CupertinoIcons.clear_circled_solid,
                                               size: 20.sp,
-                                              color: Color(0xFF8E8E93),
+                                              color: const Color(0xFF8E8E93),
                                             ),
                                           ),
                                         ),
@@ -145,10 +178,14 @@ class BreakTimeScreen extends ConsumerWidget {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color: isSelected ? AppColor.primary : const Color(0xFF8E8E93),
+                                        color: isSelected
+                                            ? AppColor.primary
+                                            : const Color(0xFF8E8E93),
                                         width: 2,
                                       ),
-                                      color: isSelected ? AppColor.primary : Colors.transparent,
+                                      color: isSelected
+                                          ? AppColor.primary
+                                          : Colors.transparent,
                                     ),
                                     alignment: Alignment.center,
                                     child: isSelected
@@ -170,37 +207,38 @@ class BreakTimeScreen extends ConsumerWidget {
                     Container(
                       margin: EdgeInsets.only(left: 210.w),
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1.w,
-                            color: Color(0xFF6BC799)
-                        ),
+                        border: Border.all(
+                            width: 1.w, color: const Color(0xFF6BC799)),
                         borderRadius: BorderRadius.circular(40.r),
-
                       ),
                       child: CupertinoButton(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-
-
-
-                        child:  CustomText(
-                          text:  '+ Añadir más',
-
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 8),
+                        child: CustomText(
+                          text: '+ Añadir más',
                           color: AppColor.primary,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
-
                         ),
                         onPressed: () async {
-                          final picked = await showCupertinoModalPopup<Duration?>(
+                          final picked =
+                          await showCupertinoModalPopup<Duration?>(
                             context: context,
                             builder: (_) => const _DurationPicker(),
                           );
                           if (picked != null && picked.inSeconds > 0) {
-                            ref.read(customBreakTimesProvider.notifier).update((state) {
-                              final exists = state.any((d) => d.inSeconds == picked.inSeconds);
+                            ref
+                                .read(customBreakTimesProvider.notifier)
+                                .update((state) {
+                              final exists =
+                              state.any((d) => d.inSeconds == picked.inSeconds);
                               if (exists) return state;
-                              return [...state, picked]..sort((a, b) => a.inSeconds.compareTo(b.inSeconds));
+                              return [...state, picked]
+                                ..sort((a, b) =>
+                                    a.inSeconds.compareTo(b.inSeconds));
                             });
-                            ref.read(selectedBreakProvider.notifier).state = picked;
+                            ref.read(selectedBreakProvider.notifier).state =
+                                picked;
                           }
                         },
                       ),
@@ -211,7 +249,7 @@ class BreakTimeScreen extends ConsumerWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20.w),
-              child: CustomButton(text: "Guardar", onPressed: (){}),
+              child: CustomButton(text: "Guardar", onPressed: () {}),
             )
           ],
         ),
@@ -220,7 +258,6 @@ class BreakTimeScreen extends ConsumerWidget {
   }
 }
 
-// _DurationPicker remains unchanged
 class _DurationPicker extends StatefulWidget {
   const _DurationPicker();
   @override
@@ -228,7 +265,8 @@ class _DurationPicker extends StatefulWidget {
 }
 
 class _DurationPickerState extends State<_DurationPicker> {
-  int min = 1;
+  // ✅ FIX: was `int min = 1` — caused every picked duration to add 1 extra minute
+  int min = 0;
   int sec = 0;
 
   @override
@@ -242,9 +280,11 @@ class _DurationPickerState extends State<_DurationPicker> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              Text('min', style: TextStyle(color: Colors.white70, fontSize: 15)),
+              Text('min',
+                  style: TextStyle(color: Colors.white70, fontSize: 15)),
               SizedBox(width: 80),
-              Text('seg', style: TextStyle(color: Colors.white70, fontSize: 15)),
+              Text('seg',
+                  style: TextStyle(color: Colors.white70, fontSize: 15)),
             ],
           ),
           Expanded(
@@ -256,7 +296,12 @@ class _DurationPickerState extends State<_DurationPicker> {
                     magnification: 1.22,
                     useMagnifier: true,
                     onSelectedItemChanged: (v) => setState(() => min = v),
-                    children: List.generate(21, (i) => Center(child: Text('$i', style: const TextStyle(color: Colors.white, fontSize: 22)))),
+                    children: List.generate(
+                        21,
+                            (i) => Center(
+                            child: Text('$i',
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 22)))),
                   ),
                 ),
                 Expanded(
@@ -265,7 +310,12 @@ class _DurationPickerState extends State<_DurationPicker> {
                     magnification: 1.22,
                     useMagnifier: true,
                     onSelectedItemChanged: (v) => setState(() => sec = v * 5),
-                    children: List.generate(12, (i) => Center(child: Text('${i * 5}', style: const TextStyle(color: Colors.white, fontSize: 22)))),
+                    children: List.generate(
+                        12,
+                            (i) => Center(
+                            child: Text('${i * 5}',
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 22)))),
                   ),
                 ),
               ],
@@ -277,11 +327,17 @@ class _DurationPickerState extends State<_DurationPicker> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CupertinoButton(
-                  child: const Text('Cancelar', style: TextStyle(color: CupertinoColors.systemRed, fontSize: 17)),
+                  child: const Text('Cancelar',
+                      style: TextStyle(
+                          color: CupertinoColors.systemRed, fontSize: 17)),
                   onPressed: () => Navigator.pop(context),
                 ),
                 CupertinoButton(
-                  child: const Text('Aceptar', style: TextStyle(color: Color(0xFF34C759), fontSize: 17, fontWeight: FontWeight.w600)),
+                  child: const Text('Aceptar',
+                      style: TextStyle(
+                          color: Color(0xFF34C759),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600)),
                   onPressed: () {
                     final dur = Duration(minutes: min, seconds: sec);
                     Navigator.pop(context, dur.inSeconds > 0 ? dur : null);
