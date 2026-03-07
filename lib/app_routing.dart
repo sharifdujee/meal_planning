@@ -28,6 +28,7 @@ import 'package:meal_planning/features/profile/presentation/widget/terms_conditi
 import 'package:meal_planning/features/profile/presentation/widget/training_duration_screen.dart';
 
 
+import 'features/profile/presentation/widget/payment_screen.dart';
 import 'features/splash/presentation/screen/splash_screen.dart';
 import 'features/splash/provider/splash_provider.dart';
 
@@ -79,7 +80,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: "/myProduct", builder: (context, state)=> const MyProductPage()),
       GoRoute(path: "/regenerate", builder: (context, state)=> const RegenerateScreen()),
       GoRoute(path: "/profileSubscription", builder: (context, state)=> const ProfileSubscription()),
-      GoRoute(path: '/payment', builder: (context, state) => const PaymentScreen(),),
+      GoRoute(path: '/payment', builder: (context, state) =>  const PaymentScreen(),),
       GoRoute(path: '/generateResult', builder: (context, state) => const GenerateResultBottomSheet(),),
 
 

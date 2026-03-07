@@ -55,6 +55,8 @@ class IconPath {
   static const String vegetable = "$_basePath/vegetarian-food.png";
 
   static const String googlePay = "$_basePath/googlePay.png";
+  static const String applePay = "$_basePath/applePay.png";
+  static const String card = "$_basePath/card.png";
 
 
   ///Added by Lisan
