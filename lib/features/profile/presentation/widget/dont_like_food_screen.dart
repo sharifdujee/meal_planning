@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meal_planning/core/global/show_custom_dialog.dart';
+import 'package:meal_planning/core/utils/icon_path.dart';
+import 'package:meal_planning/core/utils/image_path.dart';
 
 import '../../provider/food_selection_provider.dart';
 
@@ -156,7 +159,11 @@ class DontLikeFoodScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showCustomDialog(context, imagePath: IconPath.success, title: "Conferma", buttonText: "Fatto", message: "Il tuo piano è stato aggiunto con successo", onPressed: (){
+                        context.pop();
+                      });
+                    },
                     child: const Text(
                       "Guardar",
                       style: TextStyle(

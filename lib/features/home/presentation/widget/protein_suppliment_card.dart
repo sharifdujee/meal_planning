@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ── Color tokens ───────────────────────────────────────────
 const _kBg        = Color(0xFF1C2421);
@@ -261,7 +262,7 @@ class ProteinSupplementCard extends StatelessWidget {
             width: double.infinity,
             child: GestureDetector(
               onTap: () {
-                context.push("/myProduct");
+                _launcherUrl("https://www.myprotein.es/");
               },
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 15.h),
@@ -285,5 +286,14 @@ class ProteinSupplementCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  /// url launcher navigate url
+  Future<void> _launcherUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+
+    if (!await launchUrl(uri)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
