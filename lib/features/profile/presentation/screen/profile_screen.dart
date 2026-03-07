@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:meal_planning/core/global/show_custom_dialog.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
 import 'package:meal_planning/core/utils/image_path.dart';
@@ -625,9 +626,11 @@ class _DayTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Divider(color: Colors.white.withOpacity(0.07), height: 1),
+                  Divider(color: Colors.white.withValues(alpha: 0.07), height: 1),
                   SizedBox(height: 12.h),
-                  _FieldLabel('Nombre del entrenamiento'),
+                  CustomText(text: 'Nombre del entrenamiento', color: Colors.white.withValues(alpha: 0.5),
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w500,),
                   SizedBox(height: 6.h),
                   _InlineInput(
                     hint: 'Nombre del entrenamiento',

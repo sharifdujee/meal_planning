@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:meal_planning/core/global/custom_button.dart';
@@ -337,7 +338,7 @@ class _PlanSelectionSheet extends ConsumerWidget {
                     color: Color(0xFF469271), size: 16),
                 const SizedBox(width: 6),
                 const Text(
-                  '75% de descuento',
+                  '20% de descuento',
                   style: TextStyle(
                     color: Color(0xFF469271),
                     fontSize: 13,
@@ -428,7 +429,7 @@ class _PlanSelectionSheet extends ConsumerWidget {
                       Row(
                         children: [
                           Text(
-                            '\$55.88 ',
+                            '€119.88',
                             style: TextStyle(
                               color: Colors.white.withValues(alpha: 0.35),
                               fontSize: 12,
@@ -436,8 +437,9 @@ class _PlanSelectionSheet extends ConsumerWidget {
                               decorationColor: Colors.white.withValues(alpha: 0.35),
                             ),
                           ),
+                          SizedBox(width: 8.w,),
                           const Text(
-                            '\$8.5 / mes',
+                            '€95.90 / mes',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,
@@ -517,7 +519,7 @@ class _PlanSelectionSheet extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       const Text(
-                        '\$12.99 / mes',
+                        '€9.99 / mes',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -591,7 +593,7 @@ class _PlanSelectionSheet extends ConsumerWidget {
               final plan = ref.watch(selectedPlanProvider);
               return Text(
                 plan == PlanType.annual
-                    ? 'Facturado a \$102 / año'
+                    ? 'Facturado a €23.98 / año'
                     : 'Facturado mensualmente',
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.35),

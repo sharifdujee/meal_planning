@@ -5,19 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meal_planning/core/global/custom_button.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
+import 'package:meal_planning/core/global/show_custom_dialog.dart';
 import 'package:meal_planning/core/utils/app_color.dart';
+import 'package:meal_planning/core/utils/icon_path.dart';
 
 final selectedBreakProvider = StateProvider<Duration>((ref) => const Duration(seconds: 30));
 final customBreakTimesProvider = StateProvider<List<Duration>>((ref) => []);
 
 String formatDuration(Duration d) {
-  if (d.inSeconds < 60) return '${d.inSeconds} seg';
-  final min = d.inMinutes;
-  final sec = d.inSeconds % 60;
-  if (sec == 0) return '$min min';
-  return '$min min $sec seg';
+  return '${d.inMinutes} min';
 }
 
 class TrainingDurationScreen extends ConsumerWidget {
@@ -215,7 +214,12 @@ class TrainingDurationScreen extends ConsumerWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20.w),
-              child: CustomButton(text: "Guardar", onPressed: (){}),
+              child: CustomButton(text: "Guardar", onPressed: (){
+                showCustomDialog(context, imagePath: IconPath.success, title: "Confirmación", buttonText: "Hecho", message: "Tu duración de entrenamiento se ha añadido correctamente a la lista", onPressed: (){
+                  context.pop();
+                });
+
+              }),
             )
           ],
         ),
@@ -232,63 +236,95 @@ class _DurationPicker extends StatefulWidget {
 }
 
 class _DurationPickerState extends State<_DurationPicker> {
-  int min = 1;
-  int sec = 0;
+  int hour = 0;
+  int minute = 15;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 320,
       color: const Color(0xFF1C1C1E),
       child: Column(
         children: [
           const SizedBox(height: 20),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
+              Text('hour', style: TextStyle(color: Colors.white70, fontSize: 15)),
+              SizedBox(width: 90),
               Text('min', style: TextStyle(color: Colors.white70, fontSize: 15)),
-              SizedBox(width: 80),
-              Text('seg', style: TextStyle(color: Colors.white70, fontSize: 15)),
             ],
           ),
+
           Expanded(
             child: Row(
               children: [
+                /// Hour picker
                 Expanded(
                   child: CupertinoPicker(
                     itemExtent: 44,
                     magnification: 1.22,
                     useMagnifier: true,
-                    onSelectedItemChanged: (v) => setState(() => min = v),
-                    children: List.generate(21, (i) => Center(child: Text('$i', style: const TextStyle(color: Colors.white, fontSize: 22)))),
+                    onSelectedItemChanged: (v) => setState(() => hour = v),
+                    children: List.generate(
+                      6,
+                          (i) => Center(
+                        child: Text(
+                          '$i',
+                          style: const TextStyle(color: Colors.white, fontSize: 22),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
+
+                /// Minute picker
                 Expanded(
                   child: CupertinoPicker(
                     itemExtent: 44,
                     magnification: 1.22,
                     useMagnifier: true,
-                    onSelectedItemChanged: (v) => setState(() => sec = v * 5),
-                    children: List.generate(12, (i) => Center(child: Text('${i * 5}', style: const TextStyle(color: Colors.white, fontSize: 22)))),
+                    onSelectedItemChanged: (v) => setState(() => minute = v * 5),
+                    children: List.generate(
+                      12,
+                          (i) => Center(
+                        child: Text(
+                          '${i * 5}',
+                          style: const TextStyle(color: Colors.white, fontSize: 22),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CupertinoButton(
-                  child: const Text('Cancelar', style: TextStyle(color: CupertinoColors.systemRed, fontSize: 17)),
+                  child: const Text(
+                    'Cancelar',
+                    style: TextStyle(color: CupertinoColors.systemRed, fontSize: 17),
+                  ),
                   onPressed: () => Navigator.pop(context),
                 ),
                 CupertinoButton(
-                  child: const Text('Aceptar', style: TextStyle(color: Color(0xFF34C759), fontSize: 17, fontWeight: FontWeight.w600)),
+                  child: const Text(
+                    'Aceptar',
+                    style: TextStyle(
+                      color: Color(0xFF34C759),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   onPressed: () {
-                    final dur = Duration(minutes: min, seconds: sec);
-                    Navigator.pop(context, dur.inSeconds > 0 ? dur : null);
+                    final dur = Duration(hours: hour, minutes: minute);
+                    Navigator.pop(context, dur.inMinutes > 0 ? dur : null);
                   },
                 ),
               ],

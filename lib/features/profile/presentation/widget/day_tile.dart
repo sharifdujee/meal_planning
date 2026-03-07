@@ -173,14 +173,14 @@ class _InlineInput extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hint,
         hintStyle:
-        TextStyle(color: Colors.white.withOpacity(0.25), fontSize: 12.sp),
+        TextStyle(color: Colors.white.withValues(alpha: 0.25), fontSize: 12.sp),
         filled: true,
         fillColor: const Color(0xFF1A1F24),
         contentPadding:
         EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
@@ -207,14 +207,14 @@ class _InputField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hint,
         hintStyle:
-        TextStyle(color: Colors.white.withOpacity(0.25), fontSize: 13.sp),
+        TextStyle(color: Colors.white.withValues(alpha: 0.25), fontSize: 13.sp),
         filled: true,
         fillColor: const Color(0xFF23292F),
         contentPadding:
         EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
