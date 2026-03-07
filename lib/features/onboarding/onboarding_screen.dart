@@ -51,7 +51,8 @@ class OnboardingScreen extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: "IMPER",
-                        style: GoogleFonts.italiana(
+                        style: TextStyle(
+                          fontFamily: 'sf',
                           fontSize: 34.sp,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFF49B37D),
@@ -59,7 +60,8 @@ class OnboardingScreen extends StatelessWidget {
                       ),
                       TextSpan(
                         text: "FECTO",
-                        style: GoogleFonts.italiana(
+                        style: TextStyle(
+                          fontFamily: 'sf',
                           fontSize: 34.sp,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,

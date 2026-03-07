@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+
 import 'package:go_router/go_router.dart';
+import 'package:meal_planning/core/global/custom_button.dart';
+import 'package:meal_planning/features/profile/presentation/widget/recipet_row.dart';
+
 
 // ── Providers ──────────────────────────────────────────────────────────────
 
 enum PaymentMethod { applePay, googlePay, card }
+enum PlanType { annual, monthly }
 
 final selectedPaymentProvider =
 StateProvider<PaymentMethod>((ref) => PaymentMethod.applePay);
 
 final paymentSuccessProvider = StateProvider<bool>((ref) => false);
+
+final selectedPlanProvider =
+StateProvider<PlanType>((ref) => PlanType.annual);
 
 // ── ProfileSubscription (entry point) ──────────────────────────────────────
 
@@ -27,181 +35,258 @@ class ProfileSubscription extends ConsumerWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [Color(0x2B469271), Color(0xFF0E1115)],
-            stops: [0.0, 0.2],
+            stops: [0.0, 0.25],
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                Row(
+          child: Column(
+            children: [
+              // Header
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
                   children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: const Icon(Icons.arrow_back_rounded,
-                          color: Colors.white, size: 22),
-                    ),
-                    const SizedBox(width: 12),
-                    const Text(
-                      'Suscripción',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: -0.3,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 28),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(height: 8),
+                    Row(
                       children: [
-                        const Text(
-                          'Cómo funciona tu prueba gratuita',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: -0.4,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Free plan card
-                        Container(
-                          padding: const EdgeInsets.all(18),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF1A1F24),
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: const Color(0xFF469271).withValues(alpha: 0.4),
-                              width: 1.2,
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 10,
-                                    height: 10,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xFF469271),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Text(
-                                    'GRATIS (Plan Inicial)',
-                                    style: TextStyle(
-                                      color: Color(0xFF469271),
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: -0.2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Propósito: Empieza a entrenar hoy. Sin coste. Sin compromiso.',
-                                style: TextStyle(
-                                  color: Colors.white.withValues(alpha: 0.55),
-                                  fontSize: 13,
-                                  height: 1.5,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              const _SectionLabel('Lo que puedes hacer ahora:'),
-                              const SizedBox(height: 10),
-                              ...[
-                                'Seguir tu entrenamiento diario',
-                                'Registrar tus sesiones y racha',
-                                'Ver tu progreso básico',
-                                'Explorar el ranking global',
-                              ].map((e) => _FeatureRow(
-                                text: e,
-                                color: const Color(0xFF469271),
-                                icon: Icons.check_circle_outline_rounded,
-                              )),
-                              const SizedBox(height: 16),
-                              const _SectionLabel(
-                                  'Lo que desbloqueas al adquirir\nImperfecto Pro:'),
-                              const SizedBox(height: 10),
-                              ...[
-                                'Competir en el ranking y ganar puntos',
-                                'Ver todo tu historial y evolución real',
-                                'Acceder a estadísticas completas',
-                                'Obtener entrenamiento y nutrición\npersonalizados',
-                              ].map((e) => _FeatureRow(
-                                text: e,
-                                color: const Color(0xFFE05C5C),
-                                icon: Icons.lock_outline_rounded,
-                              )),
-                            ],
-                          ),
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(Icons.arrow_back_rounded,
+                              color: Colors.white, size: 22),
                         ),
                       ],
                     ),
+                    const SizedBox(height: 24),
+                    // Big headline
+                    const Text(
+                      'Lleva tu entrenamiento al siguiente nivel',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.5,
+                        height: 1.25,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
+
+              // Feature comparison table
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      // Column headers
+                      Row(
+                        children: [
+                          const Expanded(flex: 5, child: SizedBox()),
+                          Expanded(
+                            flex: 2,
+                            child: Center(
+                              child: Text(
+                                'GRATIS',
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.5),
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Center(
+                              child: Text(
+                                'PRO',
+                                style: TextStyle(
+                                  color: const Color(0xFF469271),
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Feature rows
+                      _FeatureTableRow(
+                        feature: 'Registrar\nentrenamientos',
+                        hasGratis: true,
+                        hasPro: true,
+                      ),
+                      _FeatureTableRow(
+                        feature: 'Plan de entrenamiento\npersonalizado con IA',
+                        hasGratis: false,
+                        hasPro: true,
+                      ),
+                      _FeatureTableRow(
+                        feature: 'Escaneo corporal\ncon IA',
+                        hasGratis: false,
+                        hasPro: true,
+                      ),
+                      _FeatureTableRow(
+                        feature: 'Sobrecarga progresiva\nautomática',
+                        hasGratis: false,
+                        hasPro: true,
+                      ),
+                      _FeatureTableRow(
+                        feature: 'Rutinas y planes\nilimitados',
+                        hasGratis: false,
+                        hasPro: true,
+                      ),
+                      _FeatureTableRow(
+                        feature: 'Entrenamientos\npersonalizados IA',
+                        hasGratis: false,
+                        hasPro: true,
+                      ),
+
+                      // Ligas y ranking section
+                      const SizedBox(height: 16),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          'Ligas y ranking',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -0.3,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '¡y mucho más por venir!',
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.45),
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 28),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 16),
-                SizedBox(
+              ),
+
+              // Continue button
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
+                child: SizedBox(
                   width: double.infinity,
                   height: 55,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF469271),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      elevation: 0,
-                    ),
-                    onPressed: () => _showSubscriptionSheet(context),
-                    child: const Text(
-                      'Continuar',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
+                  child: CustomButton(
+                    text: "Continuar",
+                    onPressed: () => _showPlanSheet(context),
                   ),
                 ),
-                const SizedBox(height: 24),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  void _showSubscriptionSheet(BuildContext context) {
+  void _showPlanSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => const _SubscriptionSheet(),
+      builder: (_) => const _PlanSelectionSheet(),
     );
   }
 }
 
-// ── Subscription bottom sheet ───────────────────────────────────────────────
+// ── Feature comparison table row ───────────────────────────────────────────
 
-class _SubscriptionSheet extends StatelessWidget {
-  const _SubscriptionSheet();
+class _FeatureTableRow extends StatelessWidget {
+  final String feature;
+  final bool hasGratis;
+  final bool hasPro;
+
+  const _FeatureTableRow({
+    required this.feature,
+    required this.hasGratis,
+    required this.hasPro,
+  });
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.white.withValues(alpha: 0.07),
+            width: 1,
+          ),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 5,
+            child: Text(
+              feature,
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.8),
+                fontSize: 13.5,
+                height: 1.4,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: hasGratis
+                  ? const Icon(Icons.check_rounded,
+                  color: Colors.white, size: 18)
+                  : Text(
+                '–',
+                style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.25), fontSize: 16),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: hasPro
+                  ? const Icon(Icons.check_rounded,
+                  color: Color(0xFF469271), size: 18)
+                  : Text(
+                '–',
+                style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.25), fontSize: 16),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Plan Selection Sheet (Image 2 style) ───────────────────────────────────
+
+class _PlanSelectionSheet extends ConsumerWidget {
+  const _PlanSelectionSheet();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(selectedPlanProvider);
+
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xFF1A1F24),
@@ -224,55 +309,263 @@ class _SubscriptionSheet extends StatelessWidget {
           ),
           const SizedBox(height: 24),
 
-          // Pro badge
+          const Text(
+            'Elige tu plan',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.4,
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Discount badge
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFF469271).withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(20),
+              color: const Color(0xFF469271).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: const Color(0xFF469271).withValues(alpha: 0.4),
+                color: const Color(0xFF469271).withValues(alpha: 0.3),
               ),
             ),
-            child: const Text(
-              'IMPERFECTO PRO',
-              style: TextStyle(
-                color: Color(0xFF469271),
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 1.2,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.bolt_rounded,
+                    color: Color(0xFF469271), size: 16),
+                const SizedBox(width: 6),
+                const Text(
+                  '75% de descuento',
+                  style: TextStyle(
+                    color: Color(0xFF469271),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF469271),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Text(
+                    'Oferta Limitada',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 16),
 
-          const Text(
-            '\$8.5 / mes',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 32,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -1,
+          // Annual plan option
+          GestureDetector(
+            onTap: () =>
+            ref.read(selectedPlanProvider.notifier).state = PlanType.annual,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 160),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.04),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: selected == PlanType.annual
+                      ? const Color(0xFF469271)
+                      : Colors.white.withValues(alpha: 0.12),
+                  width: selected == PlanType.annual ? 2 : 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 160),
+                    width: 22,
+                    height: 22,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: selected == PlanType.annual
+                          ? const Color(0xFF469271)
+                          : Colors.transparent,
+                      border: Border.all(
+                        color: selected == PlanType.annual
+                            ? const Color(0xFF469271)
+                            : Colors.white.withValues(alpha: 0.3),
+                        width: 2,
+                      ),
+                    ),
+                    child: selected == PlanType.annual
+                        ? const Icon(Icons.check_rounded,
+                        color: Colors.white, size: 13)
+                        : null,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Anual',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            '\$55.88 ',
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.35),
+                              fontSize: 12,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor: Colors.white.withValues(alpha: 0.35),
+                            ),
+                          ),
+                          const Text(
+                            '\$8.5 / mes',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'por mes',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.4),
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            'Acceso completo a todas las funciones premium',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.5),
-              fontSize: 13,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 28),
+          const SizedBox(height: 10),
 
+          // Monthly plan option
+          GestureDetector(
+            onTap: () => ref
+                .read(selectedPlanProvider.notifier)
+                .state = PlanType.monthly,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 160),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.04),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: selected == PlanType.monthly
+                      ? const Color(0xFF469271)
+                      : Colors.white.withValues(alpha: 0.12),
+                  width: selected == PlanType.monthly ? 2 : 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 160),
+                    width: 22,
+                    height: 22,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: selected == PlanType.monthly
+                          ? const Color(0xFF469271)
+                          : Colors.transparent,
+                      border: Border.all(
+                        color: selected == PlanType.monthly
+                            ? const Color(0xFF469271)
+                            : Colors.white.withValues(alpha: 0.3),
+                        width: 2,
+                      ),
+                    ),
+                    child: selected == PlanType.monthly
+                        ? const Icon(Icons.check_rounded,
+                        color: Colors.white, size: 13)
+                        : null,
+                  ),
+                  const SizedBox(width: 12),
+                  const Expanded(
+                    child: Text(
+                      'Mensual',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const Text(
+                        '\$12.99 / mes',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        'por mes',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.4),
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // Cancel anytime
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.shield_outlined,
+                  color: Color(0xFF469271), size: 14),
+              const SizedBox(width: 6),
+              Text(
+                'Cancela cuando quieras',
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.5),
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Continue button
           SizedBox(
             width: double.infinity,
             height: 52,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF469271),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -286,19 +579,26 @@ class _SubscriptionSheet extends StatelessWidget {
                 'Continuar',
                 style: TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            'Cancela en cualquier momento',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.35),
-              fontSize: 12,
-            ),
+          const SizedBox(height: 10),
+          Consumer(
+            builder: (context, ref, _) {
+              final plan = ref.watch(selectedPlanProvider);
+              return Text(
+                plan == PlanType.annual
+                    ? 'Facturado a \$102 / año'
+                    : 'Facturado mensualmente',
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.35),
+                  fontSize: 12,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -359,7 +659,6 @@ class PaymentScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 14),
 
-              // Payment options
               _PaymentOption(
                 method: PaymentMethod.applePay,
                 selected: selected,
@@ -390,7 +689,6 @@ class PaymentScreen extends ConsumerWidget {
                     .state = PaymentMethod.card,
               ),
 
-              // Card fields (only when card selected)
               if (selected == PaymentMethod.card) ...[
                 const SizedBox(height: 20),
                 _CardInputField(hint: 'Número de tarjeta', icon: Icons.credit_card_rounded),
@@ -467,7 +765,6 @@ class _PaymentSuccessSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Success icon
           Container(
             width: 56,
             height: 56,
@@ -479,14 +776,10 @@ class _PaymentSuccessSheet extends StatelessWidget {
                 width: 1.5,
               ),
             ),
-            child: const Icon(
-              Icons.check_rounded,
-              color: Color(0xFF469271),
-              size: 28,
-            ),
+            child: const Icon(Icons.check_rounded,
+                color: Color(0xFF469271), size: 28),
           ),
           const SizedBox(height: 16),
-
           const Text(
             'Pago Exitoso',
             style: TextStyle(
@@ -509,34 +802,19 @@ class _PaymentSuccessSheet extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             '10 de febrero de 2026',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.4),
-              fontSize: 13,
-            ),
+            style: TextStyle(color: Colors.white.withValues(alpha: 0.4), fontSize: 13),
           ),
           const SizedBox(height: 24),
-
-          // Divider
-          Container(
-            height: 1,
-            color: Colors.white.withValues(alpha: 0.08),
-          ),
+          Container(height: 1, color: Colors.white.withValues(alpha: 0.08)),
           const SizedBox(height: 16),
-
-          // Breakdown
-          _ReceiptRow(label: 'Subtotal', value: '\$7.5'),
+          ReceiptRow(label: 'Subtotal', value: '\$7.5'),
           const SizedBox(height: 10),
-          _ReceiptRow(label: 'Impuesto', value: '\$1'),
+          ReceiptRow(label: 'Impuesto', value: '\$1'),
           const SizedBox(height: 10),
           Container(height: 1, color: Colors.white.withValues(alpha: 0.08)),
           const SizedBox(height: 10),
-          _ReceiptRow(
-            label: 'Total',
-            value: '\$8.5',
-            bold: true,
-          ),
+          ReceiptRow(label: 'Total', value: '\$8.5', bold: true),
           const SizedBox(height: 24),
-
           SizedBox(
             width: double.infinity,
             height: 52,
@@ -549,8 +827,8 @@ class _PaymentSuccessSheet extends StatelessWidget {
                 elevation: 0,
               ),
               onPressed: () {
-                Navigator.pop(context); // close sheet
-                context.go('/navBar');    // go to home — adjust route as needed
+                Navigator.pop(context);
+                context.go('/navBar');
               },
               child: const Text(
                 'Hecho',
@@ -569,56 +847,6 @@ class _PaymentSuccessSheet extends StatelessWidget {
 }
 
 // ── Sub-widgets ─────────────────────────────────────────────────────────────
-
-class _SectionLabel extends StatelessWidget {
-  final String text;
-  const _SectionLabel(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 14,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.2,
-        height: 1.4,
-      ),
-    );
-  }
-}
-
-class _FeatureRow extends StatelessWidget {
-  final String text;
-  final Color color;
-  final IconData icon;
-  const _FeatureRow({required this.text, required this.color, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: color, size: 16),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                color: Colors.white.withValues(alpha: 0.75),
-                fontSize: 13,
-                height: 1.45,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _PaymentOption extends StatelessWidget {
   final PaymentMethod method;
@@ -722,37 +950,7 @@ class _CardInputField extends StatelessWidget {
   }
 }
 
-class _ReceiptRow extends StatelessWidget {
-  final String label;
-  final String value;
-  final bool bold;
-  const _ReceiptRow({required this.label, required this.value, this.bold = false});
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: bold ? Colors.white : Colors.white.withValues(alpha: 0.55),
-            fontSize: bold ? 15 : 14,
-            fontWeight: bold ? FontWeight.w600 : FontWeight.w400,
-          ),
-        ),
-        Text(
-          value,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: bold ? 16 : 14,
-            fontWeight: bold ? FontWeight.w700 : FontWeight.w500,
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 // ── Payment method icon widgets ─────────────────────────────────────────────
 

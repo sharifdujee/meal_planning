@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meal_planning/core/global/custom_button.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
+import 'package:meal_planning/core/global/show_custom_dialog.dart';
 import 'package:meal_planning/core/utils/app_color.dart';
+import 'package:meal_planning/core/utils/icon_path.dart';
 
 final selectedBreakProvider = StateProvider<Duration>((ref) => const Duration(seconds: 30));
 final customBreakTimesProvider = StateProvider<List<Duration>>((ref) => []);
@@ -249,7 +252,11 @@ class BreakTimeScreen extends ConsumerWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20.w),
-              child: CustomButton(text: "Guardar", onPressed: () {}),
+              child: CustomButton(text: "Guardar", onPressed: () {
+                showCustomDialog(context, imagePath: IconPath.success, title: "Conferma", buttonText: "Fatto ", message: "Il tuo piano è stato aggiunto con successo", onPressed: (){
+                  context.pop();
+                });
+              }),
             )
           ],
         ),

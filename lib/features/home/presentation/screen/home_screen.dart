@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                               fontSize: 12.sp,
                               color: AppColor.white,
                             ),
-                            SizedBox(height: 2.h),
+                            SizedBox(height: 8.h),
                             CustomText(
                               text: 'Somos lo que hacemos repetidamente.',
                               fontSize: 10.sp,
@@ -75,39 +75,82 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(width: 8.w),
 
                       // Streak badge
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 6.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(26.r),
-                          color: const Color(0xFFEDEEF1),
-                          border: Border.all(width: 1.w),
-                        ),
-                        child: CustomText(
-                          text: '7🔥',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.sp,
-                          color: AppColor.primary,
-                        ),
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
 
-                      SizedBox(width: 6.w),
+                          /// 🔥 Streak Circle
+                          Container(
+                            padding: EdgeInsets.all(8.sp),
 
-                      // Badge icon
-                      Container(
-                        padding: EdgeInsets.all(6.r),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(26.r),
-                          color: const Color(0xFFEDEEF1),
-                          border: Border.all(width: 1.w),
-                        ),
-                        child: Image.asset(
-                          IconPath.badge,
-                          fit: BoxFit.cover,
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: const Color(0xFF2A2F36).withValues(alpha: .45),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: .35),
+                                width: 2,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: .5),
+                                  blurRadius: 20,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CustomText(
+                                    text: '7',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18.sp,
+                                    color: AppColor.primary,
+                                  ),
+                                  SizedBox(width: 6.w),
+                                  Text(
+                                    '🔥',
+                                    style: TextStyle(fontSize: 28.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(width: 10.w),
+
+                          /// 🏅 Badge Circle
+                          Container(
+                            padding: EdgeInsets.all(8.sp),
+
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: const Color(0xFF2A2F36).withValues(alpha: .45),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: .35),
+                                width: 2,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: .5),
+                                  blurRadius: 20,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                IconPath.badge,
+                                height: 40.h,
+                                width: 40.w,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -218,4 +261,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+
 }
