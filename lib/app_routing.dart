@@ -10,6 +10,7 @@ import 'package:meal_planning/features/authentication/presentation/screen/profil
 import 'package:meal_planning/features/authentication/presentation/screen/reset_password_screen.dart';
 import 'package:meal_planning/features/authentication/presentation/screen/sign_up_otp_verification.dart';
 import 'package:meal_planning/features/authentication/presentation/screen/verify_login_otp.dart';
+import 'package:meal_planning/features/home/presentation/widget/generate_result_bottom_sheet.dart';
 import 'package:meal_planning/features/home/presentation/widget/my_product_page.dart';
 import 'package:meal_planning/features/navigation/presentation/nav_bar_screen.dart';
 import 'package:meal_planning/features/onboarding/onboarding_screen.dart';
@@ -78,8 +79,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: "/myProduct", builder: (context, state)=> const MyProductPage()),
       GoRoute(path: "/regenerate", builder: (context, state)=> const RegenerateScreen()),
       GoRoute(path: "/profileSubscription", builder: (context, state)=> const ProfileSubscription()),
-      GoRoute(path: '/payment', builder: (context, state) => const PaymentScreen(),
-      ),
+      GoRoute(path: '/payment', builder: (context, state) => const PaymentScreen(),),
+      GoRoute(path: '/generateResult', builder: (context, state) => const GenerateResultBottomSheet(),),
 
 
     ],

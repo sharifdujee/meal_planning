@@ -253,7 +253,7 @@ class BreakTimeScreen extends ConsumerWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20.w),
               child: CustomButton(text: "Guardar", onPressed: () {
-                showCustomDialog(context, imagePath: IconPath.success, title: "Conferma", buttonText: "Fatto ", message: "Il tuo piano è stato aggiunto con successo", onPressed: (){
+                showCustomDialog(context, imagePath: IconPath.success, title: "Confirmación", buttonText: "Hecho", message: "Tu duración de entrenamiento se ha añadido correctamente a la lista", onPressed: (){
                   context.pop();
                 });
               }),
