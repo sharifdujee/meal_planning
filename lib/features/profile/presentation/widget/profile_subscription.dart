@@ -6,23 +6,32 @@ import 'package:meal_planning/features/profile/presentation/widget/plan_selectio
 import 'feature_table_row.dart';
 
 
+
+
 // ── Providers ──────────────────────────────────────────────────────────────
+
 
 enum PaymentMethod { applePay, googlePay, card }
 enum PlanType { annual, monthly }
 
+
 final selectedPaymentProvider =
 StateProvider<PaymentMethod>((ref) => PaymentMethod.applePay);
 
+
 final paymentSuccessProvider = StateProvider<bool>((ref) => false);
+
 
 final selectedPlanProvider =
 StateProvider<PlanType>((ref) => PlanType.annual);
 
+
 // ── ProfileSubscription (entry point) ──────────────────────────────────────
+
 
 class ProfileSubscription extends ConsumerWidget {
   const ProfileSubscription({super.key});
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -73,6 +82,7 @@ class ProfileSubscription extends ConsumerWidget {
                 ),
               ),
 
+
               // Feature comparison table
               Expanded(
                 child: SingleChildScrollView(
@@ -115,6 +125,7 @@ class ProfileSubscription extends ConsumerWidget {
                       ),
                       const SizedBox(height: 12),
 
+
                       // Feature rows
                       FeatureTableRow(
                         feature: 'Seguir tu entrenamiento diario',
@@ -154,11 +165,15 @@ class ProfileSubscription extends ConsumerWidget {
 
 
 
+
+
+
                       const SizedBox(height: 28),
                     ],
                   ),
                 ),
               ),
+
 
               // Continue button
               Container(
@@ -179,6 +194,7 @@ class ProfileSubscription extends ConsumerWidget {
     );
   }
 
+
   void _showPlanSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -192,21 +208,29 @@ class ProfileSubscription extends ConsumerWidget {
 
 
 
+class PaymentMethodTile extends StatelessWidget {
+  final Widget icon;
+  final String label;
+  final PaymentMethod method;
+  final PaymentMethod selected;
+  final VoidCallback onTap;
 
 
-
-
-
-
-
-
-
-
+  const PaymentMethodTile({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.method,
+    required this.selected,
+    required this.onTap,
+  });
 
 
   @override
   Widget build(BuildContext context) {
     final isSelected = method == selected;
+
+
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -242,7 +266,9 @@ class ProfileSubscription extends ConsumerWidget {
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? const Color(0xFF469271) : Colors.transparent,
+                color: isSelected
+                    ? const Color(0xFF469271)
+                    : Colors.transparent,
                 border: Border.all(
                   color: isSelected
                       ? const Color(0xFF469271)
@@ -251,7 +277,8 @@ class ProfileSubscription extends ConsumerWidget {
                 ),
               ),
               child: isSelected
-                  ? const Icon(Icons.check_rounded, color: Colors.white, size: 14)
+                  ? const Icon(Icons.check_rounded,
+                  color: Colors.white, size: 14)
                   : null,
             ),
           ],
@@ -261,103 +288,4 @@ class ProfileSubscription extends ConsumerWidget {
   }
 }
 
-class _CardInputField extends StatelessWidget {
-  final String hint;
-  final IconData icon;
-  const _CardInputField({required this.hint, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      style: const TextStyle(color: Colors.white, fontSize: 14),
-      cursorColor: const Color(0xFF469271),
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.3), fontSize: 13),
-        prefixIcon: Icon(icon, color: Colors.white.withValues(alpha: 0.3), size: 18),
-        filled: true,
-        fillColor: const Color(0xFF1A1F24),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF469271), width: 1.5),
-        ),
-      ),
-    );
-  }
-}
-
-
-
-// ── Payment method icon widgets ─────────────────────────────────────────────
-
-class _ApplePayIcon extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 26,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: const Center(
-        child: Text(
-          ' Pay',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-            letterSpacing: -0.3,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GooglePayIcon extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 26,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: const Center(
-        child: Text(
-          'GPay',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 10,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CardIcon extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 26,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF1A56DB), Color(0xFF3B82F6)],
-        ),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: const Icon(Icons.credit_card_rounded, color: Colors.white, size: 16),
-    );
-  }
-}
 
