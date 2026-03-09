@@ -57,9 +57,18 @@ class IconPath {
   static const String googlePay = "$_basePath/googlePay.png";
 
 
+
   ///Added by Lisan (week page)
   static const String calender17 = "$_basePath/calendar17.png";
   static const String filter = "$_basePath/filter.png";
   static const String star = "$_basePath/stars.png";
+
+  static const String applePay = "$_basePath/applePay.png";
+  static const String card = "$_basePath/card.png";
+
+
+  ///Added by Lisan
+  static const String calender17 = "$_basePath/calendar17.png";
+
 
 }
