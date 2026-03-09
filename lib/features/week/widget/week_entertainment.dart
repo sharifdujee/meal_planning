@@ -18,9 +18,8 @@ class WeekEntertainmentWidget extends ConsumerWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.w),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F1419),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -35,7 +34,7 @@ class WeekEntertainmentWidget extends ConsumerWidget {
               letterSpacing: 0.1,
             ),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: weekDays
