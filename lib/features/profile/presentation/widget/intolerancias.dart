@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/global/show_custom_dialog.dart';
+import '../../../../core/utils/icon_path.dart';
 import '../../provider/food_selection_provider.dart';
 
 // Provider to hold custom (user-added) intolerances
@@ -156,7 +158,11 @@ class IntoleranciasScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showCustomDialog(context, imagePath: IconPath.success, title: "Confirmación", buttonText: "Hecho", message: "Tu duración de entrenamiento se ha añadido correctamente a la lista", onPressed: (){
+                        context.pop();
+                      });
+                    },
                     child: const Text(
                       "Guardar",
                       style: TextStyle(

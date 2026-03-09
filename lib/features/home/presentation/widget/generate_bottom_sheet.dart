@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 
 import 'generate_result_bottomn_sheet.dart';
@@ -152,12 +153,18 @@ class GenerateBottomSheet extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10.h),
-                  Text(
-                    'Encontrar Alternativa',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
+                  GestureDetector(
+                    onTap: (){
+                      context.push('/generateResult');
+
+                    },
+                    child: Text(
+                      'Encontrar Alternativa',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
@@ -202,3 +209,5 @@ class GenerateBottomSheet extends StatelessWidget {
     );
   }
 }
+
+///

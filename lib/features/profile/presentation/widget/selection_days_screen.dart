@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/global/show_custom_dialog.dart';
+import '../../../../core/utils/icon_path.dart';
 import '../../provider/food_selection_provider.dart';
 
 class DaySelectionScreen extends ConsumerWidget {
@@ -11,14 +13,14 @@ class DaySelectionScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedFoods = ref.watch(foodSelectionProvider);
 
-    final List<String> foods = [
+    const List<String> weekDays = [
       "Lunes",
       "Martes",
       "Miércoles",
       "Jueves",
       "Viernes",
       "Sábado",
-     
+      "Domingo",
     ];
 
     return Scaffold(
@@ -69,11 +71,11 @@ class DaySelectionScreen extends ConsumerWidget {
                 /// 🔹 Food List
                 Expanded(
                   child: ListView.separated(
-                    itemCount: foods.length,
+                    itemCount: weekDays.length,
                     separatorBuilder: (_, __) =>
                     const SizedBox(height: 14),
                     itemBuilder: (context, index) {
-                      final food = foods[index];
+                      final food = weekDays[index];
                       final isSelected =
                       selectedFoods.contains(food);
 
@@ -105,7 +107,11 @@ class DaySelectionScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showCustomDialog(context, imagePath: IconPath.success, title: "Confirmación", buttonText: "Hecho", message: "Tu duración de entrenamiento se ha añadido correctamente a la lista", onPressed: (){
+                        context.pop();
+                      });
+                    },
                     child: const Text(
                       "Guardar",
                       style: TextStyle(

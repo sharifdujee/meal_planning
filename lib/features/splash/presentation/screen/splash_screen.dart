@@ -200,17 +200,21 @@ class _SplashScreenState extends State<SplashScreen>
                             text: TextSpan(
                               children: [
                                 TextSpan(
+
                                   text: "IMPER",
-                                  style: GoogleFonts.italiana(
+                                  style: TextStyle(
+                                    fontFamily: 'sf',
                                     fontSize: 36.sp,
                                     fontWeight: FontWeight.w800,
                                     color: const Color(0xFF49B37D),
                                     letterSpacing: -0.5,
+
                                   ),
                                 ),
                                 TextSpan(
                                   text: "FECTO",
-                                  style: GoogleFonts.italiana(
+                                  style: TextStyle(
+                                    fontFamily: 'sf',
                                     fontSize: 36.sp,
                                     fontWeight: FontWeight.w800,
                                     color: Colors.white,
