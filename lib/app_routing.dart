@@ -80,7 +80,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: "/myProduct", builder: (context, state)=> const MyProductPage()),
       GoRoute(path: "/regenerate", builder: (context, state)=> const RegenerateScreen()),
       GoRoute(path: "/profileSubscription", builder: (context, state)=> const ProfileSubscription()),
-      GoRoute(path: '/payment', builder: (context, state) =>  const  PaymentScreen(),),
+
+      GoRoute(path: '/payment', builder: (context, state) => const PaymentScreen(),),
+
+
       GoRoute(path: '/generateResult', builder: (context, state) => const GenerateResultBottomSheet(),),
 
 
