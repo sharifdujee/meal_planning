@@ -17,7 +17,7 @@ final mealsProvider = Provider<List<MealModel>>((ref) => [
     type: MealType.almuerzo,
     title: 'Camarones con quinoa',
     description:
-    'Una ciotola personalizzabile e ricca di nutrienti con proteine magre e cereali integrali.',
+    'Un tazón personalizable, rico en nutrientes, con proteínas magras y cereales integrales.',
   ),
   const MealModel(
     type: MealType.merienda,

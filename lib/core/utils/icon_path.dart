@@ -68,7 +68,7 @@ class IconPath {
 
 
   ///Added by Lisan
-  static const String calender17 = "$_basePath/calendar17.png";
+
 
 
 }
