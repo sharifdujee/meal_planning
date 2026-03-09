@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meal_planning/core/global/custom_button.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
 import 'package:meal_planning/features/week/widget/week_entertainment.dart';
+import 'package:meal_planning/features/week/widget/week_plan.dart';
 
 class PlanYourWeakPopup extends ConsumerWidget {
   const PlanYourWeakPopup({super.key});
@@ -12,7 +14,7 @@ class PlanYourWeakPopup extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
       margin: EdgeInsets.symmetric(horizontal: 4.w),
       decoration: BoxDecoration(
         color: const Color(0xFF0F161E),
@@ -79,30 +81,13 @@ class PlanYourWeakPopup extends ConsumerWidget {
           ),
           SizedBox(height: 16.h),
 
-          const WeekEntertainmentWidget(),
+          const WeekPlan(),
 
           SizedBox(height: 32.h),
+          CustomButton(text: "Siguiente",
+              onPressed: ()=>Navigator.pop(context)
+          )
 
-          SizedBox(
-            width: double.infinity,
-            height: 56.h,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF4A8B71),
-                elevation: 0,
-                shape: const StadiumBorder(),
-              ),
-              onPressed: () => Navigator.pop(context),
-              child: const Text(
-                  "Siguiente",
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
-                  )
-              ),
-            ),
-          ),
         ],
       ),
     );
