@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meal_planning/core/global/custom_button.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
-import 'package:meal_planning/features/week/widget/week_entertainment.dart';
 import 'package:meal_planning/features/week/widget/week_plan.dart';
 
 class PlanYourWeakPopup extends ConsumerWidget {
