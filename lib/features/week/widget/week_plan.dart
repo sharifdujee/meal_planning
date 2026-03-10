@@ -8,8 +8,8 @@ import '../model/week_entainment_model.dart';
 import '../provider/week_entertainment_provider.dart';
 
 
-class WeekEntertainmentWidget extends ConsumerWidget {
-  const WeekEntertainmentWidget({super.key});
+class WeekPlan extends ConsumerWidget {
+  const WeekPlan({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,24 +17,13 @@ class WeekEntertainmentWidget extends ConsumerWidget {
     final notifier = ref.read(weeklyEntertainmentProvider.notifier);
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.w),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+      margin: EdgeInsets.symmetric(horizontal: 4.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Entrenamiento',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.1,
-            ),
-          ),
-          const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: weekDays
@@ -201,8 +190,8 @@ class _DayToggleSwitchState extends State<DayToggleSwitch>
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: AnimatedOpacity(
-                              opacity: _isCompleted ? 1:0,
-                              duration: Duration(microseconds: 200),
+                            opacity: _isCompleted ? 1:0,
+                            duration: Duration(microseconds: 200),
                             child: Container(
                               height: 32.h,
                               width: 30.h,

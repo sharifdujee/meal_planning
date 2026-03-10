@@ -63,11 +63,21 @@ class IconPath {
   static const String filter = "$_basePath/filter.png";
   static const String star = "$_basePath/stars.png";
 
+  static const String chef = "$_basePath/chef.png";
+  static const String arrowDown = "$_basePath/arrow-down-01.png";
+  static const String arrowUp = "$_basePath/arrow-up-01.png";
+
+  //In Future it will be come from backend
+  static const String tea = "$_basePath/tea.png";
+  static const String restaurant02 = "$_basePath/restaurant-02.png";
+  static const String cookie = "$_basePath/cookie.png";
+  static const String moon02 = "$_basePath/moon-02.png";
+
+
   static const String applePay = "$_basePath/applePay.png";
   static const String card = "$_basePath/card.png";
 
 
-  ///Added by Lisan
 
 
 

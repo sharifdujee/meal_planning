@@ -12,7 +12,7 @@ class QuoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 340.w,
+      width: 335.w,
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 30.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
