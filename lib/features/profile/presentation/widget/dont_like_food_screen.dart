@@ -4,11 +4,19 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meal_planning/core/global/show_custom_dialog.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
-import 'package:meal_planning/core/utils/image_path.dart';
 
 import '../../provider/food_selection_provider.dart';
 
-final customDislikedFoodsProvider = StateProvider<List<String>>((ref) => []);
+/// Provider holding all disliked foods
+final dislikedFoodsProvider = StateProvider<List<String>>((ref) => [
+  "Verduras",
+  "Pescado",
+  "Legumbres",
+  "Carne roja",
+  "Huevos",
+  "Lácteos",
+  "Salmón a la parrilla con espárragos",
+]);
 
 class DontLikeFoodScreen extends ConsumerWidget {
   const DontLikeFoodScreen({super.key});
@@ -16,19 +24,7 @@ class DontLikeFoodScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedFoods = ref.watch(foodSelectionProvider);
-    final customItems = ref.watch(customDislikedFoodsProvider);
-
-    final List<String> presetFoods = [
-      "Verduras",
-      "Pescado",
-      "Legumbres",
-      "Carne roja",
-      "Huevos",
-      "Lácteos",
-      "Salmón a la parrilla con espárragos",
-    ];
-
-    final allFoods = [...presetFoods, ...customItems];
+    final allFoods = ref.watch(dislikedFoodsProvider);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0E1115),
@@ -81,28 +77,25 @@ class DontLikeFoodScreen extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final food = allFoods[index];
                       final isSelected = selectedFoods.contains(food);
-                      final isCustom = !presetFoods.contains(food);
 
                       return _foodTile(
                         food: food,
                         isSelected: isSelected,
-                        isCustom: isCustom,
                         onTap: () {
                           ref.read(foodSelectionProvider.notifier).toggle(food);
                         },
-                        onDelete: isCustom
-                            ? () {
-                          ref
-                              .read(customDislikedFoodsProvider.notifier)
-                              .update((state) =>
-                              state.where((e) => e != food).toList());
+                        onDelete: () {
+                          ref.read(dislikedFoodsProvider.notifier).update(
+                                (state) =>
+                                state.where((e) => e != food).toList(),
+                          );
+
                           if (selectedFoods.contains(food)) {
                             ref
                                 .read(foodSelectionProvider.notifier)
                                 .toggle(food);
                           }
-                        }
-                            : null,
+                        },
                       );
                     },
                   ),
@@ -127,7 +120,8 @@ class DontLikeFoodScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    onPressed: () => _showAddItemSheet(context, ref, allFoods),
+                    onPressed: () =>
+                        _showAddItemSheet(context, ref, allFoods),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
@@ -160,9 +154,17 @@ class DontLikeFoodScreen extends ConsumerWidget {
                       ),
                     ),
                     onPressed: () {
-                      showCustomDialog(context, imagePath: IconPath.success, title: "Confirmación", buttonText: "Hecho", message: "Tu duración de entrenamiento se ha añadido correctamente a la lista", onPressed: (){
-                        context.pop();
-                      });
+                      showCustomDialog(
+                        context,
+                        imagePath: IconPath.success,
+                        title: "Confirmación",
+                        buttonText: "Hecho",
+                        message:
+                        "Tus intolerancias se han actualizado correctamente.",
+                        onPressed: () {
+                          context.pop();
+                        },
+                      );
                     },
                     child: const Text(
                       "Guardar",
@@ -184,6 +186,7 @@ class DontLikeFoodScreen extends ConsumerWidget {
     );
   }
 
+  /// Bottom Sheet to add food
   void _showAddItemSheet(
       BuildContext context, WidgetRef ref, List<String> existingFoods) {
     final controller = TextEditingController();
@@ -210,19 +213,6 @@ class DontLikeFoodScreen extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// Drag handle
-                    Center(
-                      child: Container(
-                        width: 40,
-                        height: 4,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
                     const Text(
                       "Añadir comida",
                       style: TextStyle(
@@ -231,109 +221,39 @@ class DontLikeFoodScreen extends ConsumerWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 6),
-                    Text(
-                      "Escribe el nombre de la comida que no te gusta.",
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.5),
-                        fontSize: 13,
-                      ),
-                    ),
-
                     const SizedBox(height: 20),
 
-                    /// Text field
                     TextField(
                       controller: controller,
-                      autofocus: true,
-                      textCapitalization: TextCapitalization.sentences,
-                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                      style:
+                      const TextStyle(color: Colors.white, fontSize: 15),
                       cursorColor: const Color(0xFF469271),
-                      onChanged: (_) {
-                        if (errorText != null) setState(() => errorText = null);
-                      },
                       decoration: InputDecoration(
                         hintText: "Ej: Brócoli, Hígado...",
-                        hintStyle: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          fontSize: 14,
-                        ),
                         errorText: errorText,
-                        errorStyle: const TextStyle(
-                          color: Color(0xFFFF6B6B),
-                          fontSize: 12,
-                        ),
                         filled: true,
                         fillColor: const Color(0xFF0E1115),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 14,
-                        ),
-                        enabledBorder: OutlineInputBorder(
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: Colors.white.withValues(alpha: 0.12),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF469271),
-                            width: 1.5,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color(0xFFFF6B6B),
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: Color(0xFFFF6B6B),
-                            width: 1.5,
-                          ),
                         ),
                       ),
                     ),
 
                     const SizedBox(height: 24),
 
-                    /// Action buttons
                     Row(
                       children: [
                         Expanded(
                           child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              side: BorderSide(
-                                color: Colors.white.withValues(alpha: 0.15),
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
                             onPressed: () => Navigator.pop(context),
-                            child: Text(
-                              "Cancelar",
-                              style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.6),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                            child: const Text("Cancelar"),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 14),
                               backgroundColor: const Color(0xFF469271),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
                             ),
                             onPressed: () {
                               final value = controller.text.trim();
@@ -343,17 +263,19 @@ class DontLikeFoodScreen extends ConsumerWidget {
                                 "El campo no puede estar vacío");
                                 return;
                               }
+
                               final alreadyExists = existingFoods.any((f) =>
                               f.toLowerCase() == value.toLowerCase());
+
                               if (alreadyExists) {
-                                setState(
-                                        () => errorText = "Esta comida ya existe");
+                                setState(() =>
+                                errorText = "Esta comida ya existe");
                                 return;
                               }
 
-                              ref
-                                  .read(customDislikedFoodsProvider.notifier)
-                                  .update((state) => [...state, value]);
+                              ref.read(dislikedFoodsProvider.notifier).update(
+                                    (state) => [...state, value],
+                              );
 
                               ref
                                   .read(foodSelectionProvider.notifier)
@@ -361,14 +283,7 @@ class DontLikeFoodScreen extends ConsumerWidget {
 
                               Navigator.pop(context);
                             },
-                            child: const Text(
-                              "Añadir",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                            child: const Text("Añadir"),
                           ),
                         ),
                       ],
@@ -383,12 +298,12 @@ class DontLikeFoodScreen extends ConsumerWidget {
     );
   }
 
+  /// Food Tile Widget
   Widget _foodTile({
     required String food,
     required bool isSelected,
-    required bool isCustom,
     required VoidCallback onTap,
-    VoidCallback? onDelete,
+    required VoidCallback onDelete,
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -401,7 +316,6 @@ class DontLikeFoodScreen extends ConsumerWidget {
             color: isSelected
                 ? const Color(0xFF469271)
                 : Colors.white.withValues(alpha: 0.15),
-            width: 1.2,
           ),
         ),
         child: Row(
@@ -412,27 +326,15 @@ class DontLikeFoodScreen extends ConsumerWidget {
                 style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
             ),
-
-            if (isCustom && onDelete != null) ...[
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: onDelete,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Icon(
-                    Icons.close_rounded,
-                    size: 18,
-                    color: Colors.white.withValues(alpha: 0.35),
-                  ),
-                ),
-              ),
-            ],
-
             isSelected
                 ? const Icon(Icons.check_circle, color: Color(0xFF469271))
-                : Icon(
-              Icons.radio_button_unchecked,
-              color: Colors.white.withValues(alpha: 0.4),
+                : Icon(Icons.radio_button_unchecked,
+                color: Colors.white.withValues(alpha: 0.4)),
+            const SizedBox(width: 10),
+            GestureDetector(
+              onTap: onDelete,
+              child: Icon(Icons.close_rounded,
+                  size: 18, color: Colors.white.withValues(alpha: 0.35)),
             ),
           ],
         ),

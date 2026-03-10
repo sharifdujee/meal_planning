@@ -50,12 +50,12 @@ final List<_FaqSection> _faqs = [
       _FaqPlanCard(
         icon: Icons.emoji_events_outlined,
         title: 'Tu Ranking (Mensual)',
-        subtitle: 'Clasificación (3,49 €/mes. Acceso completo a la clasificación)',
+        subtitle: 'Clasificación (3.49 €/mes. Acceso completo a la clasificación)',
       ),
       _FaqPlanCard(
         icon: Icons.workspace_premium_outlined,
         title: 'Imperfecto Pro (Mensual)',
-        subtitle: 'Imperfecto Pro (9,99 €/mes. Acceso completo a imperfecto pro)',
+        subtitle: 'Imperfecto Pro (9.99 €/mes. Acceso completo a imperfecto pro)',
       ),
       _FaqText(
         'Los planes incluyen todas las funciones premium: planes de entrenamiento personalizados, planificación de IA, lista de compras automática, seguimiento del progreso y más.',

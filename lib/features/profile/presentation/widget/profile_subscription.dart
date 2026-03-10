@@ -6,32 +6,23 @@ import 'package:meal_planning/features/profile/presentation/widget/plan_selectio
 import 'feature_table_row.dart';
 
 
-
-
 // ── Providers ──────────────────────────────────────────────────────────────
-
 
 enum PaymentMethod { applePay, googlePay, card }
 enum PlanType { annual, monthly }
 
-
 final selectedPaymentProvider =
 StateProvider<PaymentMethod>((ref) => PaymentMethod.applePay);
 
-
 final paymentSuccessProvider = StateProvider<bool>((ref) => false);
-
 
 final selectedPlanProvider =
 StateProvider<PlanType>((ref) => PlanType.annual);
 
-
 // ── ProfileSubscription (entry point) ──────────────────────────────────────
-
 
 class ProfileSubscription extends ConsumerWidget {
   const ProfileSubscription({super.key});
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,7 +73,6 @@ class ProfileSubscription extends ConsumerWidget {
                 ),
               ),
 
-
               // Feature comparison table
               Expanded(
                 child: SingleChildScrollView(
@@ -125,7 +115,6 @@ class ProfileSubscription extends ConsumerWidget {
                       ),
                       const SizedBox(height: 12),
 
-
                       // Feature rows
                       FeatureTableRow(
                         feature: 'Seguir tu entrenamiento diario',
@@ -165,15 +154,11 @@ class ProfileSubscription extends ConsumerWidget {
 
 
 
-
-
-
                       const SizedBox(height: 28),
                     ],
                   ),
                 ),
               ),
-
 
               // Continue button
               Container(
@@ -194,7 +179,6 @@ class ProfileSubscription extends ConsumerWidget {
     );
   }
 
-
   void _showPlanSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -206,15 +190,12 @@ class ProfileSubscription extends ConsumerWidget {
 }
 
 
-
-
 class PaymentMethodTile extends StatelessWidget {
   final Widget icon;
   final String label;
   final PaymentMethod method;
   final PaymentMethod selected;
   final VoidCallback onTap;
-
 
   const PaymentMethodTile({
     super.key,
@@ -225,11 +206,9 @@ class PaymentMethodTile extends StatelessWidget {
     required this.onTap,
   });
 
-
   @override
   Widget build(BuildContext context) {
     final isSelected = method == selected;
-
 
     return GestureDetector(
       onTap: onTap,
@@ -287,5 +266,25 @@ class PaymentMethodTile extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
