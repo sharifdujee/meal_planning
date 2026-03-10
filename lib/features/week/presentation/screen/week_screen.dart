@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:meal_planning/core/utils/app_color.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
@@ -98,12 +99,12 @@ class WeekScreen extends ConsumerWidget {
                           onTap: (){
                             showDialog(
                               context: context,
-                              barrierDismissible: true, // Allows tapping outside to close
-                              barrierColor: Colors.black87, // Darker overlay for better focus
+                              barrierDismissible: true,
+                              barrierColor: Colors.black87,
                               builder: (BuildContext context) {
                                 return Dialog(
                                   backgroundColor: Colors.transparent,
-                                  insetPadding: EdgeInsets.symmetric(horizontal: 20.w), // Control side margins
+                                  insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
                                   child: PlanYourWeakPopup(),
                                 );
                               },
@@ -195,21 +196,24 @@ class WeekScreen extends ConsumerWidget {
                         fontSize: 20.h,
                       ),
                       SizedBox(width: 10.w),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 6.h,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.r),
-                          border: Border.all(
-                            color: Color(0xFF38755A),
-                            width: 1,
+                      GestureDetector(
+                        onTap: () => context.push('/shopping-list'),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 6.h,
                           ),
-                        ),
-                        child: CustomText(
-                          text: "Lista de compras",
-                          fontSize: 16.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.r),
+                            border: Border.all(
+                              color: Color(0xFF38755A),
+                              width: 1,
+                            ),
+                          ),
+                          child: CustomText(
+                            text: "Lista de compras",
+                            fontSize: 16.h,
+                          ),
                         ),
                       ),
                     ],

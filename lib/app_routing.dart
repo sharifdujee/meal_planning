@@ -26,6 +26,7 @@ import 'package:meal_planning/features/profile/presentation/widget/regenerate_sc
 import 'package:meal_planning/features/profile/presentation/widget/selection_days_screen.dart';
 import 'package:meal_planning/features/profile/presentation/widget/terms_condition.dart';
 import 'package:meal_planning/features/profile/presentation/widget/training_duration_screen.dart';
+import 'package:meal_planning/features/week/presentation/screen/shopping_list_screen.dart';
 
 
 import 'features/profile/presentation/widget/payment_screen.dart';
@@ -86,6 +87,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       GoRoute(path: '/generateResult', builder: (context, state) => const GenerateResultBottomSheet(),),
 
+      //Add By Lisan
+      GoRoute(path: "/shopping-list", builder: (context , state)=> const ShoppingListScreen()),
 
     ],
   );
