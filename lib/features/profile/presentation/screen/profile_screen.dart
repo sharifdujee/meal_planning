@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meal_planning/core/global/custom_button.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
+import 'package:meal_planning/core/global/custom_text_form_field.dart';
 import 'package:meal_planning/core/global/show_custom_dialog.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
 import 'package:meal_planning/core/utils/image_path.dart';
 import '../../../../core/utils/app_color.dart';
-import '../../modal/active_module.dart';
 import '../../provider/profile_provider.dart';
 import '../widget/add_plan_option_sheet.dart';
 import '../widget/menu_item.dart';
@@ -15,6 +16,12 @@ import '../widget/menu_tile.dart';
 import '../widget/module_tile.dart';
 import '../widget/section_card.dart';
 import '../widget/subscription_tile.dart';
+
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
 
 
 class ProfileScreen extends ConsumerWidget {
@@ -35,7 +42,7 @@ class ProfileScreen extends ConsumerWidget {
       MenuItem(icon: IconPath.alert, label: 'Intolerancias', onTap: (){
         context.push('/IntoleranciasScreen');
       }),
-      MenuItem(icon: IconPath.language, label: 'Idioma'),
+      ///MenuItem(icon: IconPath.language, label: 'Idioma'),
       MenuItem(icon: IconPath.sleeping, label: 'Tiempo de descanso', onTap: (){
         context.push("/breakTime");
       }),
@@ -45,7 +52,9 @@ class ProfileScreen extends ConsumerWidget {
       MenuItem(icon: IconPath.calenderThree, label: 'Días de entrenamiento', onTap: (){
         context.push('/daySelection');
       }),
-      MenuItem(icon: IconPath.alert, label: 'Mi ejercicio favorito'),
+      MenuItem(icon: IconPath.alert, label: 'Mi ejercicio favorito', onTap: (){
+        context.push("/favourite");
+      }),
       MenuItem(icon: IconPath.repeat, label: 'Regenerar mi plan', onTap: (){
         context.push("/regenerate");
       }),
@@ -63,8 +72,12 @@ class ProfileScreen extends ConsumerWidget {
         label: 'Eliminar cuenta',
         textColor: AppColor.danger,
           onTap: (){
-            showCustomDialog(context, imagePath: IconPath.confirmation, title: "¿Estás Seguro?", buttonText: "Sí, Eliminar", message: "¿Quieres eliminar tu cuenta de forma permanente?", onPressed: (){},
-            isDoubleButton: true, secondButtonText: "Cancelar", onSecondPressed: (){});
+            showCustomDialog(context, imagePath: IconPath.confirmation, title: "¿Estás Seguro?", buttonText: "Sí, Eliminar", message: "¿Quieres eliminar tu cuenta de forma permanente?", onPressed: (){
+              context.push("/login");
+            },
+            isDoubleButton: true, secondButtonText: "Cancelar", onSecondPressed: (){
+              context.pop();
+                });
           }
       ),
       MenuItem(
@@ -72,8 +85,12 @@ class ProfileScreen extends ConsumerWidget {
         label: 'Cerrar sesión',
         textColor: AppColor.warning,
           onTap: (){
-            showCustomDialog(context, imagePath: IconPath.confirmation, title: "¿Estás Seguro?", buttonText: "Cancelar", message: "¿Quieres cerrar sesión?", onPressed: (){},
-                isDoubleButton: true, secondButtonText: "Cerrar sesión", onSecondPressed: (){});
+            showCustomDialog(context, imagePath: IconPath.confirmation, title: "¿Estás Seguro?", buttonText: "Cancelar", message: "¿Quieres cerrar sesión?", onPressed: (){
+              context.push("/login");
+            },
+                isDoubleButton: true, secondButtonText: "Cerrar sesión", onSecondPressed: (){
+              context.pop();
+                });
           }
       ),
     ];
@@ -389,7 +406,7 @@ class _WritePlanSheetState extends State<WritePlanSheet> {
                   width: 36.w,
                   height: 4.h,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -416,7 +433,7 @@ class _WritePlanSheetState extends State<WritePlanSheet> {
                   Text(
                     'Define tu plantilla de entrenamiento. El orden de\nlos ejercicios se adapta a tu semana real.',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.45),
+                      color: Colors.white.withValues(alpha: 0.45),
                       fontSize: 12.sp,
                       height: 1.45,
                     ),
@@ -425,15 +442,15 @@ class _WritePlanSheetState extends State<WritePlanSheet> {
                   Text(
                     'Nombre del plan',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.55),
+                      color: Colors.white.withValues(alpha: 0.55),
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   SizedBox(height: 6.h),
-                  _InputField(
+                  CustomTextFormField(
                     controller: _planNameController,
-                    hint: 'Nombre del plan',
+                    hintText: 'Nombre del plan',
                   ),
                 ],
               ),
@@ -470,20 +487,16 @@ class _WritePlanSheetState extends State<WritePlanSheet> {
               child: Row(
                 children: [
                   Expanded(
-                    child: _OutlineButton(
-                      label: 'Cancelar',
-                      onTap: () => Navigator.pop(context),
-                    ),
+                    child:CustomButton(
+                      isOutlined: true,
+                        textColor: AppColor.primary,
+                        text: 'Cancelar', onPressed: ()=>Navigator.pop(context))
+
                   ),
                   SizedBox(width: 12.w),
                   Expanded(
-                    child: _GreenButton(
-                      label: 'Guardar cambios',
-                      onTap: () {
-                        // TODO: save logic
-                        Navigator.pop(context);
-                      },
-                    ),
+                    child: CustomButton(text: "Guardar cambios", onPressed: (){})
+
                   ),
                 ],
               ),
@@ -555,8 +568,8 @@ class _DayTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
           color: isExpanded
-              ? const Color(0xFF469271).withOpacity(0.5)
-              : Colors.white.withOpacity(0.06),
+              ? const Color(0xFF469271).withValues(alpha: 0.5)
+              : Colors.white.withValues(alpha: 0.06),
         ),
       ),
       child: Column(
@@ -573,7 +586,7 @@ class _DayTile extends StatelessWidget {
                     width: 28.r,
                     height: 28.r,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF469271).withOpacity(0.15),
+                      color: const Color(0xFF469271).withValues(alpha: 0.15),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -598,7 +611,7 @@ class _DayTile extends StatelessWidget {
                         Text(
                           entry.type,
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.45),
+                            color: Colors.white.withValues(alpha: 0.45),
                             fontSize: 11.sp,
                           ),
                         ),
@@ -610,7 +623,7 @@ class _DayTile extends StatelessWidget {
                     duration: const Duration(milliseconds: 200),
                     child: Icon(
                       Icons.keyboard_arrow_down_rounded,
-                      color: Colors.white.withOpacity(0.4),
+                      color: Colors.white.withValues(alpha: 0.4),
                       size: 20.r,
                     ),
                   ),
@@ -638,7 +651,9 @@ class _DayTile extends StatelessWidget {
                     onChanged: onNameChanged,
                   ),
                   SizedBox(height: 10.h),
-                  _FieldLabel('Duración (min)'),
+                  CustomText(text: 'Duración (min)', color: Colors.white.withValues(alpha: 0.5),
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w500,),
                   SizedBox(height: 6.h),
                   _InlineInput(
                     hint: 'Duración (min)',
@@ -647,7 +662,9 @@ class _DayTile extends StatelessWidget {
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10.h),
-                  _FieldLabel('Notas'),
+                  CustomText(text: 'Notas', color: Colors.white.withValues(alpha: 0.5),
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w500,),
                   SizedBox(height: 6.h),
                   _InlineInput(
                     hint: 'Notas adicionales',
@@ -664,22 +681,7 @@ class _DayTile extends StatelessWidget {
   }
 }
 
-class _FieldLabel extends StatelessWidget {
-  final String text;
-  const _FieldLabel(this.text);
 
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(
-        color: Colors.white.withOpacity(0.5),
-        fontSize: 11.sp,
-        fontWeight: FontWeight.w500,
-      ),
-    );
-  }
-}
 
 class _InlineInput extends StatelessWidget {
   final String hint;
@@ -729,258 +731,16 @@ class _InlineInput extends StatelessWidget {
 
 // ── Sheet 2b: Import PDF ───────────────────────────────────────────────────
 
-class _ImportPDFSheet extends StatefulWidget {
-  const _ImportPDFSheet();
 
-  @override
-  State<_ImportPDFSheet> createState() => _ImportPDFSheetState();
-}
 
-class _ImportPDFSheetState extends State<_ImportPDFSheet> {
-  String? _selectedFileName;
 
-  void _simulateFilePick() {
-    // Replace with real file picker (file_picker package)
-    setState(() => _selectedFileName = '1 Archivo PDF');
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF1A1F24),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 36.h),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // drag handle
-          Center(
-            child: Container(
-              width: 36.w,
-              height: 4.h,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-          SizedBox(height: 20.h),
 
-          // Title + subtitle
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Importar plan (PDF)',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.3,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  'Sube tu PDF y aplicaremos tu plan\nautomáticamente',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.45),
-                    fontSize: 12.sp,
-                    height: 1.45,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20.h),
 
-          // File picker area
-          GestureDetector(
-            onTap: _simulateFilePick,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 160),
-              padding:
-              EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-              decoration: BoxDecoration(
-                color: _selectedFileName != null
-                    ? const Color(0xFF469271).withOpacity(0.08)
-                    : const Color(0xFF23292F),
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(
-                  color: _selectedFileName != null
-                      ? const Color(0xFF469271).withOpacity(0.4)
-                      : Colors.white.withOpacity(0.08),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 32.r,
-                    height: 32.r,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF469271).withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Icon(
-                      Icons.picture_as_pdf_rounded,
-                      color: const Color(0xFF469271),
-                      size: 16.r,
-                    ),
-                  ),
-                  SizedBox(width: 12.w),
-                  Expanded(
-                    child: Text(
-                      _selectedFileName ?? 'Seleccionar archivo PDF',
-                      style: TextStyle(
-                        color: _selectedFileName != null
-                            ? Colors.white
-                            : Colors.white.withOpacity(0.4),
-                        fontSize: 13.sp,
-                        fontWeight: _selectedFileName != null
-                            ? FontWeight.w500
-                            : FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                  Icon(
-                    _selectedFileName != null
-                        ? Icons.check_circle_rounded
-                        : Icons.chevron_right_rounded,
-                    color: _selectedFileName != null
-                        ? const Color(0xFF469271)
-                        : Colors.white.withOpacity(0.3),
-                    size: 20.r,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 24.h),
 
-          // Buttons
-          Row(
-            children: [
-              Expanded(
-                child: _OutlineButton(
-                  label: 'Cancelar',
-                  onTap: () => Navigator.pop(context),
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: _GreenButton(
-                  label: 'Seleccionar PDF',
-                  onTap: _selectedFileName != null
-                      ? () {
-                    // TODO: process PDF
-                    Navigator.pop(context);
-                  }
-                      : _simulateFilePick,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-// ── Shared input / button widgets ──────────────────────────────────────────
 
-class _InputField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hint;
-  const _InputField({required this.controller, required this.hint});
 
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      style: TextStyle(color: Colors.white, fontSize: 13.sp),
-      cursorColor: const Color(0xFF469271),
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle:
-        TextStyle(color: Colors.white.withOpacity(0.25), fontSize: 13.sp),
-        filled: true,
-        fillColor: const Color(0xFF23292F),
-        contentPadding:
-        EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-          borderSide:
-          const BorderSide(color: Color(0xFF469271), width: 1.5),
-        ),
-      ),
-    );
-  }
-}
-
-class _OutlineButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-  const _OutlineButton({required this.label, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 48.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30.r),
-          border: Border.all(color: Colors.white.withOpacity(0.15)),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          label,
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.7),
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GreenButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-  const _GreenButton({required this.label, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 48.h,
-        decoration: BoxDecoration(
-          color: const Color(0xFF469271),
-          borderRadius: BorderRadius.circular(30.r),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          label,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 
 

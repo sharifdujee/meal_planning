@@ -14,8 +14,10 @@ import 'package:meal_planning/features/home/presentation/widget/generate_result_
 import 'package:meal_planning/features/home/presentation/widget/my_product_page.dart';
 import 'package:meal_planning/features/navigation/presentation/nav_bar_screen.dart';
 import 'package:meal_planning/features/onboarding/onboarding_screen.dart';
+import 'package:meal_planning/features/profile/presentation/screen/favourite_screen.dart';
 import 'package:meal_planning/features/profile/presentation/widget/break_time_screen.dart';
 import 'package:meal_planning/features/profile/presentation/widget/dont_like_food_screen.dart';
+import 'package:meal_planning/features/profile/presentation/widget/edit_profile.dart';
 
 import 'package:meal_planning/features/profile/presentation/widget/faq.dart';
 import 'package:meal_planning/features/profile/presentation/widget/intolerancias.dart';
@@ -69,6 +71,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: "/signUpOtpVerification", builder: (context, state)=>const SignupOtpVerificationCodeScreen()),
       GoRoute(path: "/profileSetUp", builder: (context, state)=>const ProfileSetUp()),
       GoRoute(path: "/navBar", builder: (context, state)=>const CustomBottomNavBar()),
+      GoRoute(path: "/editProfile", builder: (context, state)=>EditProfile()),
       GoRoute(path: "/terms", builder: (context, state)=>const TermsCondition()),
       GoRoute(path: "/privacy", builder: (context, state)=>const PrivacyPolicy()),
       GoRoute(path: "/faq", builder: (context, state)=>const FrequentlyAskingQuestion()),
@@ -85,6 +88,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
 
       GoRoute(path: '/generateResult', builder: (context, state) => const GenerateResultBottomSheet(),),
+      GoRoute(path: '/favourite', builder: (context, state) => const FavoritesScreen(),),
 
 
     ],

@@ -262,7 +262,7 @@ class ProteinSupplementCard extends StatelessWidget {
             width: double.infinity,
             child: GestureDetector(
               onTap: () {
-                _launcherUrl("https://www.myprotein.es/");
+                _launcherUrl("https://www.myprotein.es/p/nutricion-deportiva/impact-whey-protein/10530943/");
               },
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 15.h),

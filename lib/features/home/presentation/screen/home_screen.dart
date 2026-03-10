@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
-                      SizedBox(width: 8.w),
+                      SizedBox(width: 5.w),
 
                       // Streak badge
                       Row(
@@ -81,8 +81,10 @@ class HomeScreen extends StatelessWidget {
 
                           /// 🔥 Streak Circle
                           Container(
-                            padding: EdgeInsets.all(8.sp),
-
+                            height: 38.h,
+                            width: 38.w,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(6.sp),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: const Color(0xFF2A2F36).withValues(alpha: .45),
@@ -95,34 +97,26 @@ class HomeScreen extends StatelessWidget {
                                   color: Colors.black.withValues(alpha: .5),
                                   blurRadius: 20,
                                   spreadRadius: 2,
-                                  offset: Offset(0, 8),
+                                  offset: const Offset(0, 8),
                                 ),
                               ],
                             ),
-                            child: Center(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  CustomText(
-                                    text: '7',
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 18.sp,
-                                    color: AppColor.primary,
-                                  ),
-                                  SizedBox(width: 6.w),
-                                  Text(
-                                    '🔥',
-                                    style: TextStyle(fontSize: 28.sp),
-                                  ),
-                                ],
+                            child: FittedBox(
+                              child: CustomText(
+                                text: '7🔥',
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.sp,
+                                color: AppColor.primary,
                               ),
                             ),
-                          ),
+                          ), 
 
                           SizedBox(width: 10.w),
 
                           /// 🏅 Badge Circle
                           Container(
+                            height: 38.h,
+                            width: 38.w,
                             padding: EdgeInsets.all(8.sp),
 
                             decoration: BoxDecoration(
@@ -144,8 +138,8 @@ class HomeScreen extends StatelessWidget {
                             child: Center(
                               child: Image.asset(
                                 IconPath.badge,
-                                height: 40.h,
-                                width: 40.w,
+                                height: 200.h,
+                                width: 20.w,
                               ),
                             ),
                           ),
