@@ -66,6 +66,12 @@ class IconPath {
   static const String chef = "$_basePath/chef.png";
   static const String arrowDown = "$_basePath/arrow-down-01.png";
   static const String arrowUp = "$_basePath/arrow-up-01.png";
+  static const String batteryEmpty = "$_basePath/battery-empty.png";
+  static const String batteryCharging= "$_basePath/battery-charging-02.png";
+  static const String checkmarkCircle = "$_basePath/checkmark-circle-01.png";
+  static const String batteryEmpty2 = "$_basePath/battery-low.png";
+  static const String arrowLeft = "$_basePath/arrow-left-02.png";
+
 
   //In Future it will be come from backend
   static const String tea = "$_basePath/tea.png";

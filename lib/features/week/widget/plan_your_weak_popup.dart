@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meal_planning/core/global/custom_button.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
+import 'package:meal_planning/features/week/widget/Planifica_Popup.dart';
 import 'package:meal_planning/features/week/widget/week_plan.dart';
 
 class PlanYourWeakPopup extends ConsumerWidget {
@@ -83,8 +84,22 @@ class PlanYourWeakPopup extends ConsumerWidget {
           const WeekPlan(),
 
           SizedBox(height: 32.h),
-          CustomButton(text: "Siguiente",
-              onPressed: ()=>Navigator.pop(context)
+          CustomButton(
+            text: "Siguiente",
+            onPressed: () {
+              showDialog(
+                context: context,
+                barrierDismissible: true,
+                barrierColor: Colors.black87,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    backgroundColor: Colors.transparent,
+                    insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: PlanificaPopup(),
+                  );
+                },
+              );
+            },
           )
 
         ],
