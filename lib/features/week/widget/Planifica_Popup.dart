@@ -67,8 +67,9 @@ class PlanificaPopup extends ConsumerWidget{
               ),
               SizedBox(height: 16.h,),
               CustomText(
+                textAlign: TextAlign.center,
                 text: "Es mejor dedicar menos tiempo y seguir adelante que demasiado y fracasar.",
-                fontSize: 14,
+                fontSize: 14.sp,
                 color: Color(0xFF6B7280),
                 fontWeight: FontWeight.w400,
               ),

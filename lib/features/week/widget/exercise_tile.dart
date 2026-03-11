@@ -21,6 +21,7 @@ class ExerciseTile extends ConsumerStatefulWidget {
 
 class _ExerciseTileState extends ConsumerState<ExerciseTile> {
   bool isExpanded = false;
+  bool get isActive => widget.exercise.isActive;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class _ExerciseTileState extends ConsumerState<ExerciseTile> {
         curve: Curves.easeInOut,
         margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
         decoration: BoxDecoration(
-          color: isExpanded ? const Color(0xFF10151B) : const Color(0xFF6BC799).withValues(alpha: 0.04),
+          color: isActive ? const Color(0xFF6BC799).withValues(alpha: 0.04) :const Color(0xFF10151B) ,
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
               width: 1,
@@ -72,11 +73,18 @@ class _ExerciseTileState extends ConsumerState<ExerciseTile> {
                     color: const Color(0xFFFFFFFF),
                   ),
                 ),
-                CustomText(
-                  text: widget.exercise.setsAndReps,
-                  color: const Color(0xFFFFFFFF),
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w400,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF000000).withValues(alpha: 0.20),
+                    borderRadius: BorderRadius.circular(99.r),
+                  ),
+                  child: CustomText(
+                    text: widget.exercise.setsAndReps,
+                    color: const Color(0xFFFFFFFF),
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ],
             ),
@@ -160,13 +168,21 @@ class _ExerciseTileState extends ConsumerState<ExerciseTile> {
           height: 20.w,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isError ? Colors.red.withOpacity(0.2) : const Color(0xFF6BC799).withOpacity(0.2),
+            //color: const Color(0xFF6BC799).withOpacity(0.2),
+            gradient: LinearGradient(
+              begin: AlignmentGeometry.topLeft,
+              end: AlignmentGeometry.bottomRight,
+              colors: [
+                Color(0xFF469271),
+                Color(0xFF49A893)
+              ]
+            ),
             borderRadius: BorderRadius.circular(4.r),
           ),
           child: CustomText(
             text: "$num",
             fontSize: 10.sp,
-            color: isError ? Colors.redAccent : const Color(0xFF6BC799),
+            color: const Color(0xFFFFFFFF),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -175,7 +191,7 @@ class _ExerciseTileState extends ConsumerState<ExerciseTile> {
           text: title,
           fontSize: 14.sp,
           fontWeight: FontWeight.w600,
-          color: isError ? Colors.redAccent : Colors.white,
+          color: isError ? Color(0xFFA03030) : Colors.white,
         ),
       ],
     );

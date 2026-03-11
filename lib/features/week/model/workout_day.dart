@@ -26,6 +26,8 @@ class Exercise {
   final String setsAndReps; // e.g., "1x2 minutos"
   final String? explanationUrl;
 
+  final bool isActive;
+
   final String? targetMuscles;
   final List<String> positioningSteps;
   final List<String> executionSteps;
@@ -36,6 +38,7 @@ class Exercise {
     required this.name,
     required this.setsAndReps,
     this.explanationUrl,
+    this.isActive = false,
 
     this.targetMuscles,
     this.positioningSteps = const[],

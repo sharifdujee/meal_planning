@@ -27,7 +27,13 @@ class WeekMeal extends ConsumerWidget {
           width: 1,
           color: Color(0xFF383A42),
         ),
-      ) : BoxDecoration(),
+      ) : BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          width: 1,
+          color: Color(0xFF383A42),
+        ),
+      ),
       child: Column(
         children: [
           GestureDetector(
@@ -48,14 +54,18 @@ class WeekMeal extends ConsumerWidget {
                   if (plan.isConfirmed)
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
+                        horizontal: 12,
+                        vertical: 4,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF6BC799).withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const CustomText(text: "Confirmado",color: Color(0xFF82D361),fontSize: 12,),
+                      child: CustomText(
+                        text: "Confirmado",
+                        color: Color(0xFF82D361),
+                        fontSize: 12.sp,
+                      ),
                     ),
                   const Spacer(),
                   Image.asset(isExpanded ? IconPath.arrowUp : IconPath.arrowDown,height: 24.h,width: 24.h,),
