@@ -97,6 +97,7 @@ class _ExerciseTileState extends ConsumerState<ExerciseTile> {
                 ),
               ),
 
+
             // Detailed Content Section
             if (isExpanded) ...[
               SizedBox(height: 20.h),
