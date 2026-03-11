@@ -62,7 +62,7 @@ class IconPath {
   static const String calender17 = "$_basePath/calendar17.png";
   static const String filter = "$_basePath/filter.png";
   static const String star = "$_basePath/stars.png";
-
+  static const String calenderToday = "$_basePath/calendar-today.png";
   static const String chef = "$_basePath/chef.png";
   static const String arrowDown = "$_basePath/arrow-down-01.png";
   static const String arrowUp = "$_basePath/arrow-up-01.png";
@@ -72,6 +72,7 @@ class IconPath {
   static const String batteryEmpty2 = "$_basePath/battery-low.png";
   static const String arrowLeft = "$_basePath/arrow-left-02.png";
   static const String idea1 = "$_basePath/idea-01.png";
+  static const String vector = "$_basePath/Vector.png";
 
 
   //In Future it will be come from backend

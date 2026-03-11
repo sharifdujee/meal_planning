@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/workout_log.dart';
 
@@ -9,11 +11,43 @@ final workoutLogProvider = NotifierProvider<WorkoutLogNotifier, WorkoutLog>(() {
 class WorkoutLogNotifier extends Notifier<WorkoutLog> {
   Timer? _timer;
 
+  late TextEditingController workoutNameController;
+  late TextEditingController notesController;
+
+
   @override
   WorkoutLog build() {
-    ref.onDispose(() => _timer?.cancel());
+
+    workoutNameController =TextEditingController();
+    notesController =TextEditingController();
+
+    workoutNameController.addListener((){
+      state = state.copyWith(workoutName: workoutNameController.text);
+    });
+
+    notesController.addListener((){
+      state = state.copyWith(notes: notesController.text);
+    });
+
+    ref.onDispose(() {
+      _timer?.cancel();
+      workoutNameController.dispose();
+      notesController.dispose();
+    });
 
     return WorkoutLog();
+  }
+  Future<void> selectData(BuildContext context) async{
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1999),
+      lastDate: DateTime(2200),
+    );
+    if (picked != null){
+      String formattDate = "${picked.day.toString().padLeft(2,'0')}/${picked.month.toString().padLeft(2,'0')}/${picked.year}";
+      state = state.copyWith(date: formattDate);
+    }
   }
 
   // START / RESUME
