@@ -13,7 +13,23 @@ final workoutProvider = StateProvider<List<WorkoutDay>>((ref) {
         Instruction(text: "Siente cómo trabaja el músculo en cada repetición."),
       ],
       exercises: [
-        Exercise(name: "Marcha en el lugar", setsAndReps: "1x2 minutos"),
+        Exercise(
+            name: "Marcha en el lugar",
+            setsAndReps: "1x2 minutos",
+          targetMuscles: "Multiples grupos musculares",
+          positioningSteps: [
+            "Adoptar la posición de giro correcta",
+            "Prepara tu cuerpo para el movimiento",
+          ],
+          executionSteps: [
+            "Ejecuta el movimiento con control y diversión.",
+            "Mantener la tensión en el músculo objetivo",
+            "Rango de movimiento completo: estiramiento y contracción",
+            "Controla las fases de elevación y descenso",
+          ],
+          successSignal: "Sientes el trabajo en el músculo objetivo",
+          commonError: "Usar peso excesivo sacrificando la técnica",
+        ),
         Exercise(name: "Marcha en el lugar", setsAndReps: "1x2 minutos"),
         Exercise(name: "Marcha en el lugar", setsAndReps: "1x2 minutos"),
         Exercise(name: "Marcha en el lugar", setsAndReps: "1x2 minutos"),

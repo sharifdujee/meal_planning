@@ -5,7 +5,7 @@ import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
 import 'package:meal_planning/features/week/provider/workout_provider.dart';
 
-import '../provider/workout_detail_sheet.dart';
+import 'workout_detail_sheet.dart';
 
 
 class WorkoutDayList extends ConsumerWidget{
