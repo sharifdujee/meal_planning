@@ -8,7 +8,7 @@ import 'package:meal_planning/core/global/custom_text_form_field.dart';
 import 'package:meal_planning/core/global/show_custom_dialog.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
 import 'package:meal_planning/core/utils/image_path.dart';
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 import '../../provider/profile_provider.dart';
 import '../widget/add_plan_option_sheet.dart';
 import '../widget/menu_item.dart';

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:meal_planning/core/global/custom_button.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:meal_planning/core/global/custom_text_form_field.dart';
-import 'package:meal_planning/core/utils/app_color.dart';
+import 'package:meal_planning/core/design_system/app_color.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {

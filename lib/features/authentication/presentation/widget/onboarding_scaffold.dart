@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meal_planning/features/authentication/presentation/widget/primary_button.dart';
 
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 import '../../provider/onboarding_provider.dart';
 
 class OnboardingScaffold extends ConsumerWidget {
