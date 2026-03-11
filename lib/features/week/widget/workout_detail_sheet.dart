@@ -86,7 +86,7 @@ class WorkoutDetailSheet extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 16.h), // Spacing after header
+                  SizedBox(height: 16.h),
 
                   // Instructions List
                   ListView.builder(

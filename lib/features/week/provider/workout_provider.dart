@@ -16,6 +16,7 @@ final workoutProvider = StateProvider<List<WorkoutDay>>((ref) {
         Exercise(
             name: "Marcha en el lugar",
             setsAndReps: "1x2 minutos",
+          isActive: true,
           targetMuscles: "Multiples grupos musculares",
           positioningSteps: [
             "Adoptar la posición de giro correcta",

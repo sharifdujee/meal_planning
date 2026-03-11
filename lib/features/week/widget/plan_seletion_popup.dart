@@ -49,7 +49,7 @@ class PlanSeletionPopup extends ConsumerWidget {
             ),
             child: Center(
               child: Image.asset(
-                IconPath.calender17,
+                IconPath.clock,
                 height: 24.h,
                 width: 24.w,
                 fit: BoxFit.contain,
@@ -115,11 +115,11 @@ class PlanSeletionPopup extends ConsumerWidget {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFF1A2421),
+          color: const Color(0xFF200012).withValues(alpha: 0.1333),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? const Color(0xFF5DB08E) : Colors.transparent,
-            width: 2,
+            color: isSelected ? const Color(0xFF5DB08E) : Color(0xFF383A42),
+            width: 1,
           ),
         ),
         child: Row(
@@ -154,7 +154,7 @@ class PlanSeletionPopup extends ConsumerWidget {
               ),
             ),
             if (isSelected)
-              const Icon(Icons.check_circle, color: Color(0xFF5DB08E)),
+              const Icon(Icons.check_circle_outline, color: Color(0xFF5DB08E)),
           ],
         ),
       ),

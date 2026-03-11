@@ -58,6 +58,7 @@ class ShoppingListScreen extends ConsumerWidget {
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   itemCount: categoryList.length,
+                  
                   itemBuilder: (context, index) {
                     final entry = categoryList[index];
                     final String categoryTitle = entry.key;
@@ -75,6 +76,7 @@ class ShoppingListScreen extends ConsumerWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
+                        Divider(color: Color(0xFF6BC799).withValues(alpha: 0.05),),
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -100,60 +102,71 @@ class ShoppingListScreen extends ConsumerWidget {
   }
 
   Widget _buildShoppingTile(WidgetRef ref, String category, ShoppingItems item) {
-    return GestureDetector(
-      onTap: () {
-        // Toggle logic
-        ref.read(shoppingListProvider.notifier).toggleItem(category, item.name);
-      },
-      behavior: HitTestBehavior.opaque,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 14.h),
-        child: Row(
-          children: [
-            // Workable Radio/Checkbox
-            Container(
-              width: 20.w,
-              height: 20.w,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                    width: 1.5,
-                    color: item.isChecked ? const Color(0xFF6BC799) : const Color(0xFF4B5563)
-                ),
-                color: item.isChecked ? const Color(0xFF6BC799).withValues(alpha: 0.1) : Colors.transparent,
-              ),
-              child: item.isChecked
-                  ? Icon(Icons.check, size: 14.sp, color: const Color(0xFF6BC799))
-                  : null,
-            ),
-            SizedBox(width: 16.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                    text: item.name,
-                    fontSize: 14.sp,
-                    color: item.isChecked ? const Color(0xFF4B5563) : const Color(0xFFB6BAC3),
-                  ),
-                  if (item.subtitle != null)
-                    CustomText(
-                      text: item.subtitle!,
-                      fontSize: 10.sp,
-                      color: const Color(0xFF5B616E),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          onTap: () {
+            // Toggle logic
+            ref.read(shoppingListProvider.notifier).toggleItem(category, item.name);
+          },
+          behavior: HitTestBehavior.opaque,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 14.h),
+            child: Row(
+              children: [
+                // Workable Radio/Checkbox
+                Container(
+                  width: 20.w,
+                  height: 20.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        width: 1.5,
+                        color: item.isChecked ? const Color(0xFF6BC799) : const Color(0xFF4B5563)
                     ),
-                ],
-              ),
+                    color: item.isChecked ? const Color(0xFF6BC799).withValues(alpha: 0.1) : Colors.transparent,
+                  ),
+                  child: item.isChecked
+                      ? Icon(Icons.check, size: 14.sp, color: const Color(0xFF6BC799))
+                      : null,
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: item.name,
+                        fontSize: 14.sp,
+                        color: item.isChecked ? const Color(0xFF4B5563) : const Color(0xFFB6BAC3),
+                      ),
+                      if (item.subtitle != null)
+                        CustomText(
+                          text: item.subtitle!,
+                          fontSize: 10.sp,
+                          color: const Color(0xFF5B616E),
+                        ),
+                    ],
+                  ),
+                ),
+                CustomText(
+                  text: item.quantity,
+                  fontSize: 14.sp,
+                  color: const Color(0xFF6BC799),
+                  fontWeight: FontWeight.w600,
+                ),
+              ],
             ),
-            CustomText(
-              text: item.quantity,
-              fontSize: 14.sp,
-              color: const Color(0xFF6BC799),
-              fontWeight: FontWeight.w600,
-            ),
-          ],
+          ),
         ),
-      ),
+        // Tiny divider line added here
+        Divider(
+          color: Color(0xFF6BC799).withValues(alpha: 0.05),
+          thickness: 1,
+          height: 1,
+        ),
+      ],
     );
   }
 }

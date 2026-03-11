@@ -195,7 +195,7 @@ class WeekScreen extends ConsumerWidget {
                         color: Colors.white,
                         fontSize: 20.h,
                       ),
-                      SizedBox(width: 10.w),
+                      Spacer(),
                       GestureDetector(
                         onTap: () => context.push('/shopping-list'),
                         child: Container(
@@ -213,6 +213,7 @@ class WeekScreen extends ConsumerWidget {
                           child: CustomText(
                             text: "Lista de compras",
                             fontSize: 16.h,
+                            color: Color(0xFF38755A),
                           ),
                         ),
                       ),

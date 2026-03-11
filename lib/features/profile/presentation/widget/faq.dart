@@ -236,7 +236,7 @@ class _FaqBlock extends StatelessWidget {
   }
 }
 
-// ── Content item widgets ──────────────────────────────────────────────────────
+// ── Content item widget ──────────────────────────────────────────────────────
 
 class _TextItem extends StatelessWidget {
   final _FaqText item;
