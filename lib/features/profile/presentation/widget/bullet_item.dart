@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 
 class BulletItem extends StatelessWidget {
   final String text;

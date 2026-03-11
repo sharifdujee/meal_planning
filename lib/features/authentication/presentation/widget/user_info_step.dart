@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
-import 'package:meal_planning/core/utils/app_color.dart';
+import 'package:meal_planning/core/design_system/app_color.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
 
 import '../../provider/onboarding_provider.dart';

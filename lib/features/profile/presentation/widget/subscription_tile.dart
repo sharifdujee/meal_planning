@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 import '../../modal/user_profile.dart';
 import '../screen/profile_screen.dart';
 

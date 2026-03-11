@@ -8,7 +8,7 @@ import 'package:meal_planning/core/global/custom_text_form_field.dart';
 import 'package:meal_planning/features/authentication/provider/login_provider.dart';
 
 import '../../../../core/global/custom_button.dart';
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 import '../../../../core/utils/icon_path.dart';
 
 class LoginScreen extends ConsumerWidget {

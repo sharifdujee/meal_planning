@@ -9,7 +9,7 @@ import 'package:pinput/pinput.dart';
 
 import '../../../../core/global/custom_button.dart';
 import '../../../../core/global/custom_text.dart';
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 import '../../../../core/utils/icon_path.dart';
 import '../../provider/verify_otp_provider.dart';
 

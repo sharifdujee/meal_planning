@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:meal_planning/features/profile/presentation/widget/section_tile.dart';
 import 'package:meal_planning/features/profile/presentation/widget/subtile.dart';
 
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 import 'body_text.dart';
 import 'bullet_item.dart';
 class PrivacyPolicy extends StatelessWidget {

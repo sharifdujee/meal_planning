@@ -5,7 +5,7 @@ import 'package:meal_planning/features/profile/presentation/widget/payment_optio
 import 'package:meal_planning/features/profile/presentation/widget/payment_success_sheet.dart';
 import 'package:meal_planning/features/profile/presentation/widget/profile_subscription.dart';
 
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 import '../../../../core/utils/icon_path.dart';
 import 'card_input_field.dart';
 

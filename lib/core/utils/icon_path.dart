@@ -71,6 +71,7 @@ class IconPath {
   static const String checkmarkCircle = "$_basePath/checkmark-circle-01.png";
   static const String batteryEmpty2 = "$_basePath/battery-low.png";
   static const String arrowLeft = "$_basePath/arrow-left-02.png";
+  static const String idea1 = "$_basePath/idea-01.png";
 
 
   //In Future it will be come from backend

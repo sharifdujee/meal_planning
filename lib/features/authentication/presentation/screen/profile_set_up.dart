@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 import '../../provider/onboarding_provider.dart';
 import '../widget/fitness_level.dart';
 import '../widget/goal_set_screen.dart';

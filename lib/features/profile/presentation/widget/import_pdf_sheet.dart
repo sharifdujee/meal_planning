@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../../../core/global/custom_button.dart';
-import '../../../../core/utils/app_color.dart';
+import '../../../../core/design_system/app_color.dart';
 
 class ImportPDFSheet extends StatefulWidget {
   const ImportPDFSheet();
