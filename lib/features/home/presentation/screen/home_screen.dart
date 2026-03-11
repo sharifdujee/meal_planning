@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                               fontSize: 12.sp,
                               color: AppColor.white,
                             ),
-                            SizedBox(height: 8.h),
+                            SizedBox(height: 16.h),
                             CustomText(
                               text: 'Somos lo que hacemos repetidamente.',
                               fontSize: 10.sp,
