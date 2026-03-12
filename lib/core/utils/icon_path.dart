@@ -73,6 +73,12 @@ class IconPath {
   static const String arrowLeft = "$_basePath/arrow-left-02.png";
   static const String idea1 = "$_basePath/idea-01.png";
   static const String vector = "$_basePath/Vector.png";
+  static const String pause = "$_basePath/pause.png";
+  static const String stop = "$_basePath/stop.png";
+  static const String redo = "$_basePath/redo.png";
+  static const String lock = "$_basePath/lock-password.png";
+  static const String energy = "$_basePath/batteries-energy.png";
+  static const String pointRight = "$_basePath/batteries-energy.png";
 
 
   //In Future it will be come from backend

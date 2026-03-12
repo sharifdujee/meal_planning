@@ -74,13 +74,14 @@ class WorkoutLogNotifier extends Notifier<WorkoutLog> {
     state = state.copyWith(
       sessionTime: Duration.zero,
       isTimerRunning: false,
+      isFinished: false
     );
   }
 
   // FINISH
   void finishWorkout() {
     _timer?.cancel();
-    state = state.copyWith(isTimerRunning: false);
+    state = state.copyWith(isTimerRunning: false, isFinished : true);
   }
 
   void updateName(String name) => state = state.copyWith(workoutName: name);
