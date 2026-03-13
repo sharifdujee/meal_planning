@@ -10,93 +10,109 @@ import 'package:meal_planning/features/registration/provider/workout_provider.da
 import '../model/workout_set.dart';
 import 'inline_exercise_widget.dart';
 
-class ExerciseSection extends ConsumerWidget{
+class ExerciseSection extends ConsumerWidget {
   const ExerciseSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final workoutExercises = ref.watch(workoutProvider);
     final notifier = ref.read(workoutProvider.notifier);
+
     return Column(
       children: [
+        // Header Row
         Row(
           children: [
-            Image.asset(IconPath.dumbbell,height: 20.h,width: 20.w,color: Colors.white,),
-            SizedBox(width: 8.w,),
+            Image.asset(IconPath.dumbbell, height: 20.h, width: 20.w, color: Colors.white),
+            SizedBox(width: 8.w),
             CustomText(
               text: "Ejercicio",
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.white
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
             ),
-            Spacer(),
+            const Spacer(),
             CustomText(
-              text: "${workoutExercises.length} ejercicios", color: Colors.white,
+              text: "${workoutExercises.length} ejercicios",
+              color: const Color(0xFF6B7280), // Using a grey to match your design
+              fontSize: 14.sp,
             ),
           ],
         ),
-        SizedBox(height: 10.h,),
+        SizedBox(height: 12.h),
+
+        // Content
         if (workoutExercises.isEmpty)
           _buildEmptyState(context, notifier)
-        else
+        else ...[
           ListView.builder(
             shrinkWrap: true,
+            padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: workoutExercises.length,
-            itemBuilder: (context, index){
-              return InlineExerciseWidget(workoutExercise: workoutExercises[index]);            },
+            itemBuilder: (context, index) {
+              return InlineExerciseWidget(workoutExercise: workoutExercises[index]);
+            },
           ),
-          SizedBox(height: 24.h,),
-          _buildAddButton(onTap: () =>notifier.addExercise(), isFullWidth: true),
+          SizedBox(height: 12.h),
+          // Button appears below the list when not empty
+          _buildAddButton(onTap: () => notifier.addExercise(), isFullWidth: true),
+        ],
       ],
     );
   }
-  Widget _buildEmptyState(BuildContext context,WorkoutNotifier notifier){
+
+  Widget _buildEmptyState(BuildContext context, WorkoutNotifier notifier) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 32.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),
       decoration: BoxDecoration(
-        color: Color(0xFF202122),
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(width: 1,color: Color(0xFF383A42))
+        color: const Color(0xFF1A1B1C),
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(width: 1, color: const Color(0xFF2D2E30)),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(IconPath.dumbbell,height: 40.h,width: 40.h,color: Color(0xFF6B7280),),
-          SizedBox(height: 12.h,),
+          Image.asset(IconPath.dumbbell, height: 40.h, width: 40.h, color: const Color(0xFF383A42)),
+          SizedBox(height: 16.h),
           CustomText(
             text: "Añade al menos un ejercicio",
-            color: Color(0xFF5B616E),
+            color: const Color(0xFF6B7280),
+            fontSize: 14.sp,
           ),
-          SizedBox(height: 12.h,),
+          SizedBox(height: 16.h),
           _buildAddButton(
             onTap: () => notifier.addExercise(),
-              isFullWidth: false
+            isFullWidth: false,
           )
         ],
       ),
     );
   }
 
-  Widget _buildAddButton({required VoidCallback onTap, required bool isFullWidth}){
+  Widget _buildAddButton({required VoidCallback onTap, required bool isFullWidth}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        // If it's not full width (empty state), we give it some horizontal padding
         width: isFullWidth ? double.infinity : null,
-        padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(99.r),
-          border: Border.all(width: 1,color: Color(0xFF40444C))
+          border: Border.all(width: 1, color: const Color(0xFF2D2E30)),
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center, // Centering logic
           children: [
-            Icon(Icons.add,size: 24.r,),
-            SizedBox(width: 8.w,),
+            Icon(Icons.add, size: 20.r, color: Colors.white),
+            SizedBox(width: 8.w),
             CustomText(
               text: "Añadir ejercicio",
               fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               color: Colors.white,
             ),
           ],
@@ -104,5 +120,4 @@ class ExerciseSection extends ConsumerWidget{
       ),
     );
   }
-
 }

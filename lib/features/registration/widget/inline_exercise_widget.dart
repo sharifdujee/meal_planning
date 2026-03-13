@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meal_planning/core/utils/icon_path.dart';
 import 'package:meal_planning/features/registration/model/workout_set.dart';
 import 'package:meal_planning/features/week/model/workout_day.dart';
 
@@ -49,7 +50,7 @@ class InlineExerciseWidget extends ConsumerWidget {
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: CustomText(
-              text: "${workoutExercise.sets.length}",
+              text: "${workoutExercise.id}",
               color: const Color(0xFF469271),
               fontWeight: FontWeight.bold,
             ),
@@ -78,6 +79,7 @@ class InlineExerciseWidget extends ConsumerWidget {
             icon: const Icon(
               Icons.keyboard_arrow_down,
               color: Color(0xFF6B7280),
+              size: 24,
             ),
             onPressed: () => notifier.toggleEdit(workoutExercise.id),
           ),
@@ -103,27 +105,51 @@ class InlineExerciseWidget extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText(
-            text: "Editar ejercicio",
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+          Row(
+            children: [
+              CustomText(
+                text: workoutExercise.createEditToggle ? "Editar ejercicio": "Agregar ejercicio",
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              Spacer(),
+              IconButton(
+                icon: const Icon(
+                  Icons.keyboard_arrow_up,
+                  color: Color(0xFF6B7280),
+                  size: 24,
+                ),
+                onPressed: () => notifier.toggleEdit(workoutExercise.id),
+              ),
+            ],
           ),
           SizedBox(height: 16.h),
 
           _buildFieldLabel("Nombre del ejercicio"),
-          _buildTextField(hint: "Ej: Pecho y tríceps"),
+          _buildTextField(
+            hint: "Ej: Pecho y tríceps",
+            initialValue: workoutExercise.name,
+            onChanged: (val) => notifier.updateExerciseName(workoutExercise.id, val)
+          ),
           SizedBox(height: 16.h),
 
           _buildFieldLabel("Descanso"),
-          _buildTextField(hint: "1"),
+          _buildTextField(
+              hint: '1',
+            initialValue: workoutExercise.restTimeInMinutes.toString(),
+            onChanged: (val){
+                final minutes = int.tryParse(val) ?? 0;
+                notifier.updateExerciseRestTime(workoutExercise.id, minutes);
+            }
+          ),
           Padding(
             padding: EdgeInsets.only(top: 4.h),
             child: CustomText(
               text:
                   "Se guardará como: ${workoutExercise.restTimeInMinutes}:00 (1 min)",
-              color: const Color(0xFF6B7280),
-              fontSize: 12.sp,
+              color: const Color(0xFF5B616E),
+              fontSize: 14.sp,
             ),
           ),
 
@@ -153,37 +179,32 @@ class InlineExerciseWidget extends ConsumerWidget {
                   fontSize: 12.sp,
                 ),
               ),
-              SizedBox(width: 40.w), // Space for delete icon
+              SizedBox(width: 40.w),
             ],
           ),
           SizedBox(height: 8.h),
 
           // Dynamic Sets List
-          ...workoutExercise.sets.map((set) => _buildSetRow(set)).toList(),
+          ...workoutExercise.sets.map((set) => _buildSetRow(set, ref)).toList(),
 
           SizedBox(height: 12.h),
           _buildAddButton(
             text: "Agregar serie",
-            onTap: () => /* notifier.addSet(workoutExercise.id) */ null,
+            onTap: () => notifier.addSet(workoutExercise.id),
           ),
 
           SizedBox(height: 24.h),
           Center(
             child: GestureDetector(
-              onTap: () => /* notifier.deleteExercise(workoutExercise.id) */
-                  null,
+              onTap: () => notifier.deleteExercise(workoutExercise.id),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.delete_outline,
-                    color: const Color(0xFFEF4444),
-                    size: 20.r,
-                  ),
+                  Image.asset(IconPath.delete, height: 20.h, width: 20.h,color: Color(0xFFA03030) ,),
                   SizedBox(width: 8.w),
                   CustomText(
                     text: "Eliminar ejercicio",
-                    color: const Color(0xFFEF4444),
+                    color: const Color(0xFFA03030),
                     fontWeight: FontWeight.w500,
                   ),
                 ],
@@ -216,41 +237,66 @@ class InlineExerciseWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildSetRow(WorkoutSet set) {
+  Widget _buildSetRow(WorkoutSet set, WidgetRef ref) {
+    final notifier = ref.read(workoutProvider.notifier);
+
     return Padding(
       padding: EdgeInsets.only(bottom: 8.h),
       child: Row(
         children: [
-          Expanded(child: _buildTextField(hint: "${set.reps}")),
+          Expanded(
+              child: _buildTextField(
+                  hint: '40',
+                initialValue: set.reps == 0 ? '': set.reps.toString(),
+                keyboardType: TextInputType.number,
+                onChanged: (val) => notifier.updateSetDetails(workoutExercise.id,set.id,reps: int.tryParse(val))
+              )
+          ),
           SizedBox(width: 12.w),
-          Expanded(child: _buildTextField(hint: "${set.weight}")),
+          Expanded(child: 
+            _buildTextField(
+                hint: '20',
+              initialValue: set.weight == 0 ? '' : set.weight.toString(),
+              keyboardType: TextInputType.number,
+              onChanged: (val) => notifier.updateSetDetails(workoutExercise.id,set.id,weight: double.tryParse(val))
+            )
+          ),
           SizedBox(width: 8.w),
-          Icon(
-            Icons.delete_outline,
-            color: const Color(0xFFEF4444),
-            size: 24.r,
+          GestureDetector(
+            child: Image.asset(
+              IconPath.delete,
+              height: 20.h,
+              width: 20.w,
+              color: Color(0xFFA03030),
+            ),
+            onTap: () => notifier.deleteSets(set),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTextField({required String hint}) {
+  Widget _buildTextField({
+    required String hint,
+    String? initialValue,
+    void Function(String)? onChanged,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1F2937),
+        color: const Color(0xFF202122),
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: const Color(0xFF374151)),
       ),
-      child: TextField(
+      child: TextFormField(
+        initialValue: initialValue,
+        onChanged: onChanged,
+        keyboardType: keyboardType,
         style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: const TextStyle(color: Color(0xFF6B7280)),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 12.h,
-          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           border: InputBorder.none,
         ),
       ),
@@ -269,11 +315,11 @@ class InlineExerciseWidget extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add, color: Colors.white, size: 20.r),
+            Icon(Icons.add, color: Color(0xFF5B616E), size: 20.r),
             SizedBox(width: 8.w),
             CustomText(
               text: text,
-              color: Colors.white,
+              color: Color(0xFF5B616E),
               fontWeight: FontWeight.w500,
             ),
           ],

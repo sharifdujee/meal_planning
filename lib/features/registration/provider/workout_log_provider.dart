@@ -14,7 +14,6 @@ class WorkoutLogNotifier extends Notifier<WorkoutLog> {
   late TextEditingController workoutNameController;
   late TextEditingController notesController;
 
-
   @override
   WorkoutLog build() {
 
