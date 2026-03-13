@@ -52,6 +52,7 @@ dependencies:
   url_launcher: ^6.3.2
   file_picker: ^10.3.10
   syncfusion_flutter_pdfviewer: ^32.2.9
+  riverpod_annotation: ^4.0.2
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  riverpod_generator: ^4.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
