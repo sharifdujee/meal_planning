@@ -33,10 +33,10 @@ class WorkoutDetailSheet extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.only(top: 12.h, bottom: 20.h),
               width: 70.w,
-              height: 4.h,
+              height: 5.h,
               decoration: BoxDecoration(
                 color: const Color(0xFFFFFFFF),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(24.r),
               ),
             ),
           ),

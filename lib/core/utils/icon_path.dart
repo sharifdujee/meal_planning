@@ -82,6 +82,28 @@ class IconPath {
   static const String info = "$_basePath/info.png";
   static const String frame = "$_basePath/Frame.png";
   static const String analytics = "$_basePath/analytics.png";
+  static const String champion = "$_basePath/champion.png";
+
+  static const String bronze3 = "$_basePath/bornze3.png";
+  static const String bronze1 = "$_basePath/Bronze1.png";
+  static const String bronze2 = "$_basePath/Bronze2.png";
+
+  static const String silver1 = "$_basePath/Silver1.png";
+  static const String silver2 = "$_basePath/Silver2.png";
+  static const String silver3 = "$_basePath/silver3.png";
+
+  static const String gold_1 = "$_basePath/gold_1.png";
+  static const String gold_2 = "$_basePath/gold2.png";
+  static const String gold_3 = "$_basePath/gold3.png";
+
+  static const String radiant = "$_basePath/radiant.png";
+
+  static const ornate = "$_basePath/ornate.png";
+
+  static const fire = "$_basePath/fire.png";
+  static const crawn = "$_basePath/crawn.png";
+  static const silverBadge_2 = '$_basePath/silver_badge_2.png';
+  static const bronzeBadge_2 = '$_basePath/bronze_badge_2.png';
 
 
   //In Future it will be come from backend

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meal_planning/features/ranking/widgets/leagues_works_info_sheet.dart';
 
 import '../../model/ranking_page State.dart';
 import '../../provider/ranking_notifier.dart';
+import '../../widgets/classification_view.dart';
+import '../../widgets/compite_view.dart';
 import '../../widgets/entreba_ahora_button.dart';
 import '../../widgets/private_league_toggle.dart';
 import '../../widgets/selection_devider.dart';
@@ -48,6 +51,7 @@ class RankingScreen extends ConsumerWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 52.h),
+                        //header
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -58,7 +62,17 @@ class RankingScreen extends ConsumerWidget {
                               fontSize: 20.sp,
                               fontWeight: FontWeight.w600,
                             ),
-                            Image.asset(IconPath.info, height: 24.h, width: 24.w),
+                            GestureDetector(
+                                onTap: (){
+                                  showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      builder: (context) => LeaguesWorksInfoSheet()
+                                  );
+                                },
+                              child: Image.asset(IconPath.info, height: 24.h, width: 24.w)
+                            ),
                           ],
                         ),
                         SizedBox(height: 24.h),
@@ -66,23 +80,14 @@ class RankingScreen extends ConsumerWidget {
                           PrivateLeagueToggle(ref: ref, isEnabled: state.isPrivateLeagueEnabled),
                         SizedBox(height: 8.h,),
                         TabSwitcher(ref: ref, activeTab: state.activeTab),
-                        const StatusCard(),
-                        SizedBox(height: 24.h),
-                        const SelectionDevider(label: "ZONA DE ASCENSO (1-5)"),
+                        if(state.activeTab == RankingTab.compite)
+                          CompiteView(state: state)
+                        else
+                          ClassificationView(state:state),
                       ],
                     ),
                   ),
                 ),
-                SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                          (context, index) => UserTile(user: state.users[index]),
-                      childCount: state.users.length,
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(child: SizedBox(height: 120.h)),
               ],
             );
           },

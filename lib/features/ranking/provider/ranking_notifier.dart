@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meal_planning/core/utils/image_path.dart';
 import '../model/ranking_page State.dart';
 
 class RankingNotifier extends AsyncNotifier<RankingPageState> {
@@ -9,25 +10,34 @@ class RankingNotifier extends AsyncNotifier<RankingPageState> {
     return RankingPageState(
       users: users,
       activeTab: RankingTab.compite,
-      isPrivateLeagueEnabled: false,
+      isPrivateLeagueEnabled: false, // Match the model name
     );
   }
 
   void setTab(RankingTab tab) {
-    state = state.whenData((current) => current.copyWith(activeTab: tab));
+    final current = state.value;
+    if (current != null) {
+      state = AsyncData(current.copyWith(activeTab: tab));
+    }
   }
 
   void togglePrivateLeagues(bool value) {
-    state = state.whenData((current) => current.copyWith(isPrivateLeagueEnabled: value));
+    final current = state.value;
+    if (current != null) {
+      state = AsyncData(current.copyWith(isPrivateLeagueEnabled: value));
+    }
   }
 
   Future<List<UserRank>> _fetchRankings() async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    // Simulated network delay
+    await Future.delayed(const Duration(milliseconds: 800));
     return [
-      UserRank(id: '1', name: 'Carlos García', score: 119, rank: 1, streak: '7 días'),
-      UserRank(id: '2', name: 'María López', score: 108, rank: 2, streak: '7 días'),
-      UserRank(id: '3', name: 'Alejandro Martin', score: 108, rank: 3, streak: '7 días'),
-      UserRank(id: '6', name: 'Tú', score: 108, rank: 6, streak: '7 días'),
+      UserRank(id: '1',userAvater: ImagePath.user_1, name: 'Carlos García', score: 119, rank: 1, streak: 'Racha de 7 días'),
+      UserRank(id: '2',userAvater: ImagePath.user_2 ,name: 'María López', score: 108, rank: 2, streak: 'Racha de 7 días'),
+      UserRank(id: '3',userAvater: ImagePath.user_3 ,name: 'Alejandro Martin', score: 108, rank: 3, streak: 'Racha de 7 días'),
+      UserRank(id: '4',userAvater: ImagePath.user_4,name: 'Lucia Fernández', score: 95, rank: 4, streak: 'Racha de 7 días'),
+      UserRank(id: '5', userAvater: ImagePath.user_5, name: 'Roberto Ruiz', score: 82, rank: 5, streak: 'Racha de 7 días'),
+      UserRank(id: '6',userAvater: ImagePath.user_6, name: 'Tú', score: 48, rank: 6, streak: 'Racha de 7 días'),
     ];
   }
 }
