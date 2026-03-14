@@ -81,7 +81,7 @@ class IconPath {
   static const String pointRight = "$_basePath/batteries-energy.png";
   static const String info = "$_basePath/info.png";
   static const String frame = "$_basePath/Frame.png";
-  static const String analytics = "$_basePath/analytics-up.png";
+  static const String analytics = "$_basePath/analytics.png";
 
 
   //In Future it will be come from backend

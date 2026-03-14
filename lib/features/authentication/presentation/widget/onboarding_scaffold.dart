@@ -96,13 +96,13 @@ class OnboardingScaffold extends ConsumerWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(7, (i) {
                   final active = i < displayStep;
                   return AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.only(left: 4),
-                    width: 44,
-                    height: 6,
+                    width: 40.w,
+                    height: 6.h,
                     decoration: BoxDecoration(
                       color: active ? AppColor.accent : AppColor.textMuted,
                       borderRadius: BorderRadius.circular(3),

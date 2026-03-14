@@ -199,10 +199,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                             ),
                           ),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               // Check circle
                               _CheckCircle(checked: isDone),
-                              const SizedBox(width: 12),
+                              SizedBox(width: 4.w),
 
                               // Serie label
                               Text(

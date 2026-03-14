@@ -18,7 +18,7 @@ class WeekEntertainmentWidget extends ConsumerWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.w),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+      padding: EdgeInsets.symmetric( vertical: 18.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -34,7 +34,7 @@ class WeekEntertainmentWidget extends ConsumerWidget {
               letterSpacing: 0.1,
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: weekDays
@@ -204,8 +204,9 @@ class _DayToggleSwitchState extends State<DayToggleSwitch>
                               opacity: _isCompleted ? 1:0,
                               duration: Duration(microseconds: 200),
                             child: Container(
-                              height: 32.h,
-                              width: 30.h,
+                              margin: EdgeInsets.all(4),
+                              height: 40.h,
+                              width: 32.h,
                               decoration: BoxDecoration(
                                 color: const Color(0xFF1C3930),
                                 shape: BoxShape.rectangle,
