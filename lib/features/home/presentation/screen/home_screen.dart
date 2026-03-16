@@ -26,7 +26,10 @@ class HomeScreen extends StatelessWidget {
                 const Color(0xFF469271).withValues(alpha: 0.2),
                 const Color(0xFF0E1115),
               ],
-              stops: const [0.0, 0.05], // green fades out by 35% of screen height
+              stops: const [
+                0.0,
+                0.05,
+              ], // green fades out by 35% of screen height
             ),
           ),
           child: SafeArea(
@@ -38,7 +41,7 @@ class HomeScreen extends StatelessWidget {
 
                 // ── Header row ─────────────────────────────
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  padding: EdgeInsets.only(left: 20.w, right: 10.w),
                   child: Row(
                     children: [
                       // Avatar
@@ -59,13 +62,13 @@ class HomeScreen extends StatelessWidget {
                               fontSize: 12.sp,
                               color: AppColor.white,
                             ),
-                            SizedBox(height: 16.h),
+                            SizedBox(height: 23.h),
                             CustomText(
                               text: 'Somos lo que hacemos repetidamente.',
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColor.welcomeQuoteColor,
-                              maxLines: 1,
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ],
@@ -78,7 +81,6 @@ class HomeScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-
                           /// 🔥 Streak Circle
                           Container(
                             height: 38.h,
@@ -87,7 +89,9 @@ class HomeScreen extends StatelessWidget {
                             padding: EdgeInsets.all(6.sp),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: const Color(0xFF2A2F36).withValues(alpha: .45),
+                              color: const Color(
+                                0xFF2A2F36,
+                              ).withValues(alpha: .45),
                               border: Border.all(
                                 color: Colors.white.withValues(alpha: .35),
                                 width: 2,
@@ -109,7 +113,7 @@ class HomeScreen extends StatelessWidget {
                                 color: AppColor.primary,
                               ),
                             ),
-                          ), 
+                          ),
 
                           SizedBox(width: 10.w),
 
@@ -121,7 +125,9 @@ class HomeScreen extends StatelessWidget {
 
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: const Color(0xFF2A2F36).withValues(alpha: .45),
+                              color: const Color(
+                                0xFF2A2F36,
+                              ).withValues(alpha: .45),
                               border: Border.all(
                                 color: Colors.white.withValues(alpha: .35),
                                 width: 2,
@@ -144,7 +150,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -176,7 +182,7 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(height: 8.h),
                       CustomText(
                         text:
-                        'No te detienes. Te estás recuperando para rendir mejor mañana.',
+                            'No te detienes. Te estás recuperando para rendir mejor mañana.',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: AppColor.textBody,
@@ -194,7 +200,9 @@ class HomeScreen extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 20.w),
                   padding: EdgeInsets.symmetric(
-                      horizontal: 16.w, vertical: 12.h),
+                    horizontal: 16.w,
+                    vertical: 12.h,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF000000),
                     borderRadius: BorderRadius.circular(8.r),
@@ -207,7 +215,7 @@ class HomeScreen extends StatelessWidget {
                       Expanded(
                         child: CustomText(
                           text:
-                          'Confirma tu día de descanso y no pierdas la racha.',
+                              'Confirma tu día de descanso y no pierdas la racha.',
                           fontWeight: FontWeight.w500,
                           fontSize: 13.sp,
                           color: const Color(0xFFD8DBDF),
@@ -255,6 +263,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }
