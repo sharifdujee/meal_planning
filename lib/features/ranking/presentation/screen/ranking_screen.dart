@@ -9,10 +9,7 @@ import '../../widgets/classification_view.dart';
 import '../../widgets/compite_view.dart';
 import '../../widgets/entreba_ahora_button.dart';
 import '../../widgets/private_league_toggle.dart';
-import '../../widgets/selection_devider.dart';
-import '../../widgets/status_card.dart';
 import '../../widgets/tab_item.dart';
-import '../../widgets/user_Tile.dart';
 
 import '../../../../core/global/custom_text.dart';
 import '../../../../core/utils/icon_path.dart';
@@ -25,25 +22,39 @@ class RankingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(rankingNotifierProvider);
 
-    return Scaffold(
-      body: Container(
-        //Page Color
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              const Color(0xFF469271).withOpacity(0.2),
-              const Color(0xFF0E1115),
-            ],
-            stops: const [0.0, 0.05],
-          ),
-        ),
-        child: asyncState.when(
-          loading: () => const Center(child: CircularProgressIndicator(color: Color(0xFF469271))),
-          error: (err, stack) => Center(child: Text('Error: $err', style: const TextStyle(color: Colors.white))),
-          data: (state) {
-            return CustomScrollView(
+    return asyncState.when(
+      loading: () => const Scaffold(
+        backgroundColor: Color(0xFF0E1115),
+        body: Center(child: CircularProgressIndicator(color: Color(0xFF469271))),
+      ),
+      error: (err, stack) => Scaffold(
+        backgroundColor: Color(0xFF0E1115),
+        body: Center(child: Text('Error: $err', style: const TextStyle(color: Colors.white))),
+      ),
+      data: (state) {
+        // We move the Scaffold inside the "data" state so we can access 'state'
+        return Scaffold(
+          // --- THE FIX IS HERE ---
+          floatingActionButtonLocation: state.activeTab == RankingTab.compite
+              ? FloatingActionButtonLocation.centerFloat
+              : null,
+          floatingActionButton: state.activeTab == RankingTab.compite
+              ? const EntrebaAhoraButton()
+              : null,
+          // -----------------------
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  const Color(0xFF469271).withOpacity(0.2),
+                  const Color(0xFF0E1115),
+                ],
+                stops: const [0.0, 0.05],
+              ),
+            ),
+            child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
@@ -51,7 +62,7 @@ class RankingScreen extends ConsumerWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 52.h),
-                        //header
+                        // Header
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -63,38 +74,38 @@ class RankingScreen extends ConsumerWidget {
                               fontWeight: FontWeight.w600,
                             ),
                             GestureDetector(
-                                onTap: (){
-                                  showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      builder: (context) => LeaguesWorksInfoSheet()
-                                  );
-                                },
-                              child: Image.asset(IconPath.info, height: 24.h, width: 24.w)
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => const LeaguesWorksInfoSheet(),
+                                );
+                              },
+                              child: Image.asset(IconPath.info, height: 24.h, width: 24.w),
                             ),
                           ],
                         ),
                         SizedBox(height: 24.h),
                         if (state.activeTab == RankingTab.compite)
                           PrivateLeagueToggle(ref: ref, isEnabled: state.isPrivateLeagueEnabled),
-                        SizedBox(height: 8.h,),
+                        SizedBox(height: 8.h),
                         TabSwitcher(ref: ref, activeTab: state.activeTab),
-                        if(state.activeTab == RankingTab.compite)
+
+                        // Body Content
+                        if (state.activeTab == RankingTab.compite)
                           CompiteView(state: state)
                         else
-                          ClassificationView(state:state),
+                          ClassificationView(),
                       ],
                     ),
                   ),
                 ),
               ],
-            );
-          },
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: const EntrebaAhoraButton(),
+            ),
+          ),
+        );
+      },
     );
   }
 }
