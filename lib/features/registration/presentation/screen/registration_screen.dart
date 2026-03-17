@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meal_planning/core/design_system/text_style.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planning/core/global/custom_text_form_field.dart';
+import 'package:meal_planning/core/utils/icon_path.dart';
 import 'package:meal_planning/features/registration/provider/workout_log_provider.dart';
 import 'package:meal_planning/features/registration/widget/date_picker_field.dart';
 
@@ -43,14 +45,26 @@ class RegistrationScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //Header
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 50.w,vertical: 52.h),
-                    child: CustomText(
-                      text: "Registrar entrenamiento",
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: ()=> context.pop(),
+                          child: Image.asset(IconPath.arrowLeft,height: 24.h,width: 24.w,)
+                      ),
+                      Spacer(),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 52.h),
+                        child: CustomText(
+                          text: "Registrar entrenamiento",
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Spacer(),
+                      SizedBox(height: 48,width: 48,)
+                    ],
                   ),
 
 

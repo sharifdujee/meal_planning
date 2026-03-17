@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:meal_planning/features/home/presentation/widget/train_today_bottomsheet.dart';
 
 import '../../../../core/design_system/app_color.dart';
 import '../../../../core/utils/icon_path.dart';
@@ -33,62 +34,72 @@ class RecoveryTrainingCard extends StatelessWidget {
                   color: const Color(0xFF0F1A14),
                   borderRadius: BorderRadius.circular(12.r),
                 ),
-                child: Row(
-                  children: [
-                    // Green icon container
-                    Container(
-                      width: 44.w,
-                      height: 44.h,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1C3930),
-                        borderRadius: BorderRadius.circular(10.r),
+                child: GestureDetector(
+                  onTap: (){
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => const TrainTodayBottomsheet(),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      // Green icon container
+                      Container(
+                        width: 44.w,
+                        height: 44.h,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF1C3930),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          IconPath.dumbbell,
+                          width: 24.w,
+                          height: 24.h,
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                      alignment: Alignment.center,
-                      child: Image.asset(
-                        IconPath.dumbbell,
-                        width: 24.w,
-                        height: 24.h,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    SizedBox(width: 16.w),
+                      SizedBox(width: 16.w),
 
-                    // Texts
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Entrena de todos modos',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
+                      // Texts
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Entrena de todos modos',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 2.h),
-                          Text(
-                            'Cuenta como un entrenamiento válido para...',
-                            style: TextStyle(
-                              color: const Color(0xFF6B7280),
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                              height: 1.3,
+                            SizedBox(height: 2.h),
+                            Text(
+                              'Cuenta como un entrenamiento válido para...',
+                              style: TextStyle(
+                                color: const Color(0xFF6B7280),
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                height: 1.3,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
 
-                    // Arrow
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: AppColor.primary,
-                      size: 18.w,
-                    ),
-                  ],
+                      // Arrow
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: AppColor.primary,
+                        size: 18.w,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -60,8 +60,6 @@ class _CustomButtonState extends State<CustomButton> {
 
   @override
   Widget build(BuildContext context) {
-    final isDisabled = widget.onPressed == null;
-
     final bg = widget.backgroundGradient ??
         widget.backgroundColor ??
         AppColor.primary;
@@ -77,43 +75,51 @@ class _CustomButtonState extends State<CustomButton> {
         child: Container(
           height: widget.height.h,
           width: widget.width,
+          // This decoration handles the Border Gradient
           decoration: BoxDecoration(
-            gradient: widget.isOutlined ? null : (bg is Gradient ? bg : null),
-            color: widget.isOutlined
-                ? Colors.transparent
-                : (bg is Color ? bg : null),
             borderRadius: BorderRadius.circular(widget.borderRadius.r),
-            border: widget.isOutlined
-                ? Border.all(
-              width: widget.borderWidth,
-              color: const Color(0xFF3E8E73),
-            )
-                : null,
+            gradient: widget.borderGradient, // Apply the border gradient here
           ),
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (widget.prefixIcon != null) ...[
-                  Icon(widget.prefixIcon,
-                      size: 20.sp, color: widget.textColor),
-                  SizedBox(width: 8.w),
-                ],
-                Text(
-                  widget.text,
-                  style: widget.textStyle ??
-                      GoogleFonts.inter(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: widget.textColor,
-                      ),
+          child: Container(
+            // The padding creates the "width" of the border
+            padding: EdgeInsets.all(widget.borderGradient != null ? widget.borderWidth : 0),
+            child: Container(
+              decoration: BoxDecoration(
+                // Inner button color/gradient
+                gradient: widget.isOutlined ? null : (bg is Gradient ? bg : null),
+                color: widget.isOutlined
+                    ? const Color(0xFF10151B) // Your app background color
+                    : (bg is Color ? bg : null),
+                borderRadius: BorderRadius.circular(widget.borderRadius.r - widget.borderWidth),
+                // Fallback to solid border if no gradient is provided
+                border: widget.borderGradient == null && widget.isOutlined
+                    ? Border.all(width: widget.borderWidth, color: const Color(0xFF3E8E73))
+                    : null,
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (widget.prefixIcon != null) ...[
+                      Icon(widget.prefixIcon, size: 20.sp, color: widget.textColor),
+                      SizedBox(width: 8.w),
+                    ],
+                    Text(
+                      widget.text,
+                      style: widget.textStyle ??
+                          GoogleFonts.inter(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                            color: widget.textColor,
+                          ),
+                    ),
+                    if (widget.suffixIcon != null) ...[
+                      SizedBox(width: 8.w),
+                      Icon(widget.suffixIcon, size: 20.sp, color: widget.textColor),
+                    ],
+                  ],
                 ),
-                if (widget.suffixIcon != null) ...[
-                  SizedBox(width: 8.w),
-                  Icon(widget.suffixIcon,
-                      size: 20.sp, color: widget.textColor),
-                ],
-              ],
+              ),
             ),
           ),
         ),

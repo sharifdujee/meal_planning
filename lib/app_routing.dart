@@ -28,10 +28,12 @@ import 'package:meal_planning/features/profile/presentation/widget/regenerate_sc
 import 'package:meal_planning/features/profile/presentation/widget/selection_days_screen.dart';
 import 'package:meal_planning/features/profile/presentation/widget/terms_condition.dart';
 import 'package:meal_planning/features/profile/presentation/widget/training_duration_screen.dart';
+import 'package:meal_planning/features/home/presentation/screen/my_protein_page.dart';
 import 'package:meal_planning/features/week/presentation/screen/shopping_list_screen.dart';
 
 
 import 'features/profile/presentation/widget/payment_screen.dart';
+import 'features/registration/presentation/screen/registration_screen.dart';
 import 'features/splash/presentation/screen/splash_screen.dart';
 import 'features/splash/provider/splash_provider.dart';
 
@@ -93,6 +95,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       //Add By Lisan
       GoRoute(path: "/shopping-list", builder: (context , state)=> const ShoppingListScreen()),
+      GoRoute(path: '/myProteinPage',builder: (context,state) => const MyProteinPage()),
+      GoRoute(path: '/registrationScreen',builder: (context, state) => const RegistrationScreen())
 
     ],
   );
