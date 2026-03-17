@@ -67,208 +67,217 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       margin: EdgeInsets.symmetric(horizontal: 20.w),
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.r),
-        color: Color(0xFF202122),
-        border: Border.all(
-          width: 1.w,
-          color: Color(0xFF383A42), 
-        )
+          borderRadius: BorderRadius.circular(16.r),
+          color: Color(0xFF202122),
+          border: Border.all(
+            width: 1.w,
+            color: Color(0xFF383A42),
+          )
       ),
       child: SafeArea(
-          child:  Column(
+        child:  Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ── Header row ────────────────────────────────
+
+            _OutlineButton(
+                icon: _timerRunning ? Icons.pause : Icons.play_arrow,
+                label:  "comenzar el entrenamiento",
+                onTap: (){
+
+                }
+            ),
+            SizedBox(height: 16,),
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── Header row ────────────────────────────────
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                // Title
+                const Expanded(
+                  child: Text(
+                    'Dominadas\no  Jalón al\npecho',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.w700,
+                      height: 1.25,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Buttons column
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    // Title
-                    const Expanded(
-                      child: Text(
-                        'Dominadas\no  Jalón al\npecho',
+                    // Cambiar button
+                    _OutlineButton(
+                      icon: Icons.refresh_rounded,
+                      label: 'Cambiar',
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 8),
+                    // 0/4 × 6-10 chip
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: kChipBg,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: kBorder, width: 1),
+                      ),
+                      child: const Text(
+                        '0/4 × 6-10',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 26,
-                          fontWeight: FontWeight.w700,
-                          height: 1.25,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    // Buttons column
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        // Cambiar button
-                        _OutlineButton(
-                          icon: Icons.refresh_rounded,
-                          label: 'Cambiar',
-                          onTap: () {},
+                  ],
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 22),
+
+            // ── Última vez row ────────────────────────────
+            Row(
+              children: [
+                const Text(
+                  'Última vez:',
+                  style: TextStyle(
+                    color: kGreen,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: List.generate(4, (i) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: kChipBg,
+                          borderRadius: BorderRadius.circular(8),
+                          border:
+                          Border.all(color: kBorder, width: 1),
                         ),
-                        const SizedBox(height: 8),
-                        // 0/4 × 6-10 chip
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: kChipBg,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: kBorder, width: 1),
+                        child: Text(
+                          'S${i + 1}: 41kg',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
                           ),
-                          child: const Text(
-                            '0/4 × 6-10',
-                            style: TextStyle(
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            // ── Series list ───────────────────────────────
+            ...List.generate(4, (i) {
+              final isDone = _completed[i];
+              final isFirst = i == 0;
+
+              return Column(
+                children: [
+                  // Series row card
+                  GestureDetector(
+                    onTap: () =>
+                        setState(() => _completed[i] = !_completed[i]),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 13),
+                      decoration: BoxDecoration(
+                        color: isDone ? kCardDone : kCardBg,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: isDone
+                              ? kGreen.withValues(alpha: 0.25)
+                              : kBorder,
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Check circle
+                          _CheckCircle(checked: isDone),
+                          SizedBox(width: 4.w),
+
+                          // Serie label
+                          Text(
+                            'Serie ${i + 1}',
+                            style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 13,
+                              fontSize: 15,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
 
-                const SizedBox(height: 22),
+                          const Spacer(),
 
-                // ── Última vez row ────────────────────────────
-                Row(
-                  children: [
-                    const Text(
-                      'Última vez:',
-                      style: TextStyle(
-                        color: kGreen,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Wrap(
-                        spacing: 6,
-                        runSpacing: 6,
-                        children: List.generate(4, (i) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              color: kChipBg,
-                              borderRadius: BorderRadius.circular(8),
-                              border:
-                              Border.all(color: kBorder, width: 1),
-                            ),
-                            child: Text(
-                              'S${i + 1}: 41kg',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 16),
-
-                // ── Series list ───────────────────────────────
-                ...List.generate(4, (i) {
-                  final isDone = _completed[i];
-                  final isFirst = i == 0;
-
-                  return Column(
-                    children: [
-                      // Series row card
-                      GestureDetector(
-                        onTap: () =>
-                            setState(() => _completed[i] = !_completed[i]),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 13),
-                          decoration: BoxDecoration(
-                            color: isDone ? kCardDone : kCardBg,
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(
-                              color: isDone
-                                  ? kGreen.withValues(alpha: 0.25)
-                                  : kBorder,
-                              width: 1,
+                          // Weight input
+                          _NumberBox(value: '${_weights[i]}'),
+                          const SizedBox(width: 6),
+                          const Text(
+                            'Kg',
+                            style: TextStyle(
+                              color: kMuted,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Check circle
-                              _CheckCircle(checked: isDone),
-                              SizedBox(width: 4.w),
 
-                              // Serie label
-                              Text(
-                                'Serie ${i + 1}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                          const SizedBox(width: 16),
 
-                              const Spacer(),
-
-                              // Weight input
-                              _NumberBox(value: '${_weights[i]}'),
-                              const SizedBox(width: 6),
-                              const Text(
-                                'Kg',
-                                style: TextStyle(
-                                  color: kMuted,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-
-                              const SizedBox(width: 16),
-
-                              // Reps input
-                              _NumberBox(value: _reps[i]),
-                              const SizedBox(width: 6),
-                              Text(
-                                '/${_reps[i]}',
-                                style: const TextStyle(
-                                  color: kMuted,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                          // Reps input
+                          _NumberBox(value: _reps[i]),
+                          const SizedBox(width: 6),
+                          Text(
+                            '/${_reps[i]}',
+                            style: const TextStyle(
+                              color: kMuted,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
+                    ),
+                  ),
 
-                      // Timer panel — only after first completed serie
-                      if (isFirst && isDone) ...[
-                        const SizedBox(height: 2),
-                        _TimerPanel(
-                          display: _timerDisplay,
-                          progress: _timerProgress,
-                          isRunning: _timerRunning,
-                          onPause: () =>
-                              setState(() => _timerRunning = !_timerRunning),
-                          onReset: () =>
-                              setState(() => _timerSeconds = 90),
-                          onClose: () =>
-                              setState(() => _completed[0] = false),
-                        ),
-                      ],
+                  // Timer panel — only after first completed serie
+                  if (isFirst && isDone) ...[
+                    const SizedBox(height: 2),
+                    _TimerPanel(
+                      display: _timerDisplay,
+                      progress: _timerProgress,
+                      isRunning: _timerRunning,
+                      onPause: () =>
+                          setState(() => _timerRunning = !_timerRunning),
+                      onReset: () =>
+                          setState(() => _timerSeconds = 90),
+                      onClose: () =>
+                          setState(() => _completed[0] = false),
+                    ),
+                  ],
 
-                      const SizedBox(height: 8),
-                    ],
-                  );
-                }),
-              ],
-            ),
+                  const SizedBox(height: 8),
+                ],
+              );
+            }),
+          ],
+        ),
 
 
       ),
@@ -476,3 +485,4 @@ class _OutlineButton extends StatelessWidget {
     );
   }
 }
+

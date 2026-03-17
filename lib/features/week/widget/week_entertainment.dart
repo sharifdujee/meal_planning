@@ -113,8 +113,10 @@ class _DayToggleSwitchState extends State<DayToggleSwitch>
 
   @override
   Widget build(BuildContext context) {
-    final dayLetter =
-    DateFormat.E('es').format(widget.model.date)[0].toUpperCase();
+    String shortDay = DateFormat.E('es').format(widget.model.date).toLowerCase();
+    final dayLetter = shortDay.startsWith('mi')
+        ? 'X'
+        : shortDay[0].toUpperCase();
 
     // Track colors
     final Color offColor  = const Color(0xFF161D26);
@@ -204,7 +206,7 @@ class _DayToggleSwitchState extends State<DayToggleSwitch>
                               opacity: _isCompleted ? 1:0,
                               duration: Duration(microseconds: 200),
                             child: Container(
-                              margin: EdgeInsets.all(4),
+                              margin: EdgeInsets.all(6.r),
                               height: 40.h,
                               width: 32.h,
                               decoration: BoxDecoration(
