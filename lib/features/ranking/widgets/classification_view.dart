@@ -28,6 +28,7 @@ class ClassificationView extends ConsumerWidget {
         ),
         SizedBox(height: 12.h),
 
+
         // --- Filter 2: Location ---
         FilterToggle<LocationScope>(
           values: LocationScope.values,
