@@ -146,7 +146,7 @@ class _DayToggleSwitchState extends State<DayToggleSwitch>
         ? const Color(0xFFAABBCC)
         : const Color(0xFF8A9BB0);
 
-    const double pillW = 42.0;
+    const double pillW = 40.0;
     const double pillH = 70.0;
     const double radius = 21.0;
     const double thumbSize = 28.0;

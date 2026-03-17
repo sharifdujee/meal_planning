@@ -128,8 +128,7 @@ class WeekScreen extends ConsumerWidget {
                 QuoteCard(),
                 SizedBox(height: 24.h),
                 Container(
-                  width: 335.w,
-                  height: 80.h,
+                  margin: EdgeInsets.symmetric(horizontal: 20.w),
                   padding: EdgeInsets.all(16.h),
                   decoration: BoxDecoration(
                     color: Color(0xFF1E1E1E),
@@ -160,20 +159,17 @@ class WeekScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            'Tu objetivo',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14.sp,
-                            ),
+                          CustomText(
+                            text: 'Tu objetivo',
+                            fontSize: 14.sp,
+                            color: Color(0xFF6B7280),
+                            fontWeight: FontWeight.w400,
                           ),
-                          Text(
-                            'Desarrollar músculo',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          CustomText(
+                            text: 'Desarrollar músculo',
+                            color: Colors.white,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500,
                           ),
                         ],
                       ),

@@ -18,7 +18,7 @@ class WeekEntertainmentWidget extends ConsumerWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.w),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+      padding: EdgeInsets.symmetric( vertical: 18.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -34,7 +34,7 @@ class WeekEntertainmentWidget extends ConsumerWidget {
               letterSpacing: 0.1,
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: weekDays
@@ -113,8 +113,10 @@ class _DayToggleSwitchState extends State<DayToggleSwitch>
 
   @override
   Widget build(BuildContext context) {
-    final dayLetter =
-    DateFormat.E('es').format(widget.model.date)[0].toUpperCase();
+    String shortDay = DateFormat.E('es').format(widget.model.date).toLowerCase();
+    final dayLetter = shortDay.startsWith('mi')
+        ? 'X'
+        : shortDay[0].toUpperCase();
 
     // Track colors
     final Color offColor  = const Color(0xFF161D26);
@@ -204,8 +206,9 @@ class _DayToggleSwitchState extends State<DayToggleSwitch>
                               opacity: _isCompleted ? 1:0,
                               duration: Duration(microseconds: 200),
                             child: Container(
-                              height: 32.h,
-                              width: 30.h,
+                              margin: EdgeInsets.all(6.r),
+                              height: 40.h,
+                              width: 32.h,
                               decoration: BoxDecoration(
                                 color: const Color(0xFF1C3930),
                                 shape: BoxShape.rectangle,

@@ -5,6 +5,9 @@ import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
 import 'package:meal_planning/features/week/provider/week_meal_provider.dart';
 
+import '../../home/presentation/widget/generate_bottom_sheet.dart';
+import '../../home/presentation/widget/view_recipe_card.dart';
+
 class MealCard extends ConsumerWidget {
   const MealCard({super.key});
 
@@ -51,7 +54,12 @@ class MealCard extends ConsumerWidget {
                       color: const Color(0xFF469271),
                       fontWeight: FontWeight.w400,
                     ),
-                    Image.asset(IconPath.repeat,height: 16.h, width: 16.h,)
+                    GestureDetector(
+                      onTap: (){
+                        showModalBottomSheet(context: context, builder: (context)=>GenerateBottomSheet());
+                      },
+                        child: Image.asset(IconPath.repeat,height: 16.h, width: 16.h,)
+                    )
                   ],
                 ),
                 SizedBox(height: 8.h),
@@ -68,17 +76,22 @@ class MealCard extends ConsumerWidget {
                   color: const Color(0xFF8E95A2).withOpacity(0.7),
                 ),
                 SizedBox(height: 20.h),
-                Row(
-                  children: [
-                    Image.asset(IconPath.chef, height: 18.h, width: 18.h, color: const Color(0xFF6BC799)),
-                    SizedBox(width: 8.w),
-                    CustomText(
-                      text: meal.chefName,
-                      fontSize: 12.sp,
-                      color: const Color(0xFF6BC799),
-                      fontWeight: FontWeight.w400,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: (){
+                    showModalBottomSheet(context: context, builder: (context)=>ViewRecipeCard());
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(IconPath.chef, height: 18.h, width: 18.h, color: const Color(0xFF6BC799)),
+                      SizedBox(width: 8.w),
+                      CustomText(
+                        text: meal.chefName,
+                        fontSize: 12.sp,
+                        color: const Color(0xFF6BC799),
+                        fontWeight: FontWeight.w400,
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
