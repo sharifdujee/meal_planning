@@ -10,6 +10,7 @@ import 'package:meal_planning/features/home/presentation/widget/nutrition_screen
 import 'package:meal_planning/features/home/presentation/widget/protein_suppliment_card.dart';
 import 'package:meal_planning/features/home/presentation/widget/recovery_trainning_card.dart';
 import 'package:meal_planning/features/home/presentation/widget/weekly_progress_widget.dart';
+import 'package:meal_planning/features/registration/widget/classification_progress_card.dart';
 import '../../provider/seassion _time_card_provider.dart';
 import '../widget/home_seassion_time_card.dart';
 
@@ -103,8 +104,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 // ── Recovery card ─────────────────────────
                 // Note: You could use 'workoutState.isTimerRunning' here
                 // to swap this card with an active session card!
-                isActive ?
-                HomeSeassionTimeCard() :_buildRecoverySection(),
+                if(isActive)...[
+                  HomeSeassionTimeCard(),
+                  SizedBox(height: 16.h),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: ClassificationProgressCard()
+                  ),
+                ]else
+                _buildRecoverySection(),
 
                 SizedBox(height: 16.h),
 

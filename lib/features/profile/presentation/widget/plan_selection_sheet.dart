@@ -62,7 +62,7 @@ class PlanSelectionSheet extends ConsumerWidget {
                     color: Color(0xFF469271), size: 16),
                 const SizedBox(width: 6),
                 const Text(
-                  '20% de descuento',
+                  '50% de descuento',
                   style: TextStyle(
                     color: Color(0xFF469271),
                     fontSize: 13,
@@ -163,7 +163,7 @@ class PlanSelectionSheet extends ConsumerWidget {
                           ),
                           SizedBox(width: 8.w,),
                           const Text(
-                            '€59.90 / anu',
+                            '€59.90 / año',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,

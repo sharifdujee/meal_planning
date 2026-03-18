@@ -24,7 +24,7 @@ class ExerciseScreen extends StatefulWidget {
 
 class _ExerciseScreenState extends State<ExerciseScreen> {
   // Series state
-  final List<bool> _completed = [true, false, false, false];
+  final List<bool> _completed = [false, false, false, false];
   final List<int>  _weights   = [41, 41, 41, 41];
   final List<String> _reps    = ['6-10', '6-10', '6-10', '6-10'];
   int _activeSeriesIndex = 0; // Tracks which series shows the timer
@@ -156,7 +156,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   Widget build(BuildContext context) {
     return  Container(
       margin: EdgeInsets.symmetric(horizontal: 20.w),
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.symmetric(horizontal :16.r),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.r),
           color: Color(0xFF202122),
@@ -193,7 +193,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 16,),
+            SizedBox(height: 16.h,),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -389,7 +389,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     ),
                   ],
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                 ],
               );
             }),
@@ -476,7 +476,7 @@ class _OutlineButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding:
-        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         decoration: BoxDecoration(
           color: kChipBg,
           borderRadius: BorderRadius.circular(10),
@@ -489,10 +489,10 @@ class _OutlineButton extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],
