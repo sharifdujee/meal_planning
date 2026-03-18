@@ -100,6 +100,11 @@ class IconPath {
 
   static const ornate = "$_basePath/ornate.png";
 
+  static const locationPueblo = "$_basePath/locationPueblo.png";
+  static const locationCity = "$_basePath/location_city.png";
+  static const locationEarth = "$_basePath/location_earth.png";
+  //Lisan add end
+
   static const fire = "$_basePath/fire.png";
   static const crawn = "$_basePath/crawn.png";
   static const silverBadge_2 = '$_basePath/silver_badge_2.png';

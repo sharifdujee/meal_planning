@@ -31,6 +31,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   // Timer state (shown under completed series)
   bool  _timerRunning = false;
+  bool _seriesRunning = false;
   int   _timerSeconds = 0;
   Timer? _timer;
 
@@ -48,6 +49,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   void initState() {
     super.initState();
     _totalTimer?.cancel(); // Add this
+
   }
 
   int _initialTotalSeconds = 0; // Needed for progress calculation
@@ -300,6 +302,47 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   // Series row card
                   GestureDetector(
                     onTap: () {
+                      final bool isDifferentSeries = i != _activeSeriesIndex;
+
+                      if (_timerRunning && !_isResting && isDifferentSeries){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent, // We handle color in the child
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                            content: Container(
+                              padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                              decoration: BoxDecoration(
+                                // Transparent dark green/grey
+                                color: const Color(0xFF2C3E33).withValues(alpha: 0.8),
+                                borderRadius: BorderRadius.circular(12.r),
+                                border: Border.all(
+                                    color: kGreen.withValues(alpha: 0.2),
+                                    width: 1
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.info_outline, color: kGreen, size: 20.sp),
+                                  SizedBox(width: 12.w),
+                                  Expanded(
+                                    child: Text(
+                                      "Termina la serie actual antes de marcar otra",
+                                      style: TextStyle(
+                                        color: Colors.white.withValues(alpha: 0.9),
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                        return;
+                      }
                       setState(() {
                         _completed[i] = !_completed[i];
 
@@ -311,6 +354,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           _isResting = false;
 
                           _startTimer();
+                        }else{
+                          if (isActive) {
+                            _timerRunning = false;
+                            _timer?.cancel();
+                          }
                         }
                       });
                     },
@@ -318,7 +366,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 14, vertical: 13),
                       decoration: BoxDecoration(
-                        color: isDone ? kCardDone : kCardBg,
+                        color: (isDone)
+                            ? kCardDone
+                            : (_timerRunning && !isActive)
+                            ? kCardBg.withOpacity(0.5) // Dimmed
+                            : kCardBg,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
                           color: isDone
@@ -327,6 +379,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           width: 1,
                         ),
                       ),
+
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

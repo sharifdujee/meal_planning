@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+         import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meal_planning/features/ranking/widgets/leagues_works_info_sheet.dart';
@@ -86,9 +86,10 @@ class RankingScreen extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 24.h),
-                        if (state.activeTab == RankingTab.compite)
+                        if (state.activeTab == RankingTab.compite)...[
+                          SizedBox(height: 24.h),
                           PrivateLeagueToggle(ref: ref, isEnabled: state.isPrivateLeagueEnabled),
+                        ],
                         SizedBox(height: 8.h),
                         TabSwitcher(ref: ref, activeTab: state.activeTab),
 

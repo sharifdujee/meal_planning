@@ -100,7 +100,7 @@ class ClassificationUserTile extends StatelessWidget {
                     SizedBox(width: 4.w),
                     Expanded(
                       child: CustomText(
-                        text: "${user.streak} días",
+                        text: "Racha de ${user.streak} días",
                         color: const Color(0xFF6B7280),
                         fontSize: 10.sp,
                       ),
