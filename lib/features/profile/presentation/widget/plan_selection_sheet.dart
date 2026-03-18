@@ -317,7 +317,7 @@ class PlanSelectionSheet extends ConsumerWidget {
               final plan = ref.watch(selectedPlanProvider);
               return Text(
                 plan == PlanType.annual
-                    ? 'Facturado a €23.98 / año'
+                    ? 'Precio total anual'
                     : 'Facturado mensualmente',
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.35),

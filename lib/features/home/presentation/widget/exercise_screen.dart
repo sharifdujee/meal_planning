@@ -70,61 +70,40 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   void _toggleWorkoutTimer() {
     if (_totalTimerRunning) {
       _totalTimer?.cancel();
-      _timer?.cancel(); // Pause local timer as well
       setState(() => _totalTimerRunning = false);
     } else {
-      if (_totalWorkoutSeconds == 0) {
-        int totalSetsTime = _completed.length * _estimatedSetSeconds;
-        int totalRestTime = (_completed.length - 1) * _restGapSeconds;
-        _initialTotalSeconds = totalSetsTime + totalRestTime;
-        _totalWorkoutSeconds = _initialTotalSeconds;
-      }
-
       _totalTimerRunning = true;
       _totalTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (_totalWorkoutSeconds > 0) {
-          setState(() => _totalWorkoutSeconds--);
-        } else {
-          timer.cancel();
-          setState(() => _totalTimerRunning = false);
-        }
+        setState(() => _totalWorkoutSeconds++);
       });
-
-      _startTimer(); // Ensure the local rest timer starts/resumes
     }
   }
 
   void _startTimer() {
     _timer?.cancel();
-
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      // Logic: Local timers only run if the Main Workout Timer is active
       if (!_totalTimerRunning || !_timerRunning) return;
 
       if (_timerSeconds > 0) {
         setState(() => _timerSeconds--);
       } else {
-        // ⏱ TIMER FINISHED
         _timer?.cancel();
-
         if (_isResting) {
-          // ✅ REST → NEXT EXERCISE
           setState(() {
             _isResting = false;
             _timerRunning = false;
-
             if (_activeSeriesIndex < _completed.length - 1) {
               _activeSeriesIndex++;
             }
           });
         } else {
-          // ✅ EXERCISE → START REST
           setState(() {
             _isResting = true;
-            _timerSeconds = _restGapSeconds;
+            _timerSeconds = _restGapSeconds; // 120s
             _timerRunning = true;
           });
-
-          _startTimer(); // restart for rest
+          _startTimer();
         }
       }
     });
@@ -175,11 +154,12 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             // Inside build()
             Column(
               children: [
+                // Inside build() -> Column -> Header row
                 _OutlineButton(
                   icon: _totalTimerRunning ? Icons.pause : Icons.play_arrow,
                   label: _totalWorkoutSeconds == 0
                       ? "comenzar el entrenamiento"
-                      : "Restante: ${_formatDuration(_totalWorkoutSeconds)}",
+                      : "Tiempo: ${_formatDuration(_totalWorkoutSeconds)}", // Updated label
                   onTap: _toggleWorkoutTimer,
                 ),
                 SizedBox(height: 8.h),
