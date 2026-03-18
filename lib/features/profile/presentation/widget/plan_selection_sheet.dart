@@ -163,7 +163,7 @@ class PlanSelectionSheet extends ConsumerWidget {
                           ),
                           SizedBox(width: 8.w,),
                           const Text(
-                            '€59.90 / mes',
+                            '€59.90 / anu',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,
@@ -173,7 +173,7 @@ class PlanSelectionSheet extends ConsumerWidget {
                         ],
                       ),
                       Text(
-                        'por mes',
+                        'por año',
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.4),
                           fontSize: 11,

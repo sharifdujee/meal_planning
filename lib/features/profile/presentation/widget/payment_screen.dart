@@ -165,6 +165,7 @@ class PaymentScreen extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       isDismissible: false,
+      isScrollControlled: true,
       enableDrag: false,
       backgroundColor: Colors.transparent,
       builder: (_) => const PaymentSuccessSheet(),

@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meal_planning/core/global/custom_button.dart';
 import 'package:meal_planning/core/global/custom_text.dart';
 import 'package:meal_planning/core/utils/icon_path.dart';
+import '../../provider/seassion _time_card_provider.dart';
 
-class TrainTodayBottomsheet extends StatefulWidget {
+class TrainTodayBottomsheet extends ConsumerStatefulWidget {
   const TrainTodayBottomsheet({super.key});
 
   @override
-  State<TrainTodayBottomsheet> createState() => _TrainTodayBottomsheetState();
+  ConsumerState<TrainTodayBottomsheet> createState() => _TrainTodayBottomsheetState();
 }
 
-class _TrainTodayBottomsheetState extends State<TrainTodayBottomsheet> {
-  // 0: AI, 1: Repeat, 2: Plan, 3: Log
+class _TrainTodayBottomsheetState extends ConsumerState<TrainTodayBottomsheet> {
+  // Local UI state for selection inside the bottom sheet
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final log = ref.watch(seassionWorkoutLogProvider);
+    final notifier = ref.read(seassionWorkoutLogProvider.notifier);
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
-      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9),
       decoration: const BoxDecoration(
         color: Color(0xFF10151B),
         borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min, // Wrap content height
+        mainAxisSize: MainAxisSize.min,
         children: [
           // Drag handle
           Center(
@@ -35,7 +39,7 @@ class _TrainTodayBottomsheetState extends State<TrainTodayBottomsheet> {
               width: 70.w,
               height: 5.h,
               decoration: BoxDecoration(
-                color: const Color(0xFFFFFFFF),
+                color: Colors.white24,
                 borderRadius: BorderRadius.circular(24.r),
               ),
             ),
@@ -55,7 +59,7 @@ class _TrainTodayBottomsheetState extends State<TrainTodayBottomsheet> {
             icon: IconPath.redo,
             title: "Repite el último entrenamiento",
             subtitle: "Sin entrenamientos previos",
-            isAvailable: false, // Not available
+            isAvailable: false,
           ),
           SizedBox(height: 16.h),
           _buildOption(
@@ -63,55 +67,52 @@ class _TrainTodayBottomsheetState extends State<TrainTodayBottomsheet> {
             icon: IconPath.calender,
             title: "Elige entre mis planes",
             subtitle: "No hay entrenamientos en tu plan",
-            isAvailable: false, // Not available
+            isAvailable: false,
           ),
           SizedBox(height: 16.h),
           _buildOption(
             index: 3,
             icon: Icons.assignment_outlined,
             title: "Entrenamiento de registro",
-            subtitle: "Ahorra tiempo en tu entrenamiento manual con ejercicios, series, repeticiones y peso.",
+            subtitle: "Ahorra tiempo en tu entrenamiento manual.",
             isAvailable: true,
           ),
 
           SizedBox(height: 24.h),
-
-          // Action Buttons
-          Row(
-            children: [
-              Expanded(
-                child: CustomButton(
-                  text: "Cancelar",
-                  backgroundColor: Colors.transparent,
-                  borderWidth: 1,
-                  borderGradient: const LinearGradient(colors: [Color(0xFF383A42), Color(0xFF383A42)]),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: CustomButton(
-                  text: "Comenzar",
-                  onPressed: () {
-                    Navigator.pop(context);
-                    switch(selectedIndex){
-                      case 0:
-                        context.push('/myProteinPage');
-                      case 3:
-                        context.push('/registrationScreen');
-                    }
-                  },
-                ),
-              ),
-            ],
+          // --- Action Buttons ---
+          _buildButton(
+            text: "Comenzar",
+            backgroundColor: const Color(0xFF469271),
+            onTap: () {
+              Navigator.pop(context);
+              switch (selectedIndex) {
+                case 0:
+                  notifier.activate();
+                  break;
+                case 3:
+                  context.push('/registrationScreen');
+                  break;
+              }
+            },
           ),
-          SizedBox(height: 30.h), // Bottom padding for safety
+
+          SizedBox(height: 12.h),
+
+          _buildButton(
+            text: "Cancelar",
+            backgroundColor: Colors.transparent,
+            borderColor: const Color(0xFF469271),
+            onTap: () => Navigator.pop(context),
+          ),
+
+
+          SizedBox(height: 34.h),
         ],
       ),
     );
   }
 
-  // Reusable Tile Widget
+  /// Reusable Tile Widget
   Widget _buildOption({
     required int index,
     required dynamic icon,
@@ -119,21 +120,22 @@ class _TrainTodayBottomsheetState extends State<TrainTodayBottomsheet> {
     required String subtitle,
     required bool isAvailable,
   }) {
-    bool isSelected = selectedIndex == index;
+    final bool isSelected = selectedIndex == index;
 
     return GestureDetector(
       onTap: isAvailable ? () => setState(() => selectedIndex = index) : null,
-      child: Opacity(
-        opacity: isAvailable ? 1.0 : 0.5,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 200),
+        opacity: isAvailable ? 1.0 : 0.4,
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
+          padding: EdgeInsets.all(12.r),
           decoration: BoxDecoration(
             color: const Color(0xFF202122),
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
               color: isSelected ? const Color(0xFF2FC67A) : const Color(0xFF383A42),
-              width: isSelected ? 2 : 1,
+              width: isSelected ? 1.5 : 1,
             ),
           ),
           child: Row(
@@ -145,12 +147,8 @@ class _TrainTodayBottomsheetState extends State<TrainTodayBottomsheet> {
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: icon is IconData
-                    ? Icon(icon, size: 20.sp, color: isAvailable ? Colors.white : Colors.grey)
-                    : Image.asset(
-                  icon,
-                  height: 20.h, width: 20.w,
-                  color: isAvailable ? Colors.white : Colors.grey,
-                ),
+                    ? Icon(icon, size: 20.sp, color: Colors.white)
+                    : Image.asset(icon, height: 20.h, width: 20.w, color: Colors.white),
               ),
               SizedBox(width: 12.w),
               Expanded(
@@ -161,20 +159,50 @@ class _TrainTodayBottomsheetState extends State<TrainTodayBottomsheet> {
                       text: title,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      color: isAvailable ? Colors.white : Colors.grey,
+                      color: Colors.white,
                     ),
                     SizedBox(height: 4.h),
                     CustomText(
                       text: subtitle,
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF6B7280),
+                      fontSize: 11.sp,
+                      color: const Color(0xFF9CA3AF),
                     ),
                   ],
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+  /// Simplified Button Builder
+  Widget _buildButton({
+    required String text,
+    required VoidCallback onTap,
+    required Color backgroundColor,
+    Color borderColor = Colors.transparent,
+    double height = 48,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        height: height.h,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(40.r),
+          border: Border.all(
+            color: borderColor,
+            width: 1.5,
+          ),
+        ),
+        child: CustomText(
+          text: text,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
         ),
       ),
     );
