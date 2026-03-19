@@ -9,6 +9,7 @@ class WorkoutLog {
   final String notes;
   final List<dynamic> addedExercises;
   final bool isFinished;
+  final bool isActiveClassificationProgressCard;
 
   WorkoutLog({
     this.workoutName = '',
@@ -20,7 +21,8 @@ class WorkoutLog {
     this.pointsEarned = 0,
     this.notes = '',
     this.addedExercises = const [],
-    this.isFinished = false
+    this.isFinished = false,
+    this.isActiveClassificationProgressCard = false
   });
 
   WorkoutLog copyWith({
@@ -30,6 +32,7 @@ class WorkoutLog {
     bool? isTimerRunning,
     String? notes,
     bool? isFinished,
+    bool? isActiveClassificationProgressCard
   }){
     return WorkoutLog(
         workoutName: workoutName ?? this.workoutName,
@@ -37,7 +40,8 @@ class WorkoutLog {
         sessionTime: sessionTime ?? this.sessionTime,
         isTimerRunning: isTimerRunning ?? this.isTimerRunning,
         notes: notes ?? this.notes,
-        isFinished: isFinished ?? this.isFinished
+        isFinished: isFinished ?? this.isFinished,
+        isActiveClassificationProgressCard: isActiveClassificationProgressCard ?? this.isActiveClassificationProgressCard
     );
   }
 }

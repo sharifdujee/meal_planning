@@ -13,91 +13,93 @@ class PlanSeletionPopup extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedType = ref.watch(selectPlanProvider);
-    return Container(
-      padding: EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Color(0xFF10151B),
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Color(0xFF2FC67A).withValues(alpha: 0.20)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CustomText(
-            text: "Planifica tu semana",
-            fontSize: 18.sp,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-          SizedBox(height: 8.h),
-          CustomText(
-            text: "Para ajustar el plan a tu semana real",
-            fontSize: 14.sp,
-            color: const Color(0xFF9CA3AF),
-          ),
-          SizedBox(height: 16.h),
-          Container(
-            width: 48.w,
-            height: 48.h,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [Color(0xFF469271), Color(0xFF49A893)],
-              ),
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Color(0xFF10151B),
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(color: Color(0xFF2FC67A).withValues(alpha: 0.20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomText(
+              text: "Planifica tu semana",
+              fontSize: 18.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
             ),
-            child: Center(
-              child: Image.asset(
-                IconPath.clock,
-                height: 24.h,
-                width: 24.w,
-                fit: BoxFit.contain,
-              ),
+            SizedBox(height: 8.h),
+            CustomText(
+              text: "Para ajustar el plan a tu semana real",
+              fontSize: 14.sp,
+              color: const Color(0xFF9CA3AF),
             ),
-          ),
-          SizedBox(height: 16.h),
-          CustomText(
-            text: "¿Cómo va esta semana?",
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
-          SizedBox(height: 8.h),
-          CustomText(
-            text: "Está bien reducir la velocidad",
-            fontSize: 14.sp,
-            color: Color(0xFF6B7280),
-          ),
-          SizedBox(height: 24.h,),
-          ..._getOptions().map(
-            (option) => _buildOptionCard(ref, option, selectedType),
-          ),
-          const SizedBox(height: 24),
-          Row(
-            children: [
-              Expanded(
-                child: _buildGestureButton(
-                  "Atrás",
-                  isPrimary: false,
-                  onPressed: () => Navigator.pop(context),
+            SizedBox(height: 16.h),
+            Container(
+              width: 48.w,
+              height: 48.h,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Color(0xFF469271), Color(0xFF49A893)],
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildGestureButton(
-                  "Generar plan",
-                  isPrimary: true,
-                  onPressed: () {
-                    // Access the final result:
-                    final result = ref.read(selectPlanProvider);
-                    print("Generating plan for: $result");
-                  },
+              child: Center(
+                child: Image.asset(
+                  IconPath.clock,
+                  height: 24.h,
+                  width: 24.w,
+                  fit: BoxFit.contain,
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            SizedBox(height: 16.h),
+            CustomText(
+              text: "¿Cómo va esta semana?",
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
+            SizedBox(height: 8.h),
+            CustomText(
+              text: "Está bien reducir la velocidad",
+              fontSize: 14.sp,
+              color: Color(0xFF6B7280),
+            ),
+            SizedBox(height: 24.h,),
+            ..._getOptions().map(
+              (option) => _buildOptionCard(ref, option, selectedType),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildGestureButton(
+                    "Atrás",
+                    isPrimary: false,
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _buildGestureButton(
+                    "Generar plan",
+                    isPrimary: true,
+                    onPressed: () {
+                      // Access the final result:
+                      final result = ref.read(selectPlanProvider);
+                      print("Generating plan for: $result");
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

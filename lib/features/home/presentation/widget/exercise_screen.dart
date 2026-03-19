@@ -24,13 +24,14 @@ class ExerciseScreen extends StatefulWidget {
 
 class _ExerciseScreenState extends State<ExerciseScreen> {
   // Series state
-  final List<bool> _completed = [true, false, false, false];
+  final List<bool> _completed = [false, false, false, false];
   final List<int>  _weights   = [41, 41, 41, 41];
   final List<String> _reps    = ['6-10', '6-10', '6-10', '6-10'];
   int _activeSeriesIndex = 0; // Tracks which series shows the timer
 
   // Timer state (shown under completed series)
   bool  _timerRunning = false;
+  bool _seriesRunning = false;
   int   _timerSeconds = 0;
   Timer? _timer;
 
@@ -48,6 +49,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   void initState() {
     super.initState();
     _totalTimer?.cancel(); // Add this
+
   }
 
   int _initialTotalSeconds = 0; // Needed for progress calculation
@@ -68,61 +70,40 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   void _toggleWorkoutTimer() {
     if (_totalTimerRunning) {
       _totalTimer?.cancel();
-      _timer?.cancel(); // Pause local timer as well
       setState(() => _totalTimerRunning = false);
     } else {
-      if (_totalWorkoutSeconds == 0) {
-        int totalSetsTime = _completed.length * _estimatedSetSeconds;
-        int totalRestTime = (_completed.length - 1) * _restGapSeconds;
-        _initialTotalSeconds = totalSetsTime + totalRestTime;
-        _totalWorkoutSeconds = _initialTotalSeconds;
-      }
-
       _totalTimerRunning = true;
       _totalTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (_totalWorkoutSeconds > 0) {
-          setState(() => _totalWorkoutSeconds--);
-        } else {
-          timer.cancel();
-          setState(() => _totalTimerRunning = false);
-        }
+        setState(() => _totalWorkoutSeconds++);
       });
-
-      _startTimer(); // Ensure the local rest timer starts/resumes
     }
   }
 
   void _startTimer() {
     _timer?.cancel();
-
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      // Logic: Local timers only run if the Main Workout Timer is active
       if (!_totalTimerRunning || !_timerRunning) return;
 
       if (_timerSeconds > 0) {
         setState(() => _timerSeconds--);
       } else {
-        // ⏱ TIMER FINISHED
         _timer?.cancel();
-
         if (_isResting) {
-          // ✅ REST → NEXT EXERCISE
           setState(() {
             _isResting = false;
             _timerRunning = false;
-
             if (_activeSeriesIndex < _completed.length - 1) {
               _activeSeriesIndex++;
             }
           });
         } else {
-          // ✅ EXERCISE → START REST
           setState(() {
             _isResting = true;
-            _timerSeconds = _restGapSeconds;
+            _timerSeconds = _restGapSeconds; // 120s
             _timerRunning = true;
           });
-
-          _startTimer(); // restart for rest
+          _startTimer();
         }
       }
     });
@@ -156,7 +137,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   Widget build(BuildContext context) {
     return  Container(
       margin: EdgeInsets.symmetric(horizontal: 20.w),
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.symmetric(horizontal :16.r),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.r),
           color: Color(0xFF202122),
@@ -173,11 +154,12 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             // Inside build()
             Column(
               children: [
+                // Inside build() -> Column -> Header row
                 _OutlineButton(
                   icon: _totalTimerRunning ? Icons.pause : Icons.play_arrow,
                   label: _totalWorkoutSeconds == 0
                       ? "comenzar el entrenamiento"
-                      : "Restante: ${_formatDuration(_totalWorkoutSeconds)}",
+                      : "Tiempo: ${_formatDuration(_totalWorkoutSeconds)}", // Updated label
                   onTap: _toggleWorkoutTimer,
                 ),
                 SizedBox(height: 8.h),
@@ -193,7 +175,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 16,),
+            SizedBox(height: 16.h,),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -300,6 +282,47 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   // Series row card
                   GestureDetector(
                     onTap: () {
+                      final bool isDifferentSeries = i != _activeSeriesIndex;
+
+                      if (_timerRunning && !_isResting && isDifferentSeries){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent, // We handle color in the child
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                            content: Container(
+                              padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+                              decoration: BoxDecoration(
+                                // Transparent dark green/grey
+                                color: const Color(0xFF2C3E33).withValues(alpha: 0.8),
+                                borderRadius: BorderRadius.circular(12.r),
+                                border: Border.all(
+                                    color: kGreen.withValues(alpha: 0.2),
+                                    width: 1
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.info_outline, color: kGreen, size: 20.sp),
+                                  SizedBox(width: 12.w),
+                                  Expanded(
+                                    child: Text(
+                                      "Termina la serie actual antes de marcar otra",
+                                      style: TextStyle(
+                                        color: Colors.white.withValues(alpha: 0.9),
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                        return;
+                      }
                       setState(() {
                         _completed[i] = !_completed[i];
 
@@ -311,6 +334,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           _isResting = false;
 
                           _startTimer();
+                        }else{
+                          if (isActive) {
+                            _timerRunning = false;
+                            _timer?.cancel();
+                          }
                         }
                       });
                     },
@@ -318,7 +346,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 14, vertical: 13),
                       decoration: BoxDecoration(
-                        color: isDone ? kCardDone : kCardBg,
+                        color: (isDone)
+                            ? kCardDone
+                            : (_timerRunning && !isActive)
+                            ? kCardBg.withOpacity(0.5) // Dimmed
+                            : kCardBg,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
                           color: isDone
@@ -327,6 +359,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           width: 1,
                         ),
                       ),
+
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -389,7 +422,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     ),
                   ],
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                 ],
               );
             }),
@@ -476,7 +509,7 @@ class _OutlineButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding:
-        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         decoration: BoxDecoration(
           color: kChipBg,
           borderRadius: BorderRadius.circular(10),
@@ -489,10 +522,10 @@ class _OutlineButton extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],

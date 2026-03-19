@@ -62,7 +62,7 @@ class PlanSelectionSheet extends ConsumerWidget {
                     color: Color(0xFF469271), size: 16),
                 const SizedBox(width: 6),
                 const Text(
-                  '20% de descuento',
+                  '50% de descuento',
                   style: TextStyle(
                     color: Color(0xFF469271),
                     fontSize: 13,
@@ -163,7 +163,7 @@ class PlanSelectionSheet extends ConsumerWidget {
                           ),
                           SizedBox(width: 8.w,),
                           const Text(
-                            '€59.90 / mes',
+                            '€59.90 / año',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,
@@ -173,7 +173,7 @@ class PlanSelectionSheet extends ConsumerWidget {
                         ],
                       ),
                       Text(
-                        'por mes',
+                        'por año',
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.4),
                           fontSize: 11,
@@ -317,7 +317,7 @@ class PlanSelectionSheet extends ConsumerWidget {
               final plan = ref.watch(selectedPlanProvider);
               return Text(
                 plan == PlanType.annual
-                    ? 'Facturado a €23.98 / año'
+                    ? 'Precio total anual'
                     : 'Facturado mensualmente',
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.35),

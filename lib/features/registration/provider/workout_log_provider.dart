@@ -48,12 +48,15 @@ class WorkoutLogNotifier extends Notifier<WorkoutLog> {
       state = state.copyWith(date: formattDate);
     }
   }
+  void classificationActive(){
+    state = state.copyWith(isActiveClassificationProgressCard: true);
+  }
 
   // START / RESUME
   void startTimer() {
     if (_timer?.isActive ?? false) return;
 
-    state = state.copyWith(isTimerRunning: true);
+    state = state.copyWith(isTimerRunning: true,isActiveClassificationProgressCard: true);
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       state = state.copyWith(
         sessionTime: state.sessionTime + const Duration(seconds: 1),
@@ -73,7 +76,8 @@ class WorkoutLogNotifier extends Notifier<WorkoutLog> {
     state = state.copyWith(
       sessionTime: Duration.zero,
       isTimerRunning: false,
-      isFinished: false
+      isFinished: false,
+      isActiveClassificationProgressCard: false
     );
   }
 
