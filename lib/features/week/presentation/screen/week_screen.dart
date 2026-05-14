@@ -143,7 +143,7 @@ class WeekScreen extends ConsumerWidget {
                           color: Color(0xFF1C3930),
                           borderRadius: BorderRadius.circular(16.r),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.1),
+                            color: Colors.white.withValues(alpha: 0.1),
                             width: 1.5,
                           ),
                         ),
